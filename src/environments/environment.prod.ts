@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl:"http://localhost:1337/api",
+  apiUrl:"https://groupp-app-api.vercel.app/api",
   apiMinefop:""
 };
