@@ -1,0 +1,35 @@
+<div class="layout-topbar">
+    <a href="#" id="topbar-menu-button" (click)="app.onMenuButtonClick($event)">
+        <i class="pi pi-angle-left arrow"></i>
+        <i class="pi pi-angle-up mobile"></i>
+    </a>
+
+    <span class="search-input text-center fs-1 fw-semibold" style="color: ghostwhite; font-size: 20px;">
+        Group App
+    </span>
+
+    <a id="topbar-profile-menu-button" href="#" (click)="app.onTopbarMenuButtonClick($event)">
+        <img src="assets/avatar.png" alt="avatar" class="topbar-profile" />
+        <i class="pi pi-caret-down"></i>
+    </a>
+
+    <ul id="topbar-usermenu" class="fadeInDown animated" [ngClass]="{'usermenu-active': app.topbarMenuActive}">
+        <li>
+            <a href="#" (click)="app.onTopbarSubItemClick($event)">
+                <i class="pi pi-fw pi-user"></i>
+                <span class="topbar-item-name">Profile</span>
+            </a>
+        </li>
+        <li >
+            <a href="#" (click)="app.onTopbarSubItemClick($event)">
+                <i class="pi pi-fw pi-sign-out"></i>
+                <span class="topbar-item-name"> Disconnect</span>
+            </a>
+        </li>
+    </ul>
+
+    <a href="#" id="right-panel-button" [ngClass]="{'menu-button-rotate': app.rightPanelActive}" (click)="app.onRightPanelButtonClick($event)">
+        <i class="pi pi-angle-double-left"></i>
+    </a>
+
+</div>

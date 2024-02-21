@@ -1,0 +1,345 @@
+<app-dashoard-skeleton *ngIf="load"></app-dashoard-skeleton>
+<div class="layout-dashboard" *ngIf="!load">
+    <div class="grid">
+        <div class="col-12 md:col-6 lg:col-3">
+            <div class="overview-box users">
+                <img class="pi pi-home" style="font-size: 50px;" src="" alt="">
+
+                <div class="overview-title">Nombre de Campus</div>
+                <div class="overview-numbers">
+                    {{states?.nbreCampus}}
+                </div>
+                <div class="overview-subinfo user">
+                    <!-- <i class="pi pi-circle-on"></i>
+                    <span>Same</span> -->
+                </div>
+            </div>
+        </div>
+        <div class="col-12 md:col-6 lg:col-3">
+            <div class="overview-box checkins">
+                <img class="pi pi-user" style="font-size: 50px;" src="" alt="">
+                <div class="overview-title">Nombre D'etudiant</div>
+                <div class="overview-numbers">
+                    {{states?.nbreEtudiant}}
+                </div>
+                <div class="overview-subinfo user">
+                    <!-- <i class="pi pi-circle-on"></i>
+                    <span>Same</span> -->
+                </div>
+            </div>
+        </div>
+        <div class="col-12 md:col-6 lg:col-3">
+            <div class="overview-box users3">
+                <img class="pi pi-users" style="font-size: 50px;" src="" alt="">
+                <div class="overview-title">Nombre D'etudiant Redoublant</div>
+                <div class="overview-numbers">
+                    {{states?.nbreEtudiantRedoublant}}
+                </div>
+                <div class="overview-subinfo user">
+                    <!-- <i class="pi pi-circle-on"></i>
+                    <span>Same</span> -->
+                </div>
+            </div>
+        </div>
+        <div class="col-12 md:col-6 lg:col-3">
+            <div class="overview-box users1">
+                <img class="pi pi-user-plus" style="font-size: 50px;" src="" alt="">
+                <div class="overview-title">Nombre D'Etudiants Preinscrit </div>
+                <div class="overview-numbers">
+                    {{states?.nbrePreinscription}}
+                </div>
+                <div class="overview-subinfo checkin">
+                    <!-- <i class="pi pi-circle-on"></i>
+                    <span>Same</span> -->
+                </div>
+            </div>
+        </div>
+        <div class="col-12 md:col-6 lg:col-3">
+            <div class="overview-box users3">
+                <img class="pi pi-user-plus" style="font-size: 50px;" src="" alt="">
+                <div class="overview-title">Nombre nombre Reinscription</div>
+                <div class="overview-numbers">
+                    {{states?.nbreReinscription}}
+                </div>
+                <div class="overview-subinfo user">
+                    <!-- <i class="pi pi-circle-on"></i>
+                    <span>Same</span> -->
+                </div>
+            </div>
+        </div>
+        <div class="col-12 md:col-6 lg:col-3">
+            <div class="overview-box users2">
+                <img class="pi pi-users" style="font-size: 50px;" src="" alt="">
+                <div class="overview-title">Nombre de Parent</div>
+                <div class="overview-numbers">
+                    {{states?.nbreParent}}
+                </div>
+                <div class="overview-subinfo user">
+                    <!-- <i class="pi pi-circle-on"></i>
+                    <span>Same</span> -->
+                </div>
+            </div>
+        </div>
+        <div class="col-12 md:col-6 lg:col-3">
+            <div class="overview-box users1">
+                <img class="pi pi-user-plus" style="font-size: 50px;" src="" alt="">
+                <div class="overview-title">Nombre de Reinscrit</div>
+                <div class="overview-numbers">
+                    {{states?.nbreReinscription}}
+                </div>
+                <div class="overview-subinfo user">
+                    <!-- <i class="pi pi-circle-on"></i>
+                    <span>Same</span> -->
+                </div>
+            </div>
+        </div>
+        <div class="col-12 md:col-6 lg:col-3">
+            <div class="overview-box checkins">
+                <img class="pi pi-verified" style="font-size: 50px;" src="" alt="">
+                <div class="overview-title">Etudiants en Regle</div>
+                <div class="overview-numbers">
+                    {{states?.nbrePaiement}}
+                </div>
+                <div class="overview-subinfo checkin">
+                    <!-- <i class="pi pi-circle-on"></i>
+                    <span>Same</span> -->
+                </div>
+            </div>
+        </div>
+
+
+
+<!--
+        <div class="col-12 md:col-12 lg:col-4">
+            <p-panel header="Contacts" styleClass="contacts">
+                <ul>
+                    <li>
+                        <img src="assets/layout/images/avatar-brooke.png" alt="ecuador-layout" />
+                        <div class="separator"></div>
+                        <div class="team-box">
+                            <span class="team-member">Brooke Wright</span>
+                            <div>
+                                <i class="pi pi-envelope"></i>
+                                <span class="team-member-mail">brooke@test.com</span>
+                            </div>
+                            <div>
+                                <i class="pi pi-map-marker"></i>
+                                <span class="team-member-address">153 Cold Valley Road</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <img src="assets/layout/images/avatar-maggie.png" alt="ecuador-layout" />
+                        <div class="separator"></div>
+                        <div class="team-box">
+                            <span class="team-member">Maggie Walker</span>
+                            <div>
+                                <i class="pi pi-envelope"></i>
+                                <span class="team-member-mail">maggie@test.com</span>
+                            </div>
+                            <div>
+                                <i class="pi pi-map-marker"></i>
+                                <span class="team-member-address">5698 Anderson Street</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <img src="assets/layout/images/avatar-tom.png" alt="ecuador-layout" />
+                        <div class="separator"></div>
+                        <div class="team-box">
+                            <span class="team-member">Tom Baker</span>
+                            <div>
+                                <i class="pi pi-envelope"></i>
+                                <span class="team-member-mail">tom@example.com</span>
+                            </div>
+                            <div>
+                                <i class="pi pi-map-marker"></i>
+                                <span class="team-member-address">2304 Billy Bill Lane</span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </p-panel>
+        </div>
+
+        <div class="col-12 md:col-12 lg:col-4">
+            <p-panel header="Tasks" styleClass="tasks">
+                <ul>
+                    <li>
+                        <p-checkbox binary="true"></p-checkbox>
+                        <span>Sales Reports</span>
+                        <div class="time-badge">
+                            <span>TODAY</span>
+                        </div>
+                    </li>
+                    <li>
+                        <p-checkbox binary="true"></p-checkbox>
+                        <span>Pay Invoices</span>
+                        <div class="time-badge">
+                            <span>1 D</span>
+                        </div>
+                    </li>
+                    <li>
+                        <p-checkbox binary="true"></p-checkbox>
+                        <span>Jenny's Birthday</span>
+                        <div class="time-badge">
+                            <span>1 D</span>
+                        </div>
+                    </li>
+                    <li>
+                        <p-checkbox binary="true"></p-checkbox>
+                        <span>Client Meeting</span>
+                        <div class="time-badge">
+                            <span>2 D</span>
+                        </div>
+                    </li>
+                    <li>
+                        <p-checkbox binary="true"></p-checkbox>
+                        <span>Flight Ticket</span>
+                        <div class="time-badge">
+                            <span>5 D</span>
+                        </div>
+                    </li>
+                    <li>
+                        <p-checkbox binary="true"></p-checkbox>
+                        <span>New Themes</span>
+                        <div class="time-badge">
+                            <span>LATER</span>
+                        </div>
+                    </li>
+                </ul>
+            </p-panel>
+        </div>
+        <div class="col-12 md:col-12 lg:col-4">
+            <p-panel header="Resolution Center" styleClass="resolution-center">
+                <div class="grid">
+                    <div class="col-12">
+                        <input type="text" pInputText placeholder="Name">
+                    </div>
+                    <div class="col-12">
+                        <p-dropdown [options]="cities" [(ngModel)]="selectedCity"></p-dropdown>
+                    </div>
+                    <div class="col-12">
+                        <textarea type="text" pInputTextarea placeholder="Message"></textarea>
+                    </div>
+                    <div class="col-12">
+                        <button type="button" label="Send" pButton></button>
+                    </div>
+                </div>
+            </p-panel>
+        </div> -->
+        <div class="col-12 md:col-12 lg:col-12 xl:col-6">
+            <p-panel header="Statistics" styleClass="statistics">
+                <div class="grid">
+                    <div class="col-12 md:col-6 lg:col-6 xl:col-6 stats-left">
+                        <div>
+                            <i class="pi pi-arrow-up"></i>
+                            <span>50%</span>
+                            <i class="pi pi-dollar"></i>
+                            <span>75%</span>
+                            <i class="pi pi-replay"></i>
+                            <span>25%</span>
+                        </div>
+                        <div class="knob-container">
+                            <div class="knob">81%</div>
+                        </div>
+                        <div class="details">
+                            <span>See Details</span>
+                            <i class="pi pi-chevron-right"></i>
+                        </div>
+                    </div>
+                    <div class="col-12 md:col-6 lg:col-6 xl:col-6 stats-right">
+                        <i class="pi pi-arrow-up"></i>
+                        <span class="icon-label">Raised</span>
+                        <span>$ 85,397</span>
+                        <div class="statsbar">
+                            <div class="statsbar-value" style="width: 50%"></div>
+                        </div>
+                        <i class="pi pi-dollar"></i>
+                        <span class="icon-label">Current Period Price</span>
+                        <span>$ 194</span>
+                        <div class="statsbar">
+                            <div class="statsbar-value" style="width: 75%"></div>
+                        </div>
+                        <i class="pi pi-replay"></i>
+                        <span class="icon-label">Remaining</span>
+                        <span>16:01:53</span>
+                        <div class="statsbar">
+                            <div class="statsbar-value" style="width: 25%"></div>
+                        </div>
+                    </div>
+                </div>
+            </p-panel>
+        </div>
+        <div class="col-12 md:col-12 lg:col-12 xl:col-6">
+            <p-panel header="Statisques Des Etudiants Par Région" styleClass="global-sales">
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th class="country">Region</th>
+                            <th>Nombre Total D'etudiants</th>
+                            <th>Nombre De Garçon</th>
+                            <th>Nombre De Fille</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let region of states?.stateEtudiantParReigions">
+                            <td>1</td>
+                            <td class="country">
+                                <span>{{region.region}}</span>
+                            </td>
+                            <td>{{region.nbreEtudiant}}</td>
+                            <td>{{region.nbreHomme}}</td>
+                            <td>
+                                {{region.nbreFemme}}
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </p-panel>
+        </div>
+        <div class="col-12 md:col-12 lg:col-6">
+            <p-panel header="Nombre Etudiants Par Type de Formation" styleClass="projects">
+                <ul>
+                    <li *ngFor="let data of states?.stateEtudiantParTypeFormations">
+                        <div class="project-info">
+                            <span class="project-name">{{data.nomTypeFormation}}</span>
+                        </div>
+                        <div class="person-container">
+                            <div class="persons">
+                                <p-avatar image="assets/layout/images/student.jpg" size="xlarge" shape="circle"></p-avatar>
+                            </div>
+                            <span>{{data.nbreEtudiant}} Etudiant(s)</span>
+                        </div>
+                        <div class="button">
+                            <button type="button" label="Voir Details" pButton></button>
+                        </div>
+                    </li>
+
+                </ul>
+            </p-panel>
+         </div>
+        <div class="col-12 md:col-12 lg:col-6">
+            <p-panel header="Professeur Par Départements" styleClass="projects">
+                <ul>
+                    <li *ngFor="let prof of states?.stateFormateurParDepartements">
+                        <div class="project-info">
+                            <span class="project-name">{{prof.nomDepartement}}</span>
+                        </div>
+                        <div class="person-container">
+                            <div class="persons">
+                                <img src="assets/layout/images/faces-morpheus.png" alt="ecuador-layout" />
+                            </div>
+                            <span>{{prof.nbreFormateur}} Professeur(s)</span>
+                        </div>
+                        <div class="button">
+                            <button type="button" label="Voir Details" pButton></button>
+                        </div>
+                    </li>
+                </ul>
+            </p-panel>
+         </div>
+    </div>
+</div>

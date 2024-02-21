@@ -1,0 +1,71 @@
+<form [formGroup]="form" >
+    <div class="col-12 flex" *ngFor="let field of fields">
+            <div class="col">
+                <span >
+                    <label
+                    class="px-2 py-2"
+                    style="
+                        font-weight: bold;
+                        color: rgb(0, 0, 0);
+                    "
+                    for="{{field.name}}"
+                    >{{ field.label }} *</label
+                >
+
+                    <input
+                        id="{{field.name}}"
+                        type="{{ field.type || 'text' }}"
+                        [(ngModel)]="temporaile[field.name]"
+                        placeholder="{{field.label}}"
+                       [formControlName]="field.name"
+                        [style]="{
+                            width: '100%',
+                            borderRadius: '10px',
+                            minHeight: '48px',
+
+                        }"
+                        style="padding-left: 10px;"
+                        pInputText
+                    />
+
+
+
+                </span>
+            </div>
+
+    </div>
+    <div class="col-12 flex justify-content-end">
+        <button
+        *ngIf="status == 'add'"
+            pButton
+            pRipple
+            class="p-button"
+            size="small"
+            label="Enregistrer"
+            (click)="save()"
+        >
+        <i *ngIf="state" class="pi pi-spin pi-spinner"></i>
+
+        </button>
+        <button
+        *ngIf="status == 'modifier'"
+            pButton
+            pRipple
+            class="p-button"
+            size="small"
+            label="Modifier"
+            (click)="edit()"
+        >
+        <i *ngIf="state" class="pi pi-spin pi-spinner"></i>
+
+        </button>
+        <button
+            pButton
+            pRipple
+            class="p-button-text"
+            label="Annuler"
+            (click)="disabled('disabled')"
+        ></button>
+    </div>
+</form>
+

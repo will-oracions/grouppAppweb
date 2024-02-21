@@ -1,0 +1,3 @@
+<app-skelleton *ngIf="load" [table]="['Noms', 'Prenoms', 'Date de Naissance', 'Region', 'Genre']" title="Liste Des Personnes"></app-skelleton>
+
+<app-generic-table [columns]="tableColumns" *ngIf="!load" [fields]="formsFields" [data]="tableData" titlePage="Liste des Personnes"></app-generic-table>

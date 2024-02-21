@@ -1,0 +1,3 @@
+<app-skelleton *ngIf="load" [table]="['Noms','Description']" title="Liste des Vulnerabilités"></app-skelleton>
+
+<app-generic-table [columns]="tableColumns"  (customsEvent)="event($event)" option="CRUD"  [fields]="formsFields" *ngIf="!load" endPoints="vulnerabilite" [data]="tableData" titlePage="Liste des Vulnérabilités"></app-generic-table>

@@ -1,0 +1,181 @@
+<div class="card border-round-2xl">
+    <p-toast></p-toast>
+
+<p-table
+#dt
+[value]="data"
+[columns]="columns"
+responsiveLayout="scroll"
+[rows]="10"
+
+[rows]="10"
+[paginator]="true"
+[rowsPerPageOptions]="[10, 20, 30]"
+[showCurrentPageReport]="true"
+currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+selectionMode="multiple"
+[rowHover]="true"
+dataKey="id"
+>
+<ng-template pTemplate="caption">
+    <div
+        class="flex flex-column md:flex-row md:justify-content-between md:align-items-center"
+    >
+        <div style="width: 100%">
+            <div style="width: 100%; display: flex">
+                <div style="width: 88% !important">
+                    <span
+                        class="block mt-2 md:mt-0 p-input-icon-left"
+                    >
+                        <input
+                            pInputText
+                            type="text"
+                            class="input"
+                            style="
+                                width: 100% !important;
+                                border-radius: 20px !important;
+                                min-height: 48px !important;
+                                border-color: cornflowerblue;
+                                padding-left: 20px;
+                            "
+                            (input)="onGlobalFilter(dt, $event)"
+                            placeholder="Rechercher..."
+                            class="w-full sm:w-auto"
+                        />
+                    </span>
+                </div>
+
+                <p-button
+                *ngIf="option[0] == 'C' "
+
+                    label="Ajouter"
+                    icon="pi pi-plus"
+                    (click)="openNew()"
+                    [style]="{ minHeight: '48px' }"
+                    iconPos="right"
+                ></p-button>
+
+
+                <div
+                    class="flex flex-column md:flex-row md:justify-content-between md:align-items-center"
+                >
+                    <i
+                        class="pi pi-file"
+                        (click)="dt.exportCSV()"
+                        pTooltip="CSV"
+                        tooltipPosition="bottom"
+                        style="
+                            font-size: 1.5rem;
+                            cursor: pointer;
+                            margin-right: 13px;
+                            color: #757575;
+                            margin-left: 13px;
+                        "
+                    ></i>
+            </div>
+            </div>
+        </div>
+    </div>
+
+</ng-template>
+
+<ng-template pTemplate="header">
+    <div
+        style="
+            width: 100%;
+            display: flex;
+            margin-top: 10px;
+            margin-left: 10px;
+        "
+    >
+        <h5
+            style="
+                font-weight: bold;
+                color: #222b45;
+                font-size: 16px;
+                white-space: nowrap !important;
+            "
+        >
+            {{ titlePage }}
+        </h5>
+    </div>
+    <tr>
+        <th>#</th>
+      <th *ngFor="let col of columns">
+          {{ col.header }}
+
+      </th>
+      <th>
+        Action
+      </th>
+  </tr>
+</ng-template>
+<ng-template pTemplate="body" let-item let-i="rowIndex">
+  <tr>
+    <td>
+        {{i + 1}}
+    </td>
+      <td *ngFor="let col of columns">
+        <ng-container *ngIf="!dynamicComponents[col.field]">
+          {{ item[col.field] }}
+        </ng-container>
+      </td>
+      <td>
+        <div class="flex">
+            <i
+            *ngIf="option[1] == 'R' "
+
+                class="pi pi-eye icon mr-3"
+                style="font-size: 1.5rem"
+            ></i>
+            <i
+            *ngIf="option[2] == 'U' "
+
+                class="pi pi-pencil icon mr-3"
+                (click)="edit(item)"
+
+                style="font-size: 1.5rem"
+            ></i>
+            <i
+            *ngIf="option[3] == 'D' "
+            class="pi pi-trash icon"
+                (click)="delete(item)"
+                style="font-size: 1.5rem"
+            ></i>
+        </div>
+      </td>
+  </tr>
+</ng-template>
+<ng-template pTemplate="emptymessage">
+    <tr>
+        <td
+        [attr.colspan]="columns.length+2" 
+            style="text-align: center"
+            style="text-align: center"
+        >
+            Aucun element  trouvé.
+        </td>
+    </tr>
+</ng-template>
+</p-table>
+</div>
+
+<p-dialog [(visible)]="deleteDialog" header="Suppression" [modal]="true" [style]="{ width: '450px' }">
+    <div class="flex align-items-center">
+        <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem; color: red"></i>
+        <span>Voulez-vous supprimer ?</span>
+    </div>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple icon="pi pi-times" class="p-button-secondary" label="Non" size="small"
+            (click)="deleteDialog = false"></button>
+        <button pButton pRipple size="small" icon="pi pi-check" class="p-button-danger" label="oui , supprimer"
+            (click)="deletes()"></button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="{{title}}" [(visible)]="visible"    [modal]="true"
+[style]="{ minWidth: '30%', borderRadius: '40px' }"
+[draggable]="false"
+[resizable]="false">
+    <app-generic-forms (customEvent)="event($event)" [status]="state" [temporaile]="temporaile" [endPoint]="endPoints" [fields]="fields"></app-generic-forms>
+</p-dialog>

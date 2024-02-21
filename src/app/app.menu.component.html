@@ -1,0 +1,14 @@
+<div class="layout-sidebar" (click)="app.onMenuClick($event)">
+    <div class="layout-menu-title">MENU PRINCIPAL</div>
+    <div class="menu-scroll-content flex align-items-center align-content-center">
+    
+
+        
+
+            <ul class="layout-menu" style="width: 100%;">
+                <li app-menuitem *ngFor="let item of model; let i = index;" [item]="item" [index]="i" [root]="true"></li>
+            </ul>
+
+
+    </div>
+</div>

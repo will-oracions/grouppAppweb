@@ -1,0 +1,10 @@
+.p-col-12{
+    padding: 10px !important;
+}
+input{
+    margin-top: 8px !important;
+    border-radius: 8px !important;
+}
+:host ::ng-deep .p-component, .p-component *{
+    border-radius: 15px !important;
+}

@@ -1,0 +1,32 @@
+name: GroupApp pipelines
+
+
+on: [push]
+
+
+jobs:
+
+  run-shell-commands:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: build
+        run: |
+         node -v
+         npm -v
+         ls
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v3
+      - name: 🔨 Build Project
+        run: |
+          npm install -g @angular/cli@16
+          npm install
+          ng build
+      - name: 📂 Sync files
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server:  ftp.itgrafikadmin.fun
+          username: u877916646.groupapp
+          password: ${{ secrets.ftp_password }}
+          local-dir: ./BUILD/
