@@ -1,2 +1,2 @@
 <app-skelleton *ngIf="load" [table]="['Libelle']" title="Liste Des Quartiers"></app-skelleton>
-<app-generic-table  [columns]="tableColumns"  (customsEvent)="event($event)" option="CRUD"  [fields]="formsFields" *ngIf="!load" [data]="tableData" titlePage="Liste des Quartiers"></app-generic-table>
+<app-generic-table  [columns]="tableColumns"  (customsEvent)="event($event)" option="CRUD"  [fields]="formsFields" endPoints="quartiers" *ngIf="!load" [data]="tableData" titlePage="Liste des Quartiers"></app-generic-table>
