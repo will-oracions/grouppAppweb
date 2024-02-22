@@ -6,6 +6,6 @@
 export const environment = {
   production: false,
 
-  apiUrl:"https://groupp-app-api.vercel.app/api",
+  apiUrl:"https://grouppappapi.onrender.com/api",
   apiMinefop:"",
 };
