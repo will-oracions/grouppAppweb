@@ -26,7 +26,6 @@ import {ProductService} from './demo/service/productservice';
 // Application services
 import {BreadcrumbService} from './app.breadcrumb.service';
 import {MenuService} from './app.menu.service';
-import { MinefopService } from './demo/service/minefopService';
 import { AppRoutingModule } from './app-routing.module';
 import { EnumService } from './demo/service/enumService';
 import { FormService } from './demo/service/base.service';

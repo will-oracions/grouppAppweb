@@ -898,6 +898,9 @@
 
   .p-input-filled .p-dropdown {
     background: #f8f9fa;
+    width: 100% !important;
+    border-radius: 10px !important;
+    min-height: 48px !important
   }
   .p-input-filled .p-dropdown:not(.p-disabled):hover {
     background-color: #f8f9fa;

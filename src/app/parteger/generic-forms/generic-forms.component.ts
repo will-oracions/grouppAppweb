@@ -15,7 +15,8 @@ export class GenericFormsComponent implements OnInit{
     @Input() temporaile: any = {}; // Array of form field configurations
     @Input() endPoint: string;
     @Input() status: string;
-    
+    residence:any[] = [];
+    communes:any[] = [];
     @Output() customEvent = new EventEmitter<string>();
     form: FormGroup;
     state: boolean = false;
@@ -26,6 +27,8 @@ export class GenericFormsComponent implements OnInit{
 
     ngOnInit() {
       this.createForm();
+      this.getAllResidence();
+      this.getAllCommunes();
     }
 
     createForm() {
@@ -38,6 +41,7 @@ export class GenericFormsComponent implements OnInit{
         ];
       });
 
+        console.log(formGroupConfig)
       this.form = this.fb.group(formGroupConfig);
     }
     disabled(status:any){
@@ -68,6 +72,31 @@ export class GenericFormsComponent implements OnInit{
     
           });
         }
+    }
+    getAllResidence(){
+      this.service.getAll("residence").subscribe({
+          next: value =>         {     
+            this.residence = value;
+  
+          },
+          error: err => console.error('Observable emitted an error: ' + err),
+          complete: () => { 
+            console.log("ok");
+          },
+      });
+    }
+    getAllCommunes(){
+      this.service.getAll("communes").subscribe({
+          next: value =>         {  
+               this.communes = value;
+  
+          },
+          error: err => console.error('Observable emitted an error: ' + err),
+          complete: () => {  
+
+            console.log("oks");
+          },
+      });
     }
     edit(){
       if (this.form.invalid) {

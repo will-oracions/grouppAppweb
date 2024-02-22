@@ -35,6 +35,7 @@ export class GenericTableComponent {
       private service : FormService) {}
 
     ngOnInit() {
+      console.log(this.columns)
       this.columns.forEach((col) => {
         if (col.component) {
           this.dynamicComponents[col.field] = col.component;

@@ -10,15 +10,14 @@ import { FormService } from 'src/app/demo/service/base.service';
 export class ListQuartiersComponent {
   load: boolean = false;
 
-    tableColumns = [
-        { header: 'Code', field: 'code' },
-        { header: 'Libelle', field: 'libelle' },
-      ];
+  tableColumns = [
+    { header: 'Libelle', field: 'libelle' },
+  ];
 
       tableData = [
          ];
          formsFields = [
-            { name: 'code', label: 'Code', validators: [Validators.required] },
+            { name: 'idCommunes', label: 'Communes', type: 'dropdown' , validators: [Validators.required], state: "commune" },
             { name: 'libelle', label: 'Libelle', type: 'text', validators: [Validators.required] },
 
         ];
@@ -29,11 +28,22 @@ export class ListQuartiersComponent {
         getAlls(){
           this.load = true;
           this.service.getAll("quartiers").subscribe({
-              next: value =>         {     this.tableData = value;
+              next: value =>         {     
+                this.tableData = value;
       
               },
               error: err => console.error('Observable emitted an error: ' + err),
               complete: () => {  this.load = false},
           });
         }
+
+        
+
+        event(event: any){
+          if(event == 'refresh'){
+ 
+             this.ngOnInit()
+           }
+       
+       }
 }

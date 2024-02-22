@@ -9,10 +9,11 @@
                         color: rgb(0, 0, 0);
                     "
                     for="{{field.name}}"
-                    >{{ field.label }} *</label
+                    >{{ field.label }}*</label
                 >
 
                     <input
+                        *ngIf="field.type !== 'dropdown'" 
                         id="{{field.name}}"
                         type="{{ field.type || 'text' }}"
                         [(ngModel)]="temporaile[field.name]"
@@ -24,12 +25,54 @@
                             minHeight: '48px',
 
                         }"
-                        style="padding-left: 10px;"
                         pInputText
                     />
 
+         
+                        
+                    <p-dropdown
+                    *ngIf="field.type === 'dropdown' && field.state === 'residence'" 
+                    [filter]="true" 
+                    filterBy="description" 
+                    optionValue="id"
+                    optionLabel="description"
+                    [showClear]="true"
+                    [options]="residence" 
+                    [(ngModel)]="temporaile[field.name]"
+                    [formControlName]="field.name"
+                    [style]="{
+                        width: '100px',
+                        borderRadius: '10px',
+                        minHeight: '48px',
+
+                    }"
+                  ></p-dropdown>
+              
+
+                  <p-dropdown
+                  *ngIf="field.type === 'dropdown' && field.state === 'commune'" 
+                  [options]="communes" 
+                  optionValue="id"
+                  optionLabel="libelle"
+                  [(ngModel)]="temporaile[field.name]"
+                  [filter]="true" 
+                  filterBy="libelle" 
+                  [showClear]="true"
+                  appendTo="body"
+                  [formControlName]="field.name"
+                  [style]="{
+                    width: '100px',
+                    borderRadius: '10px',
+                    minHeight: '48px',
+
+                }"
+                ></p-dropdown>
+
+                  
 
 
+                
+             
                 </span>
             </div>
 
