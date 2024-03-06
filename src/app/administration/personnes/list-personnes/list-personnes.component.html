@@ -1,3 +1,194 @@
-<app-skelleton *ngIf="load" [table]="['Noms', 'Prenoms', 'Date de Naissance', 'Region', 'Genre']" title="Liste Des Personnes"></app-skelleton>
+<div class="grid">
+    <div class="col-12">
+        <div>
+            <app-skelleton *ngIf="load" [table]="['Noms', 'Prenoms', 'Date de Naissance', 'Region', 'Genre']" title="Liste Des Personnes"></app-skelleton>
 
-<app-generic-table [columns]="tableColumns" *ngIf="!load" [fields]="formsFields" [data]="tableData" titlePage="Liste des Personnes"></app-generic-table>
+
+                <div class="col flex justify-content-between align-items-center">
+                    <div>
+                        <h3 style="
+                    font-weight: bold;
+                    color: #222b45;
+                    white-space: nowrap !important;
+                ">
+                            {{ titlePage }}
+                        </h3>
+                    </div>
+                    <div class="flex align-content-center align-items-center">
+             
+           
+                        <button type="button" [style]="{minHeight: '48px'}" pButton pRipple  (click)="printListe()" class="p-button-secondary mr-2" pTooltip="PRINT" icon="pi pi-print" label="Imprimer"></button>
+                        <p-button label="Ajouter une Personne" icon="pi pi-plus" [style]="{ minHeight: '48px' }"
+                            iconPos="right" (click)="add()"></p-button>
+              
+                           
+            </div>
+
+        </div>
+
+ 
+            <p-table
+                #dt
+                [value]="tableData"
+                [columns]="cols"
+                responsiveLayout="scroll"
+                [rows]="10"
+                [globalFilterFields]="[
+                    'nom',
+                    'date_naissance',
+                    'statut',
+                    'region',
+                    'sexe',
+                    'est chef de famille ?'
+                ]" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10, 20, 30]" [showCurrentPageReport]="true"
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                        [rowHover]="true" dataKey="id">
+                        <ng-template pTemplate="caption">
+                            <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                                <div style="width: 100%">
+                                    <div style="width: 100%; display: flex">
+                                        <div style="width: 94% !important">
+                                            <span class="block mt-2 md:mt-0 p-input-icon-left">
+                                                <i class="pi pi-search"></i>
+                                                <input pInputText type="text" class="input" style="
+                                                width: 100% !important;
+                                                border-radius: 20px !important;
+                                                min-height: 48px !important;
+                                            " (input)="onGlobalFilter(dt, $event)" placeholder="Rechercher..."
+                                                    class="w-full sm:w-auto" />
+                                            </span>
+                                        </div>
+
+                                        <div
+                                            class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                                            <i class="pi pi-file" (click)="dt.exportCSV()" pTooltip="CSV"
+                                                tooltipPosition="bottom" style="
+                                            font-size: 1.5rem;
+                                            cursor: pointer;
+                                            margin-right: 13px;
+                                            color: #757575;
+                                            margin-left: 13px;
+                                        "></i>
+
+                                            <i class="pi pi-file-excel" (click)="exportExcel()" pTooltip="XLS"
+                                                tooltipPosition="bottom" style="
+                                            font-size: 1.5rem;
+                                            cursor: pointer;
+                                            margin-right: 13px;
+                                            color: #757575;
+                                        "></i>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </ng-template>
+
+                        <ng-template pTemplate="header">
+
+                            <tr>
+                                <th>#</th>
+                                <th pSortableColumn="matricule">
+                                    Matricule
+                                    <p-sortIcon field="matricule"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="fullName">
+                                    Nom et Prénom<p-sortIcon field="fullName"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="nationalite">
+                                    Nationalité
+                                    <p-sortIcon field="nationalite"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="adresse">
+                                    Adresse <p-sortIcon field="adresse"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="email">
+                                    Email <p-sortIcon field="email"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="telephone">
+                                    Telephone <p-sortIcon field="telephone"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="tuteur">
+                                    Tuteur
+                                    <p-sortIcon field="tuteur"></p-sortIcon>
+                                </th>
+                                <th></th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-item let-i="rowIndex">
+                            <tr>
+                                <td style="width: 5%; min-width: 3rem">
+                                    {{ i + 1 }}
+                                </td>
+                                <td>
+                                    <span class="p-column-title">Matricule</span>
+                                    {{ item?.matricule }}
+                                </td>
+                                <td>
+                                    <span class="p-column-title">Nom et Prenom</span>
+                                    {{ item?.fullName }}
+                                </td>
+                                <td>
+                                    <span class="p-column-title">Nationalité</span>
+                                    {{ item?.nationalite }}
+                                </td>
+                                <td>
+                                    <span class="p-column-title">Adresse</span>
+                                    {{ item?.adresse }}
+                                </td>
+                                <td>
+                                    <span class="p-column-title">Email</span>
+                                    {{ item?.email }}
+                                </td>
+                                <td>
+                                    <span class="p-column-title">Telephone</span>
+                                    {{ item?.telephone }}
+                                </td>
+                                <td>
+                                    <span class="p-column-title">Tuteur</span>
+                                    {{ item?.tuteur }}
+                                </td>
+                                <td>
+                                    <div class="flex">
+                                        <i class="pi pi-eye icon mr-3" routerLink="../details-etudiants/{{item?.id}}"
+                                            style="font-size: 1.5rem"></i>
+                                        <i class="pi pi-pencil icon mr-3" (click)="edit(item,data.branche.id)"
+                                            style="font-size: 1.5rem"></i>
+                                        <i class="pi pi-trash icon" (click)="delete(item)"
+                                            style="font-size: 1.5rem"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="7" style="text-align: center" style="text-align: center">
+                                    Aucun etudiant trouvé.
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+          
+        </div>
+     
+
+      
+
+        <p-dialog [(visible)]="deleteState" header="Suppression" [modal]="true" [style]="{ width: '450px' }">
+            <div class="flex align-items-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem; color: red"></i>
+                <span>Voulez-vous supprimer l'étudiant
+                    <b>{{ temporaile?.fullName }}</b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-secondary" label="Non" size="small"
+                    (click)="deleteEtudiantDialog = false"></button>
+                <button pButton pRipple size="small" icon="pi pi-check" class="p-button-danger" label="oui , supprimer"
+                    (click)="confirmDeleteSelected()"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>
+

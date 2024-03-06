@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormService } from 'src/app/demo/service/base.service';
 
 @Component({
@@ -9,7 +9,13 @@ import { FormService } from 'src/app/demo/service/base.service';
 })
 export class ListPersonnesComponent {
   load: boolean = false;
-
+  deleteState: boolean = false;
+  addEdit: boolean = false;
+  cols: any[];
+  temporaile:any ={};
+  formulaire: FormGroup;
+  formulaires: FormGroup;
+  titlePage="Liste des Personnes"
     tableColumns = [
         { header: 'Noms', field: 'noms' },
         { header: 'Prenoms', field: 'prenoms' },
@@ -31,8 +37,25 @@ export class ListPersonnesComponent {
         { name: 'genre', label: 'Genre', type: 'text', validators: [Validators.required] },
 
     ];
-    constructor(private service: FormService){}
+    constructor(private service: FormService,    
+      private fb: FormBuilder,
+      ){}
     ngOnInit(): void {
+      this.formulaires = this.fb.group({
+        id: [''],
+        nom: ['', Validators.required],
+        date_naissance: ['', Validators.required],
+        statut: ['', Validators.required],
+        region: ['', Validators.required],
+        sexe: ['', Validators.required],
+        is_cni: [''],
+        is_actenaissance: [''],
+        is_autochtone: ['', Validators.required],
+        is_handicape: ['', Validators.required],
+        is_chef_menage: ['', Validators.required],
+        id_residence: ['', Validators.required],
+        Per_id: [0],
+      });
       this.getAlls();
     }
 
@@ -45,5 +68,11 @@ export class ListPersonnesComponent {
           error: err => console.error('Observable emitted an error: ' + err),
           complete: () => {  this.load = false},
       });
+    }
+    add(){
+
+    }
+    printListe(){
+
     }
 }

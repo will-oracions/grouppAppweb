@@ -5,6 +5,9 @@ import { PersonnesRoutingModule } from './personnes-routing.module';
 import { ListPersonnesComponent } from './list-personnes/list-personnes.component';
 import { DetailsPersonnesComponent } from './details-personnes/details-personnes.component';
 import { PartegerModule } from 'src/app/parteger/parteger.module';
+import { ButtonModule } from 'primeng/button';
+import { TableModule } from 'primeng/table';
+import { DialogModule } from 'primeng/dialog';
 
 
 @NgModule({
@@ -16,6 +19,9 @@ import { PartegerModule } from 'src/app/parteger/parteger.module';
     CommonModule,
     PersonnesRoutingModule,
     PartegerModule,
+    ButtonModule,
+    TableModule,
+    DialogModule
 
   ]
 })

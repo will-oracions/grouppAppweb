@@ -37,6 +37,8 @@ import { DropdownModule } from 'primeng/dropdown';
     SkelletonComponent,
     GenericTableComponent,
     GenericFormsComponent,
+    TableModule,
+    ToastModule,
     
 ],
   imports: [
@@ -52,7 +54,8 @@ import { DropdownModule } from 'primeng/dropdown';
     FormsModule,
     ReactiveFormsModule,
     ToastModule,
-    DropdownModule
+    DropdownModule,
+  ToastModule
 
   ]
 })
