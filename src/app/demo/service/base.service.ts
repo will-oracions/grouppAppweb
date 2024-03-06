@@ -14,7 +14,7 @@ import { MessageService } from 'primeng/api';
 @Injectable({ providedIn: 'root' })
 export class FormService {
 
-  constructor(private http: HttpClient, private messageService: MessageService,) {}
+  constructor(private http: HttpClient, private messageService: MessageService,) { }
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -22,7 +22,7 @@ export class FormService {
       'rejectUnauthorized': 'false'
     })
   }
-  getAll(api:string): Observable<any> {
+  getAll(api: string): Observable<any> {
     //console.log(this.endpoint)
     return this.http
       .get(`${environment.apiUrl}/${api}`, this.httpOptions)
@@ -31,28 +31,28 @@ export class FormService {
         catchError(this.handleError)
       )
   }
-  getFiliere(api:string,faculteId:number,diplomeId:number) {
+  getFiliere(api: string, faculteId: number, diplomeId: number) {
     return this.http.get<any>(`${environment.apiUrl}/${api}/faculte?faculteId=${faculteId}&diplomeId=${diplomeId}`, this.httpOptions)
       .pipe(
         retry(2),
         catchError(this.handleError)
       )
   }
-  getFiliereBy(api:string,faculteId:number,diplomeId:number) {
+  getFiliereBy(api: string, faculteId: number, diplomeId: number) {
     return this.http.get<any>(`${environment.apiUrl}/${api}?faculteId=${faculteId}&diplomeId=${diplomeId}`, this.httpOptions)
       .pipe(
         retry(2),
         catchError(this.handleError)
       )
   }
-  getDepartements(api:string,regionId:number) {
+  getDepartements(api: string, regionId: number) {
     return this.http.get<any>(`${environment.apiUrl}/${api}?regionId=${regionId}`, this.httpOptions)
       .pipe(
         retry(2),
         catchError(this.handleError)
       )
   }
-  getArrondissement(api:string,departementId:number) {
+  getArrondissement(api: string, departementId: number) {
     return this.http.get<any>(`${environment.apiUrl}/${api}?departId=${departementId}`, this.httpOptions)
       .pipe(
         retry(2),
@@ -60,8 +60,8 @@ export class FormService {
       )
   }
 
-  getData(api:string): Observable<any> {
-    console.log("Get Data from "+api);
+  getData(api: string): Observable<any> {
+    console.log("Get Data from " + api);
     return this.http
       .get(`${environment.apiUrl}/${api}`, this.httpOptions)
       .pipe(
@@ -70,9 +70,9 @@ export class FormService {
       )
   }
 
-  getParameteres(){
+  getParameteres() {
     return this.http
-      .get(`${environment.apiUrl}/`+"administration/institutions/parametres", this.httpOptions)
+      .get(`${environment.apiUrl}/` + "administration/institutions/parametres", this.httpOptions)
       .pipe(
         retry(2),
         catchError(this.handleError)
@@ -102,7 +102,7 @@ export class FormService {
   }
 
 
-  update(api: string, form: any, id:number): Observable<any> {
+  update(api: string, form: any, id: number): Observable<any> {
     console.log("Update ok", form);
 
     return this.http.put<any>(`${environment.apiUrl}/${api}/${id}`, JSON.stringify(form), this.httpOptions)
@@ -127,7 +127,7 @@ export class FormService {
 
 
   delete(api: string) {
-    console.log("Delete ok", api)
+    console.log("Delete ok")
     return this.http.delete<any>(`${environment.apiUrl}/${api}`, this.httpOptions)
       .pipe(
         retry(2),
@@ -137,7 +137,7 @@ export class FormService {
 
 
 
-  getById(api:string, id:number) {
+  getById(api: string, id: number) {
     return this.http.get<any>(`${environment.apiUrl}/${api}/${id}`, this.httpOptions)
       .pipe(
         retry(2),
@@ -146,13 +146,13 @@ export class FormService {
   }
   getState(): Observable<any> {
     return this.http
-      .get(`${environment.apiUrl}/`+"state", this.httpOptions)
+      .get(`${environment.apiUrl}/` + "state", this.httpOptions)
       .pipe(
         retry(2),
         catchError(this.handleError)
       )
   }
-  getByEnrollement(api:string, type:string) {
+  getByEnrollement(api: string, type: string) {
     return this.http.get<any>(`${environment.apiUrl}/${api}/${type}`, this.httpOptions)
       .pipe(
         retry(2),
@@ -160,7 +160,7 @@ export class FormService {
       )
   }
 
-  getDataReinscription(url:any, data:any){
+  getDataReinscription(url: any, data: any) {
     return this.http.get<any>(`${environment.apiUrl}/${url}?faculteId=${data.faculteId}&typeReinscription=${data.typeReinscription}&matricule=${data.matricule}&nom=${data.nom}&prenom=${data.prenom}&cni=${data.cni}&email=${data.email}&confirmationEmail=${data.confirmationEmail}`, this.httpOptions)
       .pipe(
         retry(2),
@@ -187,22 +187,23 @@ export class FormService {
 
 
   generateExcel(title, data) {
-    if(data.length > 0){
+    if (data.length > 0) {
 
-      data.map(item =>{
+      data.map(item => {
         delete item['id'];
         delete item['createdByUser'];
         delete item['createdDate'];
         delete item['lastModifiedByUser'];
         delete item['lastModifiedDate'];
         delete item['isDefault'];
-        if(item.hasOwnProperty('inscriptions') && item.hasOwnProperty('fullName')   && item.hasOwnProperty('nbrePaiement') &&  item.hasOwnProperty('soldeTotal')){
-            delete item['fullName'];
-            item['dernierDiplome'] = 'dernierDiplomeCode'
-            delete item['inscriptions'];
-            delete item['nbrePaiement'];
-            delete item['soldeTotal'];
-            delete item['matricule'];
+
+        if (item.hasOwnProperty('inscriptions') && item.hasOwnProperty('fullName') && item.hasOwnProperty('nbrePaiement') && item.hasOwnProperty('soldeTotal')) {
+          delete item['fullName'];
+          item['dernierDiplome'] = 'dernierDiplomeCode'
+          delete item['inscriptions'];
+          delete item['nbrePaiement'];
+          delete item['soldeTotal'];
+          delete item['matricule'];
 
 
         }
@@ -210,47 +211,47 @@ export class FormService {
 
 
       })
-    }else{
+    } else {
       data = [];
     }
     import("xlsx").then(xlsx => {
-        const worksheet = xlsx.utils.json_to_sheet(data);
-        const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
-        const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
-        this.saveAsExcelFile(excelBuffer, title);
+      const worksheet = xlsx.utils.json_to_sheet(data);
+      const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+      const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
+      this.saveAsExcelFile(excelBuffer, title);
     });
   }
 
   saveAsExcelFile(buffer: any, fileName: string): void {
-      let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-      let EXCEL_EXTENSION = '.xlsx';
-      const data: Blob = new Blob([buffer], {
-          type: EXCEL_TYPE
-      });
-      FileSave.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+    let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+    let EXCEL_EXTENSION = '.xlsx';
+    const data: Blob = new Blob([buffer], {
+      type: EXCEL_TYPE
+    });
+    FileSave.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
   }
 
 
 
-makePdf2(title: string, data: any){
-  const winUrl = URL.createObjectURL(
-    new Blob([data], { type: "text/html" })
-  );
+  makePdf2(title: string, data: any) {
+    const winUrl = URL.createObjectURL(
+      new Blob([data], { type: "text/html" })
+    );
 
-  const win = window.open(
-    winUrl,
-    "win",
-    `width=800,height=400,screenX=200,screenY=200`
-  );
-}
+    const win = window.open(
+      winUrl,
+      "win",
+      `width=800,height=400,screenX=200,screenY=200`
+    );
+  }
 
-  printListe(title: string, data: any){
+  printListe(title: string, data: any) {
     const win = window.open(
       '',
       title,
       `width=800,height=400,screenX=200,screenY=200`
     );
-    win.document.write('<html><head><title>'+title+'</title><link rel="stylesheet" type="text/css" href="../../../print.css"></head><body>');
+    win.document.write('<html><head><title>' + title + '</title><link rel="stylesheet" type="text/css" href="../../../print.css"></head><body>');
     win.document.write(data);
     win.document.write('</body></html>');
     win.print();
@@ -264,13 +265,13 @@ makePdf2(title: string, data: any){
       title,
       `width=800,height=400,screenX=200,screenY=200`
     );
-    win.document.write('<html><head><title>'+title+'</title><link rel="stylesheet" type="text/css" href="../../../print.css"></head><body>');
+    win.document.write('<html><head><title>' + title + '</title><link rel="stylesheet" type="text/css" href="../../../print.css"></head><body>');
     win.document.write(data);
     win.document.write('</body></html>');
 
   }
 
-   generateRandomChars(prefix:string, length: number): string {
+  generateRandomChars(prefix: string, length: number): string {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let result = '';
 
@@ -279,7 +280,7 @@ makePdf2(title: string, data: any){
       result += characters.charAt(randomIndex);
     }
 
-    return prefix+result;
+    return prefix + result;
   }
 
 }

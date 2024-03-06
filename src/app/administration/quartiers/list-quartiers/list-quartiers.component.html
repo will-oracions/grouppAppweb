@@ -1,2 +1,189 @@
-<app-skelleton *ngIf="load" [table]="['Libelle']" title="Liste Des Quartiers"></app-skelleton>
-<app-generic-table  [columns]="tableColumns"  (customsEvent)="event($event)" option="CRUD"  [fields]="formsFields" endPoints="quartiers" *ngIf="!load" [data]="tableData" titlePage="Liste des Quartiers"></app-generic-table>
+<div class="grid">
+    <div class="col-12">
+        <div>
+            <app-skelleton *ngIf="load" [table]="['Libellé', 'Commune', 'Créé le', 'Mise à jour le']"
+                title="Liste des Quartiers"></app-skelleton>
+
+
+            <div class="col flex justify-content-between align-items-center">
+                <div>
+                    <h3 style="
+                    font-weight: bold;
+                    color: #222b45;
+                    white-space: nowrap !important;
+                ">
+                        {{ titlePage }}
+                    </h3>
+                </div>
+                <div class="flex align-content-center align-items-center">
+
+
+                    <!-- Option buttons -->
+                    <button type="button" [style]="{minHeight: '48px'}" pButton pRipple (click)="printListe()"
+                        class="p-button-secondary mr-2" pTooltip="PRINT" icon="pi pi-print" label="Imprimer"></button>
+
+                    <p-button label="Ajouter un Quartier" icon="pi pi-plus" [style]="{ minHeight: '48px' }"
+                        iconPos="right" (click)="openCreateQuarterModal ()"></p-button>
+
+
+                </div>
+
+            </div>
+
+
+            <p-table #dt [value]="tableData" [columns]="cols" responsiveLayout="scroll" [rows]="10"
+                [globalFilterFields]="[
+                    'nom',
+                    'date_naissance',
+                    'statut',
+                    'region',
+                    'sexe',
+                    'est chef de famille ?'
+                ]" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10, 20, 30]" [showCurrentPageReport]="true"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowHover]="true"
+                dataKey="id">
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <div style="width: 100%">
+                            <div style="width: 100%; display: flex">
+                                <div style="width: 94% !important">
+                                    <span class="block mt-2 md:mt-0 p-input-icon-left">
+                                        <i class="pi pi-search"></i>
+                                        <input pInputText type="text" class="input" style="
+                                                width: 100% !important;
+                                                border-radius: 20px !important;
+                                                min-height: 48px !important;
+                                            " (input)="onGlobalFilter(dt, $event)" placeholder="Rechercher..."
+                                            class="w-full sm:w-auto" />
+                                    </span>
+                                </div>
+
+                                <div
+                                    class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                                    <i class="pi pi-file" (click)="dt.exportCSV()" pTooltip="CSV"
+                                        tooltipPosition="bottom" style="
+                                            font-size: 1.5rem;
+                                            cursor: pointer;
+                                            margin-right: 13px;
+                                            color: #757575;
+                                            margin-left: 13px;
+                                        "></i>
+
+                                    <i class="pi pi-file-excel" (click)="exportExcel()" pTooltip="XLS"
+                                        tooltipPosition="bottom" style="
+                                            font-size: 1.5rem;
+                                            cursor: pointer;
+                                            margin-right: 13px;
+                                            color: #757575;
+                                        "></i>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </ng-template>
+
+                <ng-template pTemplate="header">
+
+                    <tr>
+                        <th>#</th>
+
+                        <th pSortableColumn="libelle">
+                            Libellé
+                            <p-sortIcon field="libelle"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="idCommunes">
+                            Commune <p-sortIcon field="idCommunes"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="createdAt">
+                            Crée le<p-sortIcon field="createdAt"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="updatedAt">
+                            Mise à jour le
+                            <p-sortIcon field="updatedAt"></p-sortIcon>
+                        </th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item let-i="rowIndex">
+                    <tr>
+                        <td style="width: 5%; min-width: 3rem">
+                            {{ i + 1 }}
+                        </td>
+                        <td>
+                            <span class="p-column-title">Commune</span>
+                            {{ item?.commune.libelle }}
+                        </td>
+                        <td>
+                            <span class="p-column-title">Libelle</span>
+                            {{ item?.libelle }}
+                        </td>
+                        <td>
+                            <span class="p-column-title">Crée le</span>
+                            {{ item?.createdAt | date:"MMM, dd yyyy" }}
+                        </td>
+                        <td>
+                            <span class="p-column-title">Mise à jour le</span>
+                            {{ item?.updatedAt | date:"MMM, dd yyyy" }}
+                        </td>
+
+                        <td>
+                            <div class="flex">
+                                <i class="pi pi-eye icon mr-3" routerLink="../details-etudiants/{{item?.id}}"
+                                    style="font-size: 1.5rem"></i>
+                                <i class="pi pi-pencil icon mr-3" (click)="edit(item,data.branche.id)"
+                                    style="font-size: 1.5rem"></i>
+                                <i class="pi pi-trash icon" (click)="delete(item)" style="font-size: 1.5rem"></i>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="7" style="text-align: center" style="text-align: center">
+                            Aucun etudiant trouvé.
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+
+        </div>
+
+        <!-- Creation d'un nouveau quartier -->
+        <p-dialog [(visible)]="formState" header="Ajouter un quartier" [modal]="true" [style]="{ width: '450px' }">
+            <form class="flex flex-column" action="" [formGroup]="form">
+                <div class="mb-4">
+                    <span>Libellé</span>
+                    <input class="p-inputtext-sm text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" type="text" pInputText formControlName="text" placeholder="" />
+                </div>
+                <div>
+                    <span>Commune</span>
+                    <input class="p-inputtext-sm text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" type="text" pInputText formControlName="text" placeholder="" />
+                </div>
+            </form>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-secondary" label="Non" size="small"
+                    (click)="formState = false"></button>
+                <button pButton pRipple size="small" icon="pi pi-check" class="p-button-primary" label="Ajouter"
+                    (click)="addQuarter()"></button>
+            </ng-template>
+        </p-dialog>
+
+
+
+        <p-dialog [(visible)]="deleteState" header="Suppression" [modal]="true" [style]="{ width: '450px' }">
+            <div class="flex align-items-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem; color: red"></i>
+                <span>Voulez-vous supprimer l'étudiant
+                    <b>{{ temporaile?.fullName }}</b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-secondary" label="Non" size="small"
+                    (click)="deleteEtudiantDialog = false"></button>
+                <button pButton pRipple size="small" icon="pi pi-check" class="p-button-danger" label="oui , supprimer"
+                    (click)="confirmDeleteSelected()"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>

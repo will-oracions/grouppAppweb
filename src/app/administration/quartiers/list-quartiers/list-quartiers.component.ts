@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormService } from 'src/app/demo/service/base.service';
 
 @Component({
@@ -9,41 +9,88 @@ import { FormService } from 'src/app/demo/service/base.service';
 })
 export class ListQuartiersComponent {
   load: boolean = false;
+  titlePage = 'Quartiers';
 
   tableColumns = [
     { header: 'Libelle', field: 'libelle' },
   ];
 
-      tableData = [
-         ];
-         formsFields = [
-            { name: 'idCommunes', label: 'Communes', type: 'dropdown' , validators: [Validators.required], state: "commune" },
-            { name: 'libelle', label: 'Libelle', type: 'text', validators: [Validators.required] },
+  tableData = [];
+  cols = [];
+  temporaile: any = {};
 
-        ];
-        constructor(private service: FormService){}
-        ngOnInit(): void {
-          this.getAlls();
-        }
-        getAlls(){
-          this.load = true;
-          this.service.getAll("quartiers").subscribe({
-              next: value =>         {     
-                this.tableData = value;
-      
-              },
-              error: err => console.error('Observable emitted an error: ' + err),
-              complete: () => {  this.load = false},
-          });
-        }
+  formsFields = [
+    { name: 'idCommunes', label: 'Communes', type: 'dropdown', validators: [Validators.required], state: "commune" },
+    { name: 'libelle', label: 'Libelle', type: 'text', validators: [Validators.required] },
+  ];
 
-        
+  
+  deleteState = false;
+  formState = false;
 
-        event(event: any){
-          if(event == 'refresh'){
- 
-             this.ngOnInit()
-           }
-       
-       }
+  form: FormGroup;
+  
+  
+  constructor(private service: FormService, private fb: FormBuilder) { }
+  
+  ngOnInit(): void {
+    this.getAlls();
+    this.form = this.fb.group({
+      id: [''],
+      idCommunes: ['', Validators.required],
+      libelle: ['', [Validators.required, Validators.minLength(4)]]
+    });
+  }
+
+
+  // getters
+  get id() { return this.form.get('id') }
+  get idCommunes() { return this.form.get('idCommunes') }
+  get libelle() { return this.form.get('libelle') }
+
+  getAlls() {
+    this.load = true;
+    this.service.getAll("quartiers").subscribe({
+      next: value => {
+        this.tableData = value;
+      },
+      error: err => console.error('Observable emitted an error: ' + err),
+      complete: () => { this.load = false },
+    });
+  }
+
+
+
+  event(event: any) {
+    if (event == 'refresh') {
+
+      this.ngOnInit()
+    }
+
+  }
+
+
+  // Edit item...
+  edit() {
+    this.service.update('quartiers', this.form.value, this.temporaile.id);
+  }
+
+
+  // Delete item...
+  delete(itemIDs) {
+
+  }
+
+
+  // Print list
+  printListe() {
+
+  }
+
+  openCreateQuarterModal() {
+    this.formState = true;
+  }
+
+  add() {
+  }
 }
