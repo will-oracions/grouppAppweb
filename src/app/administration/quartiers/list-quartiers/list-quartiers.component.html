@@ -155,13 +155,19 @@
             <form class="flex flex-column" action="" [formGroup]="form">
                 <div class="mb-4">
                     <span>Libellé</span>
-                    <input class="p-inputtext-sm text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" type="text" pInputText formControlName="text" placeholder="" />
+                    <input
+                        class="p-inputtext-sm text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                        type="text" pInputText formControlName="libelle" placeholder="Nom du quartier" />
+                    <span *ngIf="this.form.get('libelle').invalid" class="error">Ce champ est requis</span>
                 </div>
                 <div>
                     <span>Commune</span>
-                    <input class="p-inputtext-sm text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" type="text" pInputText formControlName="text" placeholder="" />
+                    <p-dropdown formControlName="idCommunes" [options]="communeData" optionLabel="libelle" optionValue="id"
+                        placeholder="Selectionner une commune" appendTo="body" filter="true"></p-dropdown>
+                    <span *ngIf="this.form.get('idCommunes').invalid" class="error">Ce champ est requis</span>
                 </div>
             </form>
+
             <ng-template pTemplate="footer">
                 <button pButton pRipple icon="pi pi-times" class="p-button-secondary" label="Non" size="small"
                     (click)="formState = false"></button>

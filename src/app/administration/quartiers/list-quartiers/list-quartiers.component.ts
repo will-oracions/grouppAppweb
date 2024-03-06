@@ -28,6 +28,7 @@ export class ListQuartiersComponent {
   deleteState = false;
   formState = false;
 
+  communeData;
   form: FormGroup;
   
   
@@ -35,6 +36,7 @@ export class ListQuartiersComponent {
   
   ngOnInit(): void {
     this.getAlls();
+    this.getAllCommunes();
     this.form = this.fb.group({
       id: [''],
       idCommunes: ['', Validators.required],
@@ -56,6 +58,14 @@ export class ListQuartiersComponent {
       },
       error: err => console.error('Observable emitted an error: ' + err),
       complete: () => { this.load = false },
+    });
+  }
+
+  getAllCommunes() {
+    this.service.getAll('communes').subscribe({
+      next: value => this.communeData = value,
+      error: error => console.error('Observable emitted an error:', error),
+      complete: () => this.load = false
     });
   }
 
@@ -91,6 +101,17 @@ export class ListQuartiersComponent {
     this.formState = true;
   }
 
-  add() {
+  // Ajouter un nouveau quartier
+  addQuarter() {
+    if (this.form.valid) {
+      this.service.create('quartiers', this.form.value)
+        .subscribe(value => {
+          this.formState = false;
+          console.log('Created successfully !', value);
+          this.ngOnInit();
+        });
+    } else {
+      this.form.markAllAsTouched();
+    }
   }
 }
