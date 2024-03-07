@@ -1,7 +1,8 @@
 <div class="grid">
     <div class="col-12">
-        <div>
-            <app-skelleton *ngIf="load" [table]="['Noms', 'Prenoms', 'Date de Naissance', 'Region', 'Genre']" title="Liste Des Personnes"></app-skelleton>
+        <app-skelleton *ngIf="load" [table]="['Noms', 'Prenoms', 'Date de Naissance', 'Region', 'Genre']" title="Liste Des Personnes"></app-skelleton>
+
+        <div *ngIf="!load">
 
 
                 <div class="col flex justify-content-between align-items-center">
@@ -279,6 +280,8 @@
                 <p-dropdown formControlName="region"
                  [options]="regions"
                  optionLabel="libelle"
+                 optionValue="libelle"
+
                 [(ngModel)]="temporaile.region"
                  appendTo="body"
                  id="region"
@@ -334,13 +337,13 @@
         </div>
         <div class="col">
             <span class="p-float-label">
-                <p-dropdown formControlName="id_residence"
+                <p-dropdown formControlName="idresidence"
                 [options]="residences"
                 optionLabel="description"
-               [(ngModel)]="temporaile.residence.id"
+               [(ngModel)]="temporaile.idresidence"
                 appendTo="body"
                 id="residence"
-                optionValue="description"
+                optionValue="id"
                   [style]="{
                    width: '100%',
                    borderRadius: '10px',
@@ -352,10 +355,10 @@
                 <label style="
                         font-weight: bold;
                         color: rgb(73, 73, 73);
-                    " for="sexe">Sexe *</label>
-                <div *ngIf="sexe.touched && sexe.invalid" class="erreur">
-                    <div *ngIf="sexe.errors.required">
-                        Le sexe est requis.
+                    " for="idresidence">Residence *</label>
+                <div *ngIf="idresidence.touched && idresidence.invalid" class="erreur">
+                    <div *ngIf="idresidence.errors.required">
+                        La residence est requise.
                     </div>
                 </div>
             </span>
@@ -402,8 +405,8 @@
     <button pButton pRipple class="p-button-text" label="Annuler"
         (click)="addEdit = false"></button>
         <button pButton pRipple class="p-button" size="small" label="Valider" (click)="save()"
-        [disabled]="create">
-        <i *ngIf="create" class="pi pi-spin pi-spinner"></i>
+        [disabled]="state">
+        <i *ngIf="state" class="pi pi-spin pi-spinner"></i>
     </button>
 </ng-template>
 </p-dialog>

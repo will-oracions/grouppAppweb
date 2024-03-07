@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 import { FormService } from 'src/app/demo/service/base.service';
 
 @Component({
@@ -17,6 +18,7 @@ export class ListPersonnesComponent {
   formulaires: FormGroup;
   formTitle: string = "";
   residences!:any;
+  state: boolean = false;
   sexes = [
     { name: 'Masculin', code: 'MASCULIN' },
     { name: 'Feminin', code: 'FEMININ' },
@@ -62,7 +64,7 @@ export class ListPersonnesComponent {
 
   ];
   constructor(private service: FormService,
-    private fb: FormBuilder,
+    private fb: FormBuilder, private messageService: MessageService
   ) { }
   ngOnInit(): void {
     this.formulaires = this.fb.group({
@@ -72,13 +74,13 @@ export class ListPersonnesComponent {
       statut: ['', Validators.required],
       region: ['', Validators.required],
       sexe: ['', Validators.required],
-      is_cni: [''],
-      is_actenaissance: [''],
-      is_autochtone: ['', Validators.required],
-      is_handicape: ['', Validators.required],
-      is_chef_menage: ['', Validators.required],
-      id_residence: ['', Validators.required],
-      Per_id: [0],
+      is_cni: [false],
+      is_actenaissance: [false],
+      is_autochtone: [false],
+      is_handicape: [false],
+      is_chef_menage: [false],
+      idresidence: [""],
+      Per_id: [""],
     });
     this.getAlls();
     this.getAllResidence();
@@ -95,7 +97,7 @@ export class ListPersonnesComponent {
   get is_autochtone() { return this.formulaires.get("is_autochtone"); }
   get is_handicape() { return this.formulaires.get("is_handicape"); }
   get is_chef_menage() { return this.formulaires.get("is_chef_menage"); }
-  get id_residence() { return this.formulaires.get("etudiantId"); }
+  get idresidence() { return this.formulaires.get("idresidence"); }
   get Per_id() { return this.formulaires.get("Per_id"); }
 
   getAlls() {
@@ -142,5 +144,31 @@ export class ListPersonnesComponent {
   }
   printListe() {
 
+  }
+  save(){
+    console.log(this.formulaires.value)
+    if (this.formulaires.invalid) {
+      // Marquez tous les champs comme touchés pour afficher les erreurs
+      this.formulaires.markAllAsTouched();
+    }else{
+      this.state = true
+      this.service.create("personnes", this.formulaires.value).subscribe({
+          next: value =>    console.log(value) ,
+          error: err => {
+              console.error('Observable emitted an error: ' + err),
+                     this.state = false ,
+                     this.messageService.add({ severity: 'error', summary: 'Erreur', detail: err.message, life: 3000 });
+
+                  },
+          complete: () =>      {
+            this.state = false; 
+            this.formulaires.reset();
+            this.ngOnInit();
+
+              this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Ajouté avec success', life: 3000 });
+          },
+
+      });
+    }
   }
 }

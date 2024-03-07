@@ -5,6 +5,11 @@ import { MenageRoutingModule } from './menage-routing.module';
 import { ListMenagesComponent } from './list-menages/list-menages.component';
 import { DetailsMenageComponent } from './details-menage/details-menage.component';
 import { PartegerModule } from 'src/app/parteger/parteger.module';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { ButtonModule } from 'primeng/button';
+import { DialogModule } from 'primeng/dialog';
+import { DropdownModule } from 'primeng/dropdown';
+import { TableModule } from 'primeng/table';
 
 
 @NgModule({
@@ -16,7 +21,12 @@ import { PartegerModule } from 'src/app/parteger/parteger.module';
     CommonModule,
     MenageRoutingModule,
     PartegerModule,
-
+    DialogModule,
+    TableModule,
+    ReactiveFormsModule,
+    FormsModule,
+    DropdownModule,
+    ButtonModule
   ]
 })
 export class MenageModule { }

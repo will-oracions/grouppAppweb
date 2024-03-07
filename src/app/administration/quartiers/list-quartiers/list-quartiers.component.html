@@ -1,8 +1,9 @@
 <div class="grid">
     <div class="col-12">
-        <div>
-            <app-skelleton *ngIf="load" [table]="['Libellé', 'Commune', 'Créé le', 'Mise à jour le']"
-                title="Liste des Quartiers"></app-skelleton>
+        <app-skelleton *ngIf="load" [table]="['Libellé', 'Commune', 'Créé le', 'Mise à jour le']"
+        title="Liste des Quartiers"></app-skelleton>
+        <div *ngIf="!load">
+
 
 
             <div class="col flex justify-content-between align-items-center">

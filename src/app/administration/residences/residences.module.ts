@@ -7,6 +7,7 @@ import { DetailsResidenceComponent } from './details-residence/details-residence
 import { PartegerModule } from 'src/app/parteger/parteger.module';
 
 
+
 @NgModule({
   declarations: [
     ListResidenceComponent,
@@ -16,6 +17,7 @@ import { PartegerModule } from 'src/app/parteger/parteger.module';
     CommonModule,
     ResidencesRoutingModule,
     PartegerModule,
+
 
   ]
 })

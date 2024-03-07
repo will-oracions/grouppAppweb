@@ -34,7 +34,8 @@ import { CheckboxModule } from 'primeng/checkbox';
     InputTextModule,
     FormsModule,
     ReactiveFormsModule,
-    CheckboxModule
+    CheckboxModule,
+    ButtonModule,
 
   ]
 })
