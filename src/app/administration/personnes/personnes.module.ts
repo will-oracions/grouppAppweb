@@ -8,7 +8,12 @@ import { PartegerModule } from 'src/app/parteger/parteger.module';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { DialogModule } from 'primeng/dialog';
-
+import { CalendarModule } from 'primeng/calendar';
+import { ToastModule } from 'primeng/toast';
+import { DropdownModule } from 'primeng/dropdown';
+import { InputTextModule } from 'primeng/inputtext';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CheckboxModule } from 'primeng/checkbox';
 
 @NgModule({
   declarations: [
@@ -21,7 +26,15 @@ import { DialogModule } from 'primeng/dialog';
     PartegerModule,
     ButtonModule,
     TableModule,
-    DialogModule
+    DialogModule,
+    CalendarModule,
+    DialogModule,
+    ToastModule,
+    DropdownModule,
+    InputTextModule,
+    FormsModule,
+    ReactiveFormsModule,
+    CheckboxModule
 
   ]
 })

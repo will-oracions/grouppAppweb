@@ -90,30 +90,24 @@
 
                             <tr>
                                 <th>#</th>
-                                <th pSortableColumn="matricule">
-                                    Matricule
-                                    <p-sortIcon field="matricule"></p-sortIcon>
+                                <th pSortableColumn="nom">
+                                    Noms
+                                    <p-sortIcon field="nom"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="fullName">
-                                    Nom et Prénom<p-sortIcon field="fullName"></p-sortIcon>
+                                <th pSortableColumn="date_naissance">
+                                    Date de Naissance<p-sortIcon field="date_naissance"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="nationalite">
-                                    Nationalité
-                                    <p-sortIcon field="nationalite"></p-sortIcon>
+                                <th pSortableColumn="statut">
+                                    Statut
+                                    <p-sortIcon field="statut"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="adresse">
-                                    Adresse <p-sortIcon field="adresse"></p-sortIcon>
+                                <th pSortableColumn="sexe">
+                                    Sexe <p-sortIcon field="sexe"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="email">
-                                    Email <p-sortIcon field="email"></p-sortIcon>
+                                <th pSortableColumn="is_chef_menage">
+                                    Est chef de famille ?<p-sortIcon field="is_chef_menage"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="telephone">
-                                    Telephone <p-sortIcon field="telephone"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="tuteur">
-                                    Tuteur
-                                    <p-sortIcon field="tuteur"></p-sortIcon>
-                                </th>
+                           
                                 <th></th>
                             </tr>
                         </ng-template>
@@ -123,33 +117,26 @@
                                     {{ i + 1 }}
                                 </td>
                                 <td>
-                                    <span class="p-column-title">Matricule</span>
-                                    {{ item?.matricule }}
+                                    <span class="p-column-title">Noms</span>
+                                    {{ item?.nom }}
                                 </td>
                                 <td>
-                                    <span class="p-column-title">Nom et Prenom</span>
-                                    {{ item?.fullName }}
+                                    <span class="p-column-title">Date de naissance</span>
+                                    {{ item?.date_naissance }}
                                 </td>
                                 <td>
-                                    <span class="p-column-title">Nationalité</span>
-                                    {{ item?.nationalite }}
+                                    <span class="p-column-title">statut</span>
+                                    {{ item?.statut }}
                                 </td>
                                 <td>
-                                    <span class="p-column-title">Adresse</span>
-                                    {{ item?.adresse }}
+                                    <span class="p-column-title">sexe</span>
+                                    {{ item?.sexe }}
                                 </td>
                                 <td>
-                                    <span class="p-column-title">Email</span>
-                                    {{ item?.email }}
+                                    <span class="p-column-title">is_chef_menage</span>
+                                    {{ item?.is_chef_menage }}
                                 </td>
-                                <td>
-                                    <span class="p-column-title">Telephone</span>
-                                    {{ item?.telephone }}
-                                </td>
-                                <td>
-                                    <span class="p-column-title">Tuteur</span>
-                                    {{ item?.tuteur }}
-                                </td>
+                 
                                 <td>
                                     <div class="flex">
                                         <i class="pi pi-eye icon mr-3" routerLink="../details-etudiants/{{item?.id}}"
@@ -165,7 +152,7 @@
                         <ng-template pTemplate="emptymessage">
                             <tr>
                                 <td colspan="7" style="text-align: center" style="text-align: center">
-                                    Aucun etudiant trouvé.
+                                    Aucune personne trouvée.
                                 </td>
                             </tr>
                         </ng-template>
@@ -179,8 +166,8 @@
         <p-dialog [(visible)]="deleteState" header="Suppression" [modal]="true" [style]="{ width: '450px' }">
             <div class="flex align-items-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem; color: red"></i>
-                <span>Voulez-vous supprimer l'étudiant
-                    <b>{{ temporaile?.fullName }}</b>?</span>
+                <span>Voulez-vous supprimer la personne
+                    <b>{{ temporaile?.nom }}</b>?</span>
             </div>
             <ng-template pTemplate="footer">
                 <button pButton pRipple icon="pi pi-times" class="p-button-secondary" label="Non" size="small"
@@ -191,4 +178,233 @@
         </p-dialog>
     </div>
 </div>
+
+
+<p-dialog [(visible)]="addEdit" header="{{ formTitle }}" [modal]="true"
+[style]="{ minWidth: '60%', borderRadius: '40px' }" [draggable]="false" [resizable]="false">
+<form [formGroup]="formulaires" class="pt-2">
+    <div class="col-12 flex">
+        <div class="col-6">
+            <input pInputText id="is" [ngModel]="temporaile?.id" formControlName="id" [style]="{
+                    width: '100%',
+                    borderRadius: '10px',
+                    minHeight: '48px',
+                    display: 'none'
+                }" />
+
+            <span class="p-float-label">
+                <input pInputText id="noms" [ngModel]="temporaile?.nom" formControlName="nom" [style]="{
+                        width: '100%',
+                        borderRadius: '10px',
+                        minHeight: '48px'
+                    }" />
+                <label style="
+                        font-weight: bold;
+                        color: rgb(73, 73, 73);
+                    " for="noms">Noms *</label>
+                <div *ngIf="nom.touched && nom.invalid" class="erreur">
+                    <div *ngIf="nom.errors.required">
+                        Le nom est requis.
+                    </div>
+                </div>
+            </span>
+        </div>
+        <div class="col-6">
+            <span class="p-float-label">
+                <p-calendar
+                [style]="{
+                    width: '100%',
+                    borderRadius: '10px',
+                    minHeight: '48px'
+                }"
+                appendTo="body"
+
+                [ngModel]="temporaile?.date_naissance" formControlName="date_naissance"></p-calendar>
+
+                <label style="
+                        font-weight: bold;
+                        color: rgb(73, 73, 73);
+                    " for="prenoms">Date de naissance</label>
+                        <div *ngIf="nom.touched && nom.invalid" class="erreur">
+                            <div *ngIf="nom.errors.required">
+                                La date de naissance est requis.
+                            </div>
+                        </div>
+            </span>
+        </div>
+    </div>
+    <div class="col-12 flex">
+
+
+        <div class="col flex">
+            <div class="col-12">
+                <span class="p-float-label">
+                    <p-dropdown
+                        [options]="statuts"
+                        optionLabel="libelle"
+                        optionValue="libelle"
+                        appendTo="body"
+                        id="statut"
+                        [style]="{
+                            width: '100%',
+                            borderRadius: '10px',
+                            minHeight: '48px'
+                        }" formControlName="statut" [showClear]="true"
+                        placeholder="Selectionner le statut">
+                    </p-dropdown>
+
+                    <label style="
+                            font-weight: bold;
+                            color: rgb(73, 73, 73);
+                        " for="statut">Statut *</label>
+                    <div *ngIf="
+                            statut.touched &&
+                            statut.invalid
+                        " class="erreur">
+                        <div *ngIf="statut.errors.required">
+                            Le statut est requis.
+                        </div>
+                    </div>
+                </span>
+            </div>
+            <div style="
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                ">
+            </div>
+        </div>
+        <div class="col">
+            <span class="p-float-label">
+                <p-dropdown formControlName="region"
+                 [options]="regions"
+                 optionLabel="libelle"
+                [(ngModel)]="temporaile.region"
+                 appendTo="body"
+                 id="region"
+                 optionValue="libelle"
+                   [style]="{
+                    width: '100%',
+                    borderRadius: '10px',
+                    minHeight: '48px'
+                }" placeholder="Selectionner la  Region"></p-dropdown>
+
+
+                <label style="
+                        font-weight: bold;
+                        color: rgb(73, 73, 73);
+                    " for="role">Region *</label>
+                <div *ngIf="region.touched && region.invalid" class="erreur">
+                    <div *ngIf="region.errors.required">
+                        La region est requise.
+                    </div>
+
+                </div>
+            </span>
+        </div>
+    </div>
+    <div class="col-12 flex">
+        <div class="col">
+            <span class="p-float-label">
+                <p-dropdown formControlName="sexe"
+                [options]="sexes"
+                optionLabel="code"
+               [(ngModel)]="temporaile.sexe"
+                appendTo="body"
+                id="sexe"
+                optionValue="code"
+                  [style]="{
+                   width: '100%',
+                   borderRadius: '10px',
+                   minHeight: '48px'
+               }" placeholder="Selectionner le  sexe"></p-dropdown>
+
+
+
+                <label style="
+                        font-weight: bold;
+                        color: rgb(73, 73, 73);
+                    " for="sexe">Sexe *</label>
+                <div *ngIf="sexe.touched && sexe.invalid" class="erreur">
+                    <div *ngIf="sexe.errors.required">
+                        Le sexe est requis.
+                    </div>
+                </div>
+            </span>
+        </div>
+        <div class="col">
+            <span class="p-float-label">
+                <p-dropdown formControlName="id_residence"
+                [options]="residences"
+                optionLabel="description"
+               [(ngModel)]="temporaile.residence.id"
+                appendTo="body"
+                id="residence"
+                optionValue="description"
+                  [style]="{
+                   width: '100%',
+                   borderRadius: '10px',
+                   minHeight: '48px'
+               }" placeholder="Selectionner la residence"></p-dropdown>
+
+
+
+                <label style="
+                        font-weight: bold;
+                        color: rgb(73, 73, 73);
+                    " for="sexe">Sexe *</label>
+                <div *ngIf="sexe.touched && sexe.invalid" class="erreur">
+                    <div *ngIf="sexe.errors.required">
+                        Le sexe est requis.
+                    </div>
+                </div>
+            </span>
+        </div>
+
+    </div>
+    <div class="flex align-items-center">
+      <div class="col">  <p-checkbox label="Avez vous une cni ?" [binary]="true" class="mr-4" name="estRedoublant"
+        formArrayName="is_cni"></p-checkbox></div>
+      <div class="col">
+        <p-checkbox label="Avez vous un acte de naissance ?" [binary]="true" name="estNouveau"
+        formControlName="is_actenaissance"></p-checkbox>
+      </div>
+      <div class="col">
+        <p-checkbox label="Etes vous autochtone ?" [binary]="true" name="estNouveau"
+        formControlName="is_autochtone"></p-checkbox>
+      </div>
+
+     
+
+          
+    </div>
+    <div class="flex align-items-center">
+        <div class="col">
+            <p-checkbox label="Etes vous handicapé ?" [binary]="true" class="mr-4" name="estRedoublant"
+            formArrayName="is_handicape"></p-checkbox>
+        </div>
+        <div class="col">
+            <p-checkbox label="Etes vous chef de ménage ?" [binary]="true" name="estNouveau"
+            formControlName="is_chef_menage"></p-checkbox>
+        </div>
+        <div class="col">
+
+        </div>
+
+
+       
+
+    </div>
+ 
+</form>
+<ng-template pTemplate="footer">
+
+    <button pButton pRipple class="p-button-text" label="Annuler"
+        (click)="addEdit = false"></button>
+        <button pButton pRipple class="p-button" size="small" label="Valider" (click)="save()"
+        [disabled]="create">
+        <i *ngIf="create" class="pi pi-spin pi-spinner"></i>
+    </button>
+</ng-template>
+</p-dialog>
 
