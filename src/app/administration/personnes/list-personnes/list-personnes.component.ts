@@ -80,11 +80,32 @@ export class ListPersonnesComponent {
       is_handicape: [false],
       is_chef_menage: [false],
       idresidence: [""],
-      Per_id: [""],
+      Per_id: ["",Validators.required],
     });
     this.getAlls();
     this.getAllResidence();
+
+
+    this.formulaires.get('is_chef_menage').valueChanges.subscribe((value) => {
+      const perIdControl = this.formulaires.get('Per_id');
+      
+      // Effacer les erreurs existantes
+      perIdControl.setErrors(null);
+
+      // Ajouter le validateur required si is_chef_menage est true
+      if (value) {
+        perIdControl.setValidators([]);
+
+      } else {
+        perIdControl.setValidators([Validators.required]);
+
+      }
+
+      // Mettre à jour le validateur
+      perIdControl.updateValueAndValidity();
+    });
   }
+  
 
 
   get nom() { return this.formulaires.get("nom"); }
@@ -146,7 +167,6 @@ export class ListPersonnesComponent {
 
   }
   save(){
-    console.log(this.formulaires.value)
     if (this.formulaires.invalid) {
       // Marquez tous les champs comme touchés pour afficher les erreurs
       this.formulaires.markAllAsTouched();
@@ -158,11 +178,12 @@ export class ListPersonnesComponent {
               console.error('Observable emitted an error: ' + err),
                      this.state = false ,
                      this.messageService.add({ severity: 'error', summary: 'Erreur', detail: err.message, life: 3000 });
-
                   },
           complete: () =>      {
             this.state = false; 
             this.formulaires.reset();
+            this.addEdit = false
+
             this.ngOnInit();
 
               this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Ajouté avec success', life: 3000 });
