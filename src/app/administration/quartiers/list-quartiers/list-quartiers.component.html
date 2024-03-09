@@ -91,11 +91,11 @@
                         <th>#</th>
 
                         <th pSortableColumn="libelle">
-                            Libellé
+                            Commune
                             <p-sortIcon field="libelle"></p-sortIcon>
                         </th>
                         <th pSortableColumn="idCommunes">
-                            Commune <p-sortIcon field="idCommunes"></p-sortIcon>
+                            Nom du quartier <p-sortIcon field="idCommunes"></p-sortIcon>
                         </th>
                         <th pSortableColumn="createdAt">
                             Crée le<p-sortIcon field="createdAt"></p-sortIcon>
@@ -159,13 +159,13 @@
                     <input
                         class="p-inputtext-sm text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
                         type="text" pInputText formControlName="libelle" placeholder="Nom du quartier" />
-                    <span *ngIf="this.form.get('libelle').invalid" class="error">Ce champ est requis</span>
+                    <span class="erreur" *ngIf="libelle.touched && libelle.invalid" class="error">Ce champ est requis</span>
                 </div>
                 <div>
                     <span>Commune</span>
                     <p-dropdown formControlName="idCommunes" [options]="communeData" optionLabel="libelle" optionValue="id"
                         placeholder="Selectionner une commune" appendTo="body" filter="true"></p-dropdown>
-                    <span *ngIf="this.form.get('idCommunes').invalid" class="error">Ce champ est requis</span>
+                    <span class="erreur" *ngIf="idCommunes.touched && idCommunes.invalid" class="error">Ce champ est requis</span>
                 </div>
             </form>
 
