@@ -19,6 +19,7 @@ export class ListPersonnesComponent {
   formTitle: string = "";
   residences!:any;
   state: boolean = false;
+  deleteDialog: boolean = false;
   sexes = [
     { name: 'Masculin', code: 'MASCULIN' },
     { name: 'Feminin', code: 'FEMININ' },
@@ -151,12 +152,28 @@ export class ListPersonnesComponent {
     this.formTitle = "Ajouter une  Personne";
     this.addEdit = true;
   }
-  async delete(val: any) {
+  async opendeleteDialog(val: any) {
     this.temporaile = { ...val };
-    this.addEdit = true;
+    this.deleteDialog = true;
 
   }
+  deletePersonne(){
+    this.state = true;
+    this.service.delete("personnes"+"/"+this.temporaile.id).subscribe((result) => {
+      this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Supprimer avec success', life: 3000 });
+      this.state = false;
 
+      this.deleteDialog = false;
+      this.ngOnInit();
+      this.temporaile = {};
+  
+    },
+    (error) =>{
+      this.messageService.add({ severity: 'error', summary: 'Erreur', detail: error.message, life: 5000 });
+      this.state = false;
+    })
+  
+  }
   edit(val: any) {
     this.temporaile= {};
     this.formTitle = "Modifier une personne";
@@ -165,6 +182,33 @@ export class ListPersonnesComponent {
   }
   printListe() {
 
+  }
+
+  modifier(){
+    if (this.formulaires.invalid) {
+      // Marquez tous les champs comme touchés pour afficher les erreurs
+      this.formulaires.markAllAsTouched();
+    }else{
+      this.state = true
+      this.service.update("personnes", this.formulaires.value, this.formulaires.value.id).subscribe({
+          next: value =>    console.log(value) ,
+          error: err => {
+              console.error('Observable emitted an error: ' + err),
+                     this.state = false ,
+                     this.messageService.add({ severity: 'error', summary: 'Erreur', detail: err.message, life: 3000 });
+                  },
+          complete: () =>      {
+            this.state = false; 
+            this.formulaires.reset();
+            this.addEdit = false
+
+            this.ngOnInit();
+
+              this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Ajouté avec success', life: 3000 });
+          },
+
+      });
+    }
   }
   save(){
     if (this.formulaires.invalid) {

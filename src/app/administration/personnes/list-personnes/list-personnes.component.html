@@ -1,3 +1,5 @@
+<p-toast></p-toast>
+
 <div class="grid">
     <div class="col-12">
         <app-skelleton *ngIf="load" [table]="['Noms', 'Prenoms', 'Date de Naissance', 'Region', 'Genre']" title="Liste Des Personnes"></app-skelleton>
@@ -140,11 +142,11 @@
                  
                                 <td>
                                     <div class="flex">
-                                        <i class="pi pi-eye icon mr-3" routerLink="../details-etudiants/{{item?.id}}"
+                                        <i class="pi pi-eye icon mr-3" routerLink=""
                                             style="font-size: 1.5rem"></i>
-                                        <i class="pi pi-pencil icon mr-3" (click)="edit(item,data.branche.id)"
+                                        <i class="pi pi-pencil icon mr-3" (click)="edit(item)"
                                             style="font-size: 1.5rem"></i>
-                                        <i class="pi pi-trash icon" (click)="delete(item)"
+                                        <i class="pi pi-trash icon" (click)="opendeleteDialog(item)"
                                             style="font-size: 1.5rem"></i>
                                     </div>
                                 </td>
@@ -164,7 +166,7 @@
 
       
 
-        <p-dialog [(visible)]="deleteState" header="Suppression" [modal]="true" [style]="{ width: '450px' }">
+        <p-dialog [(visible)]="deleteDialog" header="Suppression" [modal]="true" [style]="{ width: '450px' }">
             <div class="flex align-items-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem; color: red"></i>
                 <span>Voulez-vous supprimer la personne
@@ -172,9 +174,12 @@
             </div>
             <ng-template pTemplate="footer">
                 <button pButton pRipple icon="pi pi-times" class="p-button-secondary" label="Non" size="small"
-                    (click)="deleteEtudiantDialog = false"></button>
+                    (click)="deleteDialog = false"></button>
                 <button pButton pRipple size="small" icon="pi pi-check" class="p-button-danger" label="oui , supprimer"
-                    (click)="confirmDeleteSelected()"></button>
+                    (click)="deletePersonne()">
+                    <i *ngIf="state" class="pi pi-spin pi-spinner"></i>
+
+                </button>
             </ng-template>
         </p-dialog>
     </div>
@@ -186,7 +191,7 @@
 <form [formGroup]="formulaires" class="pt-2">
     <div class="col-12 flex">
         <div class="col-6">
-            <input pInputText id="is" [ngModel]="temporaile?.id" formControlName="id" [style]="{
+            <input pInputText id="is" [(ngModel)]="temporaile.id" formControlName="id" [style]="{
                     width: '100%',
                     borderRadius: '10px',
                     minHeight: '48px',
@@ -218,16 +223,17 @@
                     borderRadius: '10px',
                     minHeight: '48px'
                 }"
+                id="date"
                 appendTo="body"
 
-                [ngModel]="temporaile?.date_naissance" formControlName="date_naissance"></p-calendar>
+                [(ngModel)]="temporaile.date_naissance" formControlName="date_naissance"></p-calendar>
 
                 <label style="
                         font-weight: bold;
                         color: rgb(73, 73, 73);
-                    " for="prenoms">Date de naissance</label>
-                        <div *ngIf="nom.touched && nom.invalid" class="erreur">
-                            <div *ngIf="nom.errors.required">
+                    " for="date">Date de naissance</label>
+                        <div *ngIf="date_naissance.touched && date_naissance.invalid" class="erreur">
+                            <div *ngIf="date_naissance.errors.required">
                                 La date de naissance est requis.
                             </div>
                         </div>
@@ -246,6 +252,7 @@
                         optionValue="libelle"
                         appendTo="body"
                         id="statut"
+                        [ngModel]="temporaile?.statut"
                         [style]="{
                             width: '100%',
                             borderRadius: '10px',
@@ -367,13 +374,19 @@
     </div>
     <div class="flex align-items-center">
       <div class="col">  <p-checkbox label="Avez vous une cni ?" [binary]="true" class="mr-4" name="estRedoublant"
+        [(ngModel)]="temporaile.is_cni"
+
         formArrayName="is_cni"></p-checkbox></div>
       <div class="col">
         <p-checkbox label="Avez vous un acte de naissance ?" [binary]="true" name="estNouveau"
+        [(ngModel)]="temporaile.is_actenaissance"
+
         formControlName="is_actenaissance"></p-checkbox>
       </div>
       <div class="col">
         <p-checkbox label="Etes vous autochtone ?" [binary]="true" name="estNouveau"
+        [(ngModel)]="temporaile.is_autochtone"
+
         formControlName="is_autochtone"></p-checkbox>
       </div>
 
@@ -384,10 +397,14 @@
     <div class="flex align-items-center">
         <div class="col">
             <p-checkbox label="Etes vous handicapé ?" [binary]="true" class="mr-4" name="estRedoublant"
-            formArrayName="is_handicape"></p-checkbox>
+            [(ngModel)]="temporaile.is_handicape"
+
+            formControlName="is_handicape"></p-checkbox>
         </div>
         <div class="col">
             <p-checkbox label="Etes vous chef de ménage ?" [binary]="true" name="estNouveau"
+            [(ngModel)]="temporaile.is_chef_menage"
+
             formControlName="is_chef_menage"></p-checkbox>
         </div>
         <div class="col">
@@ -402,12 +419,16 @@
 </form>
 <ng-template pTemplate="footer">
 
-    <button pButton pRipple class="p-button-text" label="Annuler"
+    <button pButton pRipple   class="p-button-text" label="Annuler"
         (click)="addEdit = false"></button>
-        <button pButton pRipple class="p-button" size="small" label="Valider" (click)="save()"
+        <button pButton pRipple class="p-button" *ngIf="formTitle == 'Ajouter une personne'" size="small" label="Valider" (click)="save()"
         [disabled]="state">
         <i *ngIf="state" class="pi pi-spin pi-spinner"></i>
     </button>
+    <button pButton pRipple *ngIf="formTitle == 'Modifier une personne'" class="p-button" size="small" label="Modifier" (click)="modifier()"
+    [disabled]="state">
+    <i *ngIf="state" class="pi pi-spin pi-spinner"></i>
+</button>
 </ng-template>
 </p-dialog>
 
