@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
+import { Table } from 'primeng/table';
 import { FormService } from 'src/app/demo/service/base.service';
 
 @Component({
@@ -20,6 +21,7 @@ export class ListPersonnesComponent {
   residences!:any;
   state: boolean = false;
   deleteDialog: boolean = false;
+  chefs: boolean = false;
   sexes = [
     { name: 'Masculin', code: 'MASCULIN' },
     { name: 'Feminin', code: 'FEMININ' },
@@ -56,6 +58,7 @@ export class ListPersonnesComponent {
 
   ];
 
+
   formsFields = [
     { name: 'noms', label: 'Noms', validators: [Validators.required] },
     { name: 'prenoms', label: 'Prenoms', type: 'text', validators: [Validators.required] },
@@ -68,6 +71,13 @@ export class ListPersonnesComponent {
     private fb: FormBuilder, private messageService: MessageService
   ) { }
   ngOnInit(): void {
+    this.cols = [
+      { field: 'nom', header: 'Noms' },
+      { field: 'date_naissance', header: 'Date de Naissance' },
+      { field: 'statut', header: 'Statut' },
+      { field: 'sexe', header: 'Sexe' },
+      { field: 'is_chef_menage', header: 'Est chef de menage ?' },
+  ];
     this.formulaires = this.fb.group({
       id: [''],
       nom: ['', Validators.required],
@@ -81,14 +91,14 @@ export class ListPersonnesComponent {
       is_handicape: [false],
       is_chef_menage: [false],
       idresidence: [""],
-      Per_id: ["",Validators.required],
+      parentId: ["",Validators.required],
     });
     this.getAlls();
     this.getAllResidence();
-
+    this.getAllChef();
 
     this.formulaires.get('is_chef_menage').valueChanges.subscribe((value) => {
-      const perIdControl = this.formulaires.get('Per_id');
+      const perIdControl = this.formulaires.get('parentId');
       
       // Effacer les erreurs existantes
       perIdControl.setErrors(null);
@@ -96,8 +106,11 @@ export class ListPersonnesComponent {
       // Ajouter le validateur required si is_chef_menage est true
       if (value) {
         perIdControl.setValidators([]);
+        perIdControl.setValue("");
 
       } else {
+        perIdControl.setValue("");
+
         perIdControl.setValidators([Validators.required]);
 
       }
@@ -120,7 +133,7 @@ export class ListPersonnesComponent {
   get is_handicape() { return this.formulaires.get("is_handicape"); }
   get is_chef_menage() { return this.formulaires.get("is_chef_menage"); }
   get idresidence() { return this.formulaires.get("idresidence"); }
-  get Per_id() { return this.formulaires.get("Per_id"); }
+  get Per_id() { return this.formulaires.get("parentId"); }
 
   getAlls() {
     this.load = true;
@@ -134,6 +147,16 @@ export class ListPersonnesComponent {
     });
   }
 
+  getAllChef() {
+    this.service.getAll("chef/all/personnes").subscribe({
+      next: value => {
+        this.chefs = value;
+
+      },
+      error: err => console.error('Observable emitted an error: ' + err),
+      complete: () => { },
+    });
+  }
   
   getAllResidence() {
     this.service.getAll("residence").subscribe({
@@ -149,7 +172,7 @@ export class ListPersonnesComponent {
   add() {
     this.temporaile= {};
 
-    this.formTitle = "Ajouter une  Personne";
+    this.formTitle = "Ajouter une Personne";
     this.addEdit = true;
   }
   async opendeleteDialog(val: any) {
@@ -176,12 +199,12 @@ export class ListPersonnesComponent {
   }
   edit(val: any) {
     this.temporaile= {};
-    this.formTitle = "Modifier une personne";
+    this.formTitle = "Modifier une Personne";
       this.temporaile = { ...val };
       this.addEdit = true;
   }
   printListe() {
-
+    this.service.printListe(this.titlePage, document.getElementById('toPrint').innerHTML);
   }
 
   modifier(){
@@ -236,4 +259,7 @@ export class ListPersonnesComponent {
       });
     }
   }
+  onGlobalFilter(table: Table, event: Event) {
+    table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+}
 }
