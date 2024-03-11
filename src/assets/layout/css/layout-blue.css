@@ -152,7 +152,7 @@
     background-image: -moz-linear-gradient(to right, #2872B4, #26BED0);
     background-image: -ms-linear-gradient(to right, #2872B4, #26BED0);
     background-image: -o-linear-gradient(to right, #2872B4, #26BED0);
-    background-image: linear-gradient(to right, #2872B4, #26BED0);
+    background-image: linear-gradient(to right, #235a8c, #0e3f6a);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#2872B4", endColorstr="#26BED0", gradientType="1");
   }
   .layout-wrapper .layout-topbar #topbar-menu-button {
@@ -509,7 +509,7 @@
     left: 0;
     z-index: 999;
     overflow: auto;
-    background-color: #050505;
+    background: linear-gradient(to top, #235a8c, #0e3f6a) !important;
     -webkit-box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.12);
     -moz-box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.12);
     box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.12);
@@ -579,7 +579,7 @@
   }
   .layout-wrapper .layout-sidebar .layout-menu li a {
     padding: 10px 5px;
-    color: #BBBBBB;
+    color: #ffffff;
     position: relative;
     display: block;
     cursor: pointer;
@@ -608,7 +608,7 @@
     line-height: 1;
   }
   .layout-wrapper .layout-sidebar .layout-menu li a i {
-    color: #BBBBBB;
+    color: #ffffff;
     vertical-align: middle;
     font-size: 13px;
     margin-right: 9px;

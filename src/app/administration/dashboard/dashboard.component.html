@@ -1,1 +1,92 @@
-<p>dashboard works!</p>
+<app-dashoard-skeleton *ngIf="load"></app-dashoard-skeleton>
+<div class="layout-dashboard" *ngIf="!load">
+    <div class="grid">
+        <div class="col-12 md:col-6 lg:col-3">
+            <div class="overview-box users">
+                <img class="pi pi-home" style="font-size: 50px;" src="" alt="">
+
+                <div class="overview-title">Nombre de Personnes</div>
+                <div class="overview-numbers">
+                    {{states?.nbrePersonne || 0}}
+                </div>
+                <div class="overview-subinfo user">
+              
+                </div>
+            </div>
+        </div>
+        <div class="col-12 md:col-6 lg:col-3">
+            <div class="overview-box checkins">
+                <img class="pi pi-user" style="font-size: 50px;" src="" alt="">
+                <div class="overview-title">Nombre De Quartiers</div>
+                <div class="overview-numbers">
+                    {{states?.nbreQuartiers || 0}}
+                </div>
+                <div class="overview-subinfo user">
+                 
+                </div>
+            </div>
+        </div>
+        <div class="col-12 md:col-6 lg:col-3">
+            <div class="overview-box users3">
+                <img class="pi pi-users" style="font-size: 50px;" src="" alt="">
+                <div class="overview-title">Nombre de Commune</div>
+                <div class="overview-numbers">
+                    {{states?.nbreCommune || 0}}
+                </div>
+                <div class="overview-subinfo user">
+                  
+                </div>
+            </div>
+        </div>
+        <div class="col-12 md:col-6 lg:col-3">
+            <div class="overview-box users1">
+                <img class="pi pi-user-plus" style="font-size: 50px;" src="" alt="">
+                <div class="overview-title">Nombre de vulnerabilité </div>
+                <div class="overview-numbers">
+                    {{states?.nbreVulnerabilite || 0 }}
+                </div>
+                <div class="overview-subinfo checkin">
+  
+                </div>
+            </div>
+        </div>
+
+
+
+    
+        <div class="col-12 md:col-12 lg:col-12 xl:col-6">
+            <p-panel header="Dernieres Personnes Enregistrés" styleClass="global-sales">
+                <div class="col-12 flex">
+                    <div class="col-12">
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th class="country">Noms</th>
+                            <th>Sexe</th>
+                            <th>Region</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of states?.dernierPersonneEnregistre; let i = index">
+                            <td>{{i + 1}}</td>
+                            <td class="country">
+                                <span>{{data.nom}} </span>
+                            </td>
+                            <td>{{data.sexe}}</td>
+                            <td>{{data.region}}</td>
+
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+    </div>
+            </p-panel>
+        </div>
+   
+
+    </div>
+</div>

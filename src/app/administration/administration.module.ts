@@ -92,7 +92,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SkeletonModule } from 'primeng/skeleton';
 import { AccordionModule } from 'primeng/accordion';
 import { PartegerModule } from '../parteger/parteger.module';
-
 @NgModule({
   declarations: [
     ApplicationComponent,
