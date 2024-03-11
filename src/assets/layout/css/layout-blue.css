@@ -519,7 +519,7 @@
     transition: left 0.3s;
   }
   .layout-wrapper .layout-sidebar .layout-menu-title {
-    color: #656565;
+    color: white;
     letter-spacing: 0.5px;
     padding: 25px 0 10px 0;
     font-size: 12px;
