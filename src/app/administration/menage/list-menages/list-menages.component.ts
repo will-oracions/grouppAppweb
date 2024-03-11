@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
+import { Table } from 'primeng/table';
 import { FormService } from 'src/app/demo/service/base.service';
 
 @Component({
@@ -95,4 +96,7 @@ export class ListMenagesComponent {
       printListe(){
 
       }
+      onGlobalFilter(table: Table, event: Event) {
+        table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+    }
 }

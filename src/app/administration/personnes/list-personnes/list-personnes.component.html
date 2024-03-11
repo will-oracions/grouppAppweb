@@ -410,34 +410,60 @@
        
 
     </div>
-    <div class="col mt-2" *ngIf="!is_chef_menage.value">
-        <span class="p-float-label">
-            <p-dropdown formControlName="parentId"
-            [options]="chefs"
-            optionLabel="nom"
-           [(ngModel)]="temporaile.parentId"
-            appendTo="body"
-            id="residence"
-            optionValue="id"
-              [style]="{
-               width: '100%',
-               borderRadius: '10px',
-               minHeight: '48px'
-           }" placeholder="Selectionner le chef de menage"></p-dropdown>
-
-
-
-            <label style="
-                    font-weight: bold;
-                    color: rgb(73, 73, 73);
-                " for="Per_id">Chef de famille *</label>
-            <div *ngIf="Per_id.touched && Per_id.invalid" class="erreur">
-                <div *ngIf="Per_id.errors.required">
-                    Le chef de menage est requis.
+    <div class="col-12 flex">
+        <div class="col mt-2" *ngIf="!is_chef_menage.value">
+            <span class="p-float-label">
+                <p-dropdown formControlName="parentId"
+                [options]="chefs"
+                optionLabel="nom"
+               [(ngModel)]="temporaile.parentId"
+                appendTo="body"
+                id="residence"
+                optionValue="id"
+                  [style]="{
+                   width: '100%',
+                   borderRadius: '10px',
+                   minHeight: '48px'
+               }" placeholder="Selectionner le chef de menage"></p-dropdown>
+    
+    
+    
+                <label style="
+                        font-weight: bold;
+                        color: rgb(73, 73, 73);
+                    " for="Per_id">Chef de famille *</label>
+                <div *ngIf="Per_id.touched && Per_id.invalid" class="erreur">
+                    <div *ngIf="Per_id.errors.required">
+                        Le chef de menage est requis.
+                    </div>
                 </div>
-            </div>
-        </span>
+            </span>
+        </div>
+        <div class="col mt-2" >
+            <span class="p-float-label">
+                <p-multiSelect [options]="vulnerabilite" 
+                appendTo="body"
+                id="vulnerabilite"
+                optionValue="id"
+                [style]="{
+                 width: '100%',
+                 borderRadius: '10px',
+                 minHeight: '48px'
+             }"
+                placeholder="Selectionner les vulnerabilités" formControlName="vulnerabilite" optionValue="id" optionLabel="nom"></p-multiSelect>
+
+    
+    
+    
+                <label style="
+                        font-weight: bold;
+                        color: rgb(73, 73, 73);
+                    " for="vulnerabilite">Vulnérabilités</label>
+
+            </span>
+        </div>
     </div>
+
  
 </form>
 <ng-template pTemplate="footer">

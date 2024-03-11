@@ -18,6 +18,7 @@ import { TagModule } from 'primeng/tag';
 import {TabViewModule} from 'primeng/tabview';
 import {AvatarModule} from 'primeng/avatar';
 import {AvatarGroupModule} from 'primeng/avatargroup';
+import { MultiSelectModule } from 'primeng/multiselect';
 @NgModule({
   declarations: [
     ListPersonnesComponent,
@@ -43,6 +44,7 @@ import {AvatarGroupModule} from 'primeng/avatargroup';
     TabViewModule,
     AvatarModule,
     AvatarGroupModule,
+    MultiSelectModule,
     
   ]
 })

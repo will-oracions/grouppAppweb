@@ -34,8 +34,8 @@
 
             <p-table #dt [value]="tableData" [columns]="cols" responsiveLayout="scroll" [rows]="10"
                 [globalFilterFields]="[
-                    'nom',
-                    'date_naissance',
+                    'description',
+                    'quartier',
                     'statut',
                     'region',
                     'sexe',
@@ -90,9 +90,9 @@
                     <tr>
                         <th>#</th>
 
-                        <th pSortableColumn="libelle">
+                        <th pSortableColumn="description">
                             Description
-                            <p-sortIcon field="libelle"></p-sortIcon>
+                            <p-sortIcon field="description"></p-sortIcon>
                         </th>
                         <th pSortableColumn="quartier">
                             Quartier <p-sortIcon field="quartier"></p-sortIcon>
@@ -113,11 +113,11 @@
                             {{ i + 1 }}
                         </td>
                         <td>
-                            <span class="p-column-title">Description</span>
+                            <span class="p-column-title">description</span>
                             {{ item?.description }}
                         </td>
                         <td>
-                            <span class="p-column-title">Quartier</span>
+                            <span class="p-column-title">quartier</span>
                             {{ item?.quartier.libelle }}
                         </td>
 

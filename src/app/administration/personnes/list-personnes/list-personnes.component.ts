@@ -22,6 +22,7 @@ export class ListPersonnesComponent {
   state: boolean = false;
   deleteDialog: boolean = false;
   chefs: boolean = false;
+  vulnerabilite:any;
   sexes = [
     { name: 'Masculin', code: 'MASCULIN' },
     { name: 'Feminin', code: 'FEMININ' },
@@ -92,10 +93,13 @@ export class ListPersonnesComponent {
       is_chef_menage: [false],
       idresidence: [""],
       parentId: ["",Validators.required],
+      vulnerabilite: [""],
+
     });
     this.getAlls();
     this.getAllResidence();
     this.getAllChef();
+    this.getAllVulnerabilite();
 
     this.formulaires.get('is_chef_menage').valueChanges.subscribe((value) => {
       const perIdControl = this.formulaires.get('parentId');
@@ -146,7 +150,17 @@ export class ListPersonnesComponent {
       complete: () => { this.load = false },
     });
   }
+  getAllVulnerabilite(){
+    this.service.getAll("vulnerabilite").subscribe({
+      next: value => {
+        this.vulnerabilite = value;
 
+      },
+      error: err => console.error('Observable emitted an error: ' + err),
+      complete: () => {  },
+    });
+    
+  }
   getAllChef() {
     this.service.getAll("chef/all/personnes").subscribe({
       next: value => {
