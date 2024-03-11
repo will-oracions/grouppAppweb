@@ -35,10 +35,10 @@
             <p-table #dt [value]="tableData" [columns]="cols" responsiveLayout="scroll" [rows]="10"
                 [globalFilterFields]="[
                     'nom',
-                    'date_naissance',
-                    'statut',
-                    'region',
-                    'sexe',
+                    'libelle',
+                    'idCommunes',
+                    'updatedAt',
+                    'createdAt',
                     'est chef de famille ?'
                 ]" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10, 20, 30]" [showCurrentPageReport]="true"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowHover]="true"
@@ -131,7 +131,7 @@
 
                         <td>
                             <div class="flex">
-                                <i class="pi pi-eye icon mr-3" routerLink="../details-etudiants/{{item?.id}}"
+                                <i class="pi pi-eye icon mr-3" routerLink="../details/{{item?.id}}"
                                     style="font-size: 1.5rem"></i>
                                 <i class="pi pi-pencil icon mr-3" (click)="edit(item,data.branche.id)"
                                     style="font-size: 1.5rem"></i>

@@ -6,7 +6,7 @@ import { DetailsMenageComponent } from './details-menage/details-menage.componen
 const routes: Routes = [
     { path: '', redirectTo: "list", pathMatch: "full"},
     { path: 'list', component: ListMenagesComponent},
-    { path: 'details', component: DetailsMenageComponent}
+    { path: 'details/:id', component: DetailsMenageComponent}
 ];
 
 @NgModule({

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Table } from 'primeng/table';
 import { FormService } from 'src/app/demo/service/base.service';
 
 @Component({
@@ -114,4 +115,7 @@ export class ListQuartiersComponent {
       this.form.markAllAsTouched();
     }
   }
+  onGlobalFilter(table: Table, event: Event) {
+    table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+}
 }
