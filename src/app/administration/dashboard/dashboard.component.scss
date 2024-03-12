@@ -14,3 +14,10 @@
         }
     }
 }
+
+
+:host ::ng-deep .p-panel .p-panel-header{
+
+    background: linear-gradient(to right, #31506d, #143b5e70) !important;
+    color: #ffffff !important;
+}

@@ -2,15 +2,21 @@
     <div class="col-12">
         <app-skelleton *ngIf="load" [table]="['Description', 'Quartier', 'Créé le', 'Mise à jour le']"
         title="Liste des Residences"></app-skelleton>
-        <div *ngIf="!load">
+        <div *ngIf="!load" class="card border-round-2xl">
          
 
 
             <div class="col flex justify-content-between align-items-center">
-                <div>
+                <div class="flex justify-content-center align-items-center">
+                    <i class="pi pi-fw pi-building" 
+                     style="
+                        font-size: xx-large;
+
+                        color: #0e3f6a;
+                    "></i>
                     <h3 style="
                     font-weight: bold;
-                    color: #222b45;
+                    color: #0e3f6a;
                     white-space: nowrap !important;
                 ">
                         {{ titlePage }}
@@ -53,6 +59,7 @@
                                         <input pInputText type="text" class="input" style="
                                                 width: 100% !important;
                                                 border-radius: 20px !important;
+                                                border-color: cornflowerblue;
                                                 min-height: 48px !important;
                                             " (input)="onGlobalFilter(dt, $event)" placeholder="Rechercher..."
                                             class="w-full sm:w-auto" />

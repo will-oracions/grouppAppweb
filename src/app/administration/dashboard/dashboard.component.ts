@@ -30,6 +30,12 @@ import timeGridPlugin from '@fullcalendar/timegrid';
               }
           }
       }
+      :host ::ng-deep .p-panel .p-panel-header{
+
+        background: linear-gradient(to right, #235a8c, #0e3f6a) !important;
+        color: #ffffff !important;
+    }
+
   `]
 })
 export class DashboardComponent {
@@ -39,7 +45,7 @@ export class DashboardComponent {
   products: Product[];
 
   chartData: any;
-
+  vulnerability:any;
   events: any[];
 
   selectedCity: any;
@@ -90,51 +96,6 @@ export class DashboardComponent {
           this.fullcalendarOptions = { ...this.fullcalendarOptions, ...{ events: events } };
       });
 
-      this.cities = [];
-      this.cities.push({ label: 'Select City', value: null });
-      this.cities.push({ label: 'New York', value: { id: 1, name: 'New York', code: 'NY' } });
-      this.cities.push({ label: 'Rome', value: { id: 2, name: 'Rome', code: 'RM' } });
-      this.cities.push({ label: 'London', value: { id: 3, name: 'London', code: 'LDN' } });
-      this.cities.push({ label: 'Istanbul', value: { id: 4, name: 'Istanbul', code: 'IST' } });
-      this.cities.push({ label: 'Paris', value: { id: 5, name: 'Paris', code: 'PRS' } });
-
-      this.chartData = {
-          labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-          datasets: [
-              {
-                  label: 'First Dataset',
-                  data: [65, 59, 80, 81, 56, 55, 40],
-                  fill: false,
-                  borderColor: '#FFC107'
-              },
-              {
-                  label: 'Second Dataset',
-                  data: [28, 48, 40, 19, 86, 27, 90],
-                  fill: false,
-                  borderColor: '#03A9F4'
-              }
-          ]
-      };
-
-      this.items = [
-          { label: 'Save', icon: 'pi pi-fw pi-check' },
-          { label: 'Update', icon: 'pi pi-fw pi-refresh' },
-          { label: 'Delete', icon: 'pi pi-fw pi-trash' }
-      ];
-
-      this.fullcalendarOptions = {
-          plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
-          initialDate: '2021-02-01',
-          headerToolbar: {
-              left: 'prev,next today',
-              center: 'title',
-              right: 'dayGridMonth,timeGridWeek,timeGridDay'
-          },
-          editable: true,
-          selectable: true,
-          selectMirror: true,
-          dayMaxEvents: true,
-      };
       this.getAllState();
   }
   async getAllState() {
@@ -145,7 +106,15 @@ export class DashboardComponent {
       });
       const documentStyle = getComputedStyle(document.documentElement);
       const textColor = documentStyle.getPropertyValue('--text-color');
- 
+      this.vulnerability = {
+        labels: state.vulnerabiliteState.map((item: any) => item.libelle),
+        datasets: [
+            {
+                data: state.vulnerabiliteState.map((item: any) => item.nombre),
+                backgroundColor: [documentStyle.getPropertyValue('--blue-500'), documentStyle.getPropertyValue('--yellow-500'), documentStyle.getPropertyValue('--green-500'), documentStyle.getPropertyValue('--orange-500'),, documentStyle.getPropertyValue('--green-500')],
+            }
+        ]
+    };
       this.states = state;
       this.load = false;
 

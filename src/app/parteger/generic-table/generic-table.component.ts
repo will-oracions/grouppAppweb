@@ -18,7 +18,7 @@ export class GenericTableComponent {
     @Input() fields: any[] = [];
     @Input() endPoints: string;
     @Input() option: string = "";
-
+    @Input() icon: string = "";
     @Output() customsEvent = new EventEmitter<string>();
     deleteDialog: boolean = false;
     dynamicComponents: any = {};

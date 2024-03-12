@@ -18,12 +18,63 @@ selectionMode="multiple"
 dataKey="id"
 >
 <ng-template pTemplate="caption">
+    <div class="col flex justify-content-between align-items-center">
+        <div class="flex justify-content-center align-items-center">
+            <i class="pi pi-fw pi-{{icon}}" 
+             style="
+                font-size: xx-large;
+
+                color: #0e3f6a;
+            "></i>
+            <h3 style="
+            font-weight: bold;
+            color: #0e3f6a;
+            white-space: nowrap !important;
+        ">
+                {{ titlePage }}
+            </h3>
+        </div>
+        <div>
+
+
+
+            <div
+                class="flex flex-column md:flex-row md:justify-content-between md:align-items-center"
+            >
+            
+            <p-button
+            *ngIf="option[0] == 'C' "
+
+                label="Ajouter"
+                icon="pi pi-plus"
+                (click)="openNew()"
+                [style]="{ minHeight: '48px' }"
+                iconPos="right"
+            ></p-button>
+                <i
+                    class="pi pi-file"
+                    (click)="dt.exportCSV()"
+                    pTooltip="CSV"
+                    tooltipPosition="bottom"
+                    style="
+                        font-size: 1.5rem;
+                        cursor: pointer;
+                        margin-right: 13px;
+                        color: #757575;
+                        margin-left: 13px;
+                    "
+                ></i>
+        </div>
+        </div>
+       
+
+    </div>
     <div
         class="flex flex-column md:flex-row md:justify-content-between md:align-items-center"
     >
         <div style="width: 100%">
             <div style="width: 100%; display: flex">
-                <div style="width: 88% !important">
+                <div style="width: 100% !important">
                     <span
                         class="block mt-2 md:mt-0 p-input-icon-left"
                     >
@@ -45,34 +96,6 @@ dataKey="id"
                     </span>
                 </div>
 
-                <p-button
-                *ngIf="option[0] == 'C' "
-
-                    label="Ajouter"
-                    icon="pi pi-plus"
-                    (click)="openNew()"
-                    [style]="{ minHeight: '48px' }"
-                    iconPos="right"
-                ></p-button>
-
-
-                <div
-                    class="flex flex-column md:flex-row md:justify-content-between md:align-items-center"
-                >
-                    <i
-                        class="pi pi-file"
-                        (click)="dt.exportCSV()"
-                        pTooltip="CSV"
-                        tooltipPosition="bottom"
-                        style="
-                            font-size: 1.5rem;
-                            cursor: pointer;
-                            margin-right: 13px;
-                            color: #757575;
-                            margin-left: 13px;
-                        "
-                    ></i>
-            </div>
             </div>
         </div>
     </div>
@@ -80,25 +103,8 @@ dataKey="id"
 </ng-template>
 
 <ng-template pTemplate="header">
-    <div
-        style="
-            width: 100%;
-            display: flex;
-            margin-top: 10px;
-            margin-left: 10px;
-        "
-    >
-        <h5
-            style="
-                font-weight: bold;
-                color: #222b45;
-                font-size: 16px;
-                white-space: nowrap !important;
-            "
-        >
-            {{ titlePage }}
-        </h5>
-    </div>
+   
+
     <tr>
         <th>#</th>
       <th *ngFor="let col of columns">
