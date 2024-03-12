@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
+import { BreadcrumbService } from 'src/app/app.breadcrumb.service';
 import { FormService } from 'src/app/demo/service/base.service';
 
 @Component({
@@ -30,7 +31,12 @@ export class ListMenagesComponent {
         { id: 2, name: 'Jane Doe', details: { id: 102, name: 'Jane' } },
       ];
 
-      constructor(private service: FormService, private fb: FormBuilder, private messageService: MessageService){}
+      constructor(private service: FormService, private fb: FormBuilder, private messageService: MessageService, private breadcrumbService: BreadcrumbService){
+
+        this.breadcrumbService.setItems([
+          { label: 'Liste Des Menages'},
+      ]);
+      }
       ngOnInit(): void {
         this.form = this.fb.group({
           id: [''],

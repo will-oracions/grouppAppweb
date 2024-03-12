@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { BreadcrumbService } from 'src/app/app.breadcrumb.service';
 import { FormService } from 'src/app/demo/service/base.service';
 
 type Commune = {
@@ -28,8 +29,12 @@ type QuartierDetails<T> = {
 })
 export class DetailsQuartiersComponent implements OnInit {
 
-  constructor(private activatedRoute: ActivatedRoute, private service: FormService) {
-
+  constructor(private activatedRoute: ActivatedRoute, private service: FormService,private breadcrumbService: BreadcrumbService) {
+      this.breadcrumbService.setItems([
+        { label: 'Liste Des Quartiers', routerLink:"/administration/quartiers/list"},
+        { label: 'Details Quarties'},
+    ]);
+    
   }
 
   // Declaration de la propriete qui contiendra l'identifiant recupere dans l'url.

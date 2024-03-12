@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { BreadcrumbService } from 'src/app/app.breadcrumb.service';
 
 @Component({
   selector: 'app-details-commune',
@@ -6,5 +7,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./details-commune.component.scss']
 })
 export class DetailsCommuneComponent {
-
+  constructor(private breadcrumbService: BreadcrumbService ){
+    this.breadcrumbService.setItems([
+      { label: 'Liste Des Communes', routerLink:"/administration/communes/list"},
+      { label: 'Details Communes'},
+  ]);
+  }
 }

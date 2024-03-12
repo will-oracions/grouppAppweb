@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Validators } from '@angular/forms';
+import { BreadcrumbService } from 'src/app/app.breadcrumb.service';
 import { FormService } from 'src/app/demo/service/base.service';
 
 @Component({
@@ -21,7 +22,11 @@ export class ListRoleComponent {
             { name: 'libelle', label: 'Libelle', type: 'text', validators: [Validators.required] },
 
         ];
-        constructor(private service: FormService){}
+        constructor(private service: FormService, private breadcrumbService: BreadcrumbService){
+          this.breadcrumbService.setItems([
+            { label: 'Liste Des Rôles'},
+        ]);
+        }
         ngOnInit(): void {
           this.getAlls();
         }

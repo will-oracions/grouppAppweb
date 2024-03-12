@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
+import { BreadcrumbService } from 'src/app/app.breadcrumb.service';
 import { FormService } from 'src/app/demo/service/base.service';
 
 @Component({
@@ -24,7 +25,12 @@ export class ListUtilisateursComponent  implements OnInit{
             { name: 'passwords', label: 'Mots de passe', type: 'password', validators: [Validators.required] },
         ];
 
-        constructor(private service: FormService){}
+        constructor(private service: FormService, private breadcrumbService: BreadcrumbService){
+          this.breadcrumbService.setItems([
+            { label: 'Liste Des Utilisateurs'},
+
+        ]);
+        }
         ngOnInit(): void {
           this.getAllUsers();
         }

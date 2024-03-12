@@ -3,13 +3,13 @@
         <ul>
             <li>
                 <a routerLink="/administration">
-                    <i class="pi pi-home"></i>
+                    <i class="pi pi-home" style="color: #001a31;"></i>
                 </a>
             </li>
-            <li>/</li>{{items}}
+            <li>/</li>
             <ng-template ngFor let-item let-last="last" [ngForOf]="items">
-                <li>
-                    <a [routerLink]="item.routerLink" *ngIf="item.routerLink">{{item.label}}</a>
+                <li >
+                    <a [routerLink]="item.routerLink" style="color: #001a31;font-weight: bold;" *ngIf="item.routerLink">{{item.label}}</a>
                     <ng-container *ngIf="!item.routerLink">{{item.label}}</ng-container>
                 </li>
                 <li *ngIf="!last">/</li>

@@ -61,7 +61,7 @@ export class DashboardComponent {
   fullcalendarOptions: any;
   constructor(private productService: ProductService, private eventService: EventService, private breadcrumbService: BreadcrumbService, private service: FormService) {
       this.breadcrumbService.setItems([
-          { label: 'Dashboard', routerLink: [''] }
+          { label: 'Dashboard', routerLink: ['/administration'] }
       ]);
   }
 
