@@ -1,1 +1,48 @@
-<p>details-quartiers works!</p>
+<div>
+    <h3 class="font-bold">Details Quartier</h3>
+    <section class="flex gap-4">
+        <!-- Details du quartier -->
+        <p-card class="mb-4 min-w-auto" [header]="quartierDetails.libelle">
+            <h4 class="text-lg">ID Commune {{ quartierDetails.idCommunes}}</h4>
+            <p class="m-0">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque
+                quas!
+            </p>
+        </p-card>
+
+        <!-- Details de la commune -->
+        <p-card class="mb-4" header="Title">
+            <p class="m-0">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque
+                quas!
+            </p>
+        </p-card>
+    </section>
+    <br><br>
+    <h3 class="font-bold mb-6">Résidences du quartier</h3>
+
+
+    <div class="flex justify-content-center gap-6 flex-wrap">
+        <section *ngIf="hasResidences == true">
+            <p-card *ngFor="let element in quartierDetails.residences" header="Advanced Card" subheader="Card Subheader" [style]="{ width: '360px' }">
+                <ng-template pTemplate="header">
+                    <img alt="Card" src="https://primefaces.org/cdn/primeng/images/usercard.png" />
+                </ng-template>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque
+                    quas!
+                </p>
+                <ng-template pTemplate="footer">
+                    <p-button label="Save" icon="pi pi-check"></p-button>
+                    <p-button label="Cancel" icon="pi pi-times" styleClass="p-button-secondary" [style]="{ 'margin-left': '.5em' }"></p-button>
+                </ng-template>
+            </p-card>
+        </section>
+
+        <section *ngIf="hasResidences == false">
+           <h4>Aucune Résidence dans ce quartier</h4->
+        </section>
+    </div>
+
+
+</div>
