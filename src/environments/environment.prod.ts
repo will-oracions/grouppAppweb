@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl:"https://grouppappapi.onrender.com/api",
+  apiUrl:"https://groupp-app-api.vercel.app/api",
 };

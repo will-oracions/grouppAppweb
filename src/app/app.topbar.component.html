@@ -20,7 +20,7 @@
                 <span class="topbar-item-name">Profile</span>
             </a>
         </li>
-        <li >
+        <li (click)="logout()">
             <a href="#" (click)="app.onTopbarSubItemClick($event)">
                 <i class="pi pi-fw pi-sign-out"></i>
                 <span class="topbar-item-name"> Disconnect</span>

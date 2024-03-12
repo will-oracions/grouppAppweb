@@ -1,45 +1,26 @@
-<div>
-    <h3 class="font-bold">Details Quartier</h3>
-    <section class="flex gap-4">
-        <!-- Details du quartier -->
-        <p-card class="mb-4 min-w-auto" [header]="quartierDetails.libelle">
-            <h4 class="text-lg">ID Commune {{ quartierDetails.idCommunes}}</h4>
-            <p class="m-0">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque
-                quas!
-            </p>
-        </p-card>
-
-        <!-- Details de la commune -->
-        <p-card class="mb-4" header="Title">
-            <p class="m-0">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque
-                quas!
-            </p>
-        </p-card>
-    </section>
-    <br><br>
-    <h3 class="font-bold mb-6">Résidences du quartier</h3>
+<app-dashoard-skeleton *ngIf="loader"></app-dashoard-skeleton>
+<div *ngIf="!loader" class="card border-round-2xl">
+    <h5 class="font-bold">Details Du Quartier: {{ quartierDetails.libelle}}</h5>
+    <h5 class="font-bold">De la Commune: {{ quartierDetails.commune.libelle}}</h5>
 
 
-    <div class="flex justify-content-center gap-6 flex-wrap">
-        <section *ngIf="hasResidences == true">
-            <p-card *ngFor="let element in quartierDetails.residences" header="Advanced Card" subheader="Card Subheader" [style]="{ width: '360px' }">
-                <ng-template pTemplate="header">
-                    <img alt="Card" src="https://primefaces.org/cdn/primeng/images/usercard.png" />
-                </ng-template>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque
-                    quas!
-                </p>
-                <ng-template pTemplate="footer">
-                    <p-button label="Save" icon="pi pi-check"></p-button>
-                    <p-button label="Cancel" icon="pi pi-times" styleClass="p-button-secondary" [style]="{ 'margin-left': '.5em' }"></p-button>
-                </ng-template>
-            </p-card>
+    <h3 class="font-bold mb-6">Liste des Résidences du quartier</h3>
+
+
+    <div>
+        <section class="grid">
+            <div class="col-12 md:col-6 lg:col-3" *ngFor="let element of quartierDetails.residences">
+                <p-card  header=" {{element.description}}"  style="cursor: pointer;" routerLink="/administration/menage/details/{{element.id}}" >
+                    <ng-template pTemplate="header">
+                        <img alt="Card" src="../../../../assets/residences.jpeg" />
+                    </ng-template>
+                 
+                </p-card>
+            </div>
+          
         </section>
 
-        <section *ngIf="hasResidences == false">
+        <section *ngIf="quartierDetails.residences.length == 0">
            <h4>Aucune Résidence dans ce quartier</h4>
         </section>
     </div>

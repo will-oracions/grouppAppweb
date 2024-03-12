@@ -49,7 +49,7 @@ import { AccountService } from "./account.service";
   
     logout(){
       localStorage.clear();
-      this.router.navigateByUrl("/login");
+      this.router.navigateByUrl("/");
       this._isLoggedIn$.next(false);
 
   

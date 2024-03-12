@@ -26,7 +26,7 @@
                         class="p-button-secondary mr-2" pTooltip="PRINT" icon="pi pi-print" label="Imprimer"></button>
 
                     <p-button label="Ajouter un Quartier" icon="pi pi-plus" [style]="{ minHeight: '48px' }"
-                        iconPos="right" (click)="openCreateQuarterModal ()"></p-button>
+                        iconPos="right" (click)="add()"></p-button>
 
 
                 </div>
@@ -135,10 +135,10 @@
                         <td>
                             <div class="flex">
                                 <i class="pi pi-eye icon mr-3" routerLink="../details/{{item?.id}}"
-                                    style="font-size: 1.5rem"></i>
-                                <i class="pi pi-pencil icon mr-3" (click)="edit(item,data.branche.id)"
-                                    style="font-size: 1.5rem"></i>
-                                <i class="pi pi-trash icon" (click)="delete(item)" style="font-size: 1.5rem"></i>
+                                    style="font-size: 1.5rem; cursor: pointer"></i>
+                                <i class="pi pi-pencil icon mr-3" (click)="edit(item)"
+                                    style="font-size: 1.5rem; cursor: pointer"></i>
+                                <i class="pi pi-trash icon" (click)="opendeleteDialog(item)" style="font-size: 1.5rem; cursor: pointer"></i>
                             </div>
                         </td>
                     </tr>
@@ -155,18 +155,22 @@
         </div>
 
         <!-- Creation d'un nouveau quartier -->
-        <p-dialog [(visible)]="formState" header="Ajouter un quartier" [modal]="true" [style]="{ width: '450px' }">
+        <p-dialog [(visible)]="formState" header="{{formTitle}}" [modal]="true" [style]="{ width: '450px' }">
             <form class="flex flex-column" action="" [formGroup]="form">
                 <div class="mb-4">
                     <span>Libellé</span>
                     <input
+                    style="display: none;"
+                    class="p-inputtext-sm text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                    type="text" [(ngModel)]="temporaile.id" pInputText formControlName="id" />
+                    <input
                         class="p-inputtext-sm text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                        type="text" pInputText formControlName="libelle" placeholder="Nom du quartier" />
+                        type="text" pInputText [(ngModel)]="temporaile.libelle" formControlName="libelle" placeholder="Nom du quartier" />
                     <span class="erreur" *ngIf="libelle.touched && libelle.invalid" class="error">Ce champ est requis</span>
                 </div>
                 <div>
                     <span>Commune</span>
-                    <p-dropdown formControlName="idCommunes" [options]="communeData" optionLabel="libelle" optionValue="id"
+                    <p-dropdown formControlName="idCommunes" [(ngModel)]="temporaile.idCommunes" [options]="communeData" optionLabel="libelle" optionValue="id"
                         placeholder="Selectionner une commune" appendTo="body" filter="true"></p-dropdown>
                     <span class="erreur" *ngIf="idCommunes.touched && idCommunes.invalid" class="error">Ce champ est requis</span>
                 </div>
@@ -175,25 +179,32 @@
             <ng-template pTemplate="footer">
                 <button pButton pRipple icon="pi pi-times" class="p-button-secondary" label="Non" size="small"
                     (click)="formState = false"></button>
-                <button pButton pRipple size="small" icon="pi pi-check" class="p-button-primary" label="Ajouter"
+                <button pButton pRipple size="small" *ngIf="formTitle =='Ajouter une Quartier'" icon="pi pi-check" class="p-button-primary" label="Ajouter"
                     (click)="addQuarter()"></button>
+                    <button pButton pRipple size="small" *ngIf="formTitle =='Modifier une Quartier'" icon="pi pi-check" class="p-button-primary" label="Modifier"
+                    (click)="modifier()"></button>
             </ng-template>
         </p-dialog>
 
 
 
-        <p-dialog [(visible)]="deleteState" header="Suppression" [modal]="true" [style]="{ width: '450px' }">
+        <p-dialog [(visible)]="deleteDialog" header="Suppression" [modal]="true" [style]="{ width: '450px' }">
             <div class="flex align-items-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem; color: red"></i>
-                <span>Voulez-vous supprimer l'étudiant
-                    <b>{{ temporaile?.fullName }}</b>?</span>
+                <span>Voulez-vous supprimer le quartier
+                    <b>{{ temporaile?.libelle }}</b>?</span>
             </div>
             <ng-template pTemplate="footer">
                 <button pButton pRipple icon="pi pi-times" class="p-button-secondary" label="Non" size="small"
-                    (click)="deleteEtudiantDialog = false"></button>
+                    (click)="deleteDialog = false"></button>
                 <button pButton pRipple size="small" icon="pi pi-check" class="p-button-danger" label="oui , supprimer"
-                    (click)="confirmDeleteSelected()"></button>
+                    (click)="deleteQuartier()">
+                    <i *ngIf="state" class="pi pi-spin pi-spinner"></i>
+
+                </button>
             </ng-template>
         </p-dialog>
     </div>
 </div>
+
+<p-toast></p-toast>

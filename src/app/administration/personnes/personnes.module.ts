@@ -45,7 +45,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
     AvatarModule,
     AvatarGroupModule,
     MultiSelectModule,
-    
+    ToastModule,
   ]
 })
 export class PersonnesModule { }

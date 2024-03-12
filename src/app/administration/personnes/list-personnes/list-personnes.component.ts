@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { BreadcrumbService } from 'src/app/app.breadcrumb.service';
 import { FormService } from 'src/app/demo/service/base.service';
@@ -8,6 +8,7 @@ import { FormService } from 'src/app/demo/service/base.service';
 @Component({
   selector: 'app-list-personnes',
   templateUrl: './list-personnes.component.html',
+  providers: [MessageService, ConfirmationService],
   styleUrls: ['./list-personnes.component.scss']
 })
 export class ListPersonnesComponent {

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { BreadcrumbService } from 'src/app/app.breadcrumb.service';
 import { FormService } from 'src/app/demo/service/base.service';
@@ -7,12 +8,20 @@ import { FormService } from 'src/app/demo/service/base.service';
 @Component({
   selector: 'app-list-quartiers',
   templateUrl: './list-quartiers.component.html',
+  providers: [MessageService, ConfirmationService],
   styleUrls: ['./list-quartiers.component.scss']
 })
 export class ListQuartiersComponent {
   load: boolean = false;
   titlePage = 'Quartiers';
+  formTitle:any;
+  state: boolean = false;
+  deleteDialog: boolean = false;
+  formState: boolean = false;
+  deleteState = false;
 
+  communeData;
+  form: FormGroup;
   tableColumns = [
     { header: 'Libelle', field: 'libelle' },
   ];
@@ -27,14 +36,10 @@ export class ListQuartiersComponent {
   ];
 
   
-  deleteState = false;
-  formState = false;
 
-  communeData;
-  form: FormGroup;
   
   
-  constructor(private service: FormService, private fb: FormBuilder, private breadcrumbService: BreadcrumbService) { 
+  constructor(private service: FormService, private fb: FormBuilder, private breadcrumbService: BreadcrumbService,private messageService: MessageService,) { 
     this.breadcrumbService.setItems([
       { label: 'Liste Des Quartiers'},
   ]);
@@ -75,26 +80,23 @@ export class ListQuartiersComponent {
     });
   }
 
-
-
-  event(event: any) {
-    if (event == 'refresh') {
-
-      this.ngOnInit()
-    }
-
+  edit(val: any) {
+    this.temporaile= {};
+    this.formTitle = "Modifier une Quartier";
+      this.temporaile = { ...val };
+      this.formState = true;
   }
 
 
-  // Edit item...
-  edit() {
-    this.service.update('quartiers', this.form.value, this.temporaile.id);
-  }
 
 
-  // Delete item...
-  delete(itemIDs) {
 
+
+  add() {
+    this.temporaile= {};
+
+    this.formTitle = "Ajouter une Quartier";
+    this.formState = true;
   }
 
 
@@ -122,5 +124,58 @@ export class ListQuartiersComponent {
   }
   onGlobalFilter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+}
+//open delete Dialog
+
+async opendeleteDialog(val: any) {
+  this.temporaile = { ...val };
+  this.deleteDialog = true;
+
+}
+
+//editer quartier
+modifier(){
+  if (this.form.invalid) {
+    // Marquez tous les champs comme touchés pour afficher les erreurs
+    this.form.markAllAsTouched();
+  }else{
+    this.state = true
+    this.service.update("quartiers", this.form.value, this.form.value.id).subscribe({
+        next: value =>    console.log(value) ,
+        error: err => {
+                   this.state = false ,
+                   this.messageService.add({ severity: 'error', summary: 'Erreur', detail: err.message, life: 3000 });
+                },
+        complete: () =>      {
+          this.state = false; 
+          this.form.reset();
+          this.formState = false
+
+          this.ngOnInit();
+
+            this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Ajouté avec success', life: 3000 });
+        },
+
+    });
+  }
+}
+//supprimer un quartier
+
+deleteQuartier(){
+  this.state = true;
+  this.service.delete("quartiers"+"/"+this.temporaile.id).subscribe((result) => {
+    this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Supprimer avec success', life: 3000 });
+    this.state = false;
+
+    this.deleteDialog = false;
+    this.ngOnInit();
+    this.temporaile = {};
+
+  },
+  (error) =>{
+    this.messageService.add({ severity: 'error', summary: 'Erreur', detail: error.message, life: 5000 });
+    this.state = false;
+  })
+
 }
 }

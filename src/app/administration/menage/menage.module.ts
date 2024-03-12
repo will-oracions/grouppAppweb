@@ -10,6 +10,7 @@ import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { TableModule } from 'primeng/table';
+import { ToastModule } from 'primeng/toast';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { TableModule } from 'primeng/table';
     ReactiveFormsModule,
     FormsModule,
     DropdownModule,
-    ButtonModule
+    ButtonModule,
+    ToastModule
   ]
 })
 export class MenageModule { }
