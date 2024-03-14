@@ -36,7 +36,7 @@ import { AccountService } from "./account.service";
       return this.apiService.login(val).pipe(
         tap((response: any) => {
           this._isLoggedIn$.next(true);
-          localStorage.setItem(this.TOKEN_NAME, response.accessToken);
+          localStorage.setItem(this.TOKEN_NAME, response.token);
           this.user = this.getUser(response.token);
           console.log(this.user);
           this.router.navigateByUrl("/administration")

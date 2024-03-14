@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {CommonModule, HashLocationStrategy, LocationStrategy} from '@angular/common';
@@ -46,6 +46,7 @@ import { AppAccessdeniedComponent } from './utilities/app.accessdenied.component
 import { AppErrorComponent } from './utilities/app.error.component';
 import { AppNotfoundComponent } from './utilities/app.notfound.component';
 import { AppCodeModule } from './blocks/app-code/app.code.component';
+import { httpsqInterceptor } from './intercepteur/http.interceptor';
 
 @NgModule({
     imports: [
@@ -91,6 +92,7 @@ import { AppCodeModule } from './blocks/app-code/app.code.component';
 
     ],
     providers: [
+        {provide: HTTP_INTERCEPTORS, useClass:httpsqInterceptor,multi:true},
         {provide: LocationStrategy, useClass: HashLocationStrategy},
         CountryService, CustomerService, EventService, IconService, NodeService,
         PhotoService, ProductService, BreadcrumbService, MenuService,

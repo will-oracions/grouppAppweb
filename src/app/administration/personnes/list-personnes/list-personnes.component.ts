@@ -259,7 +259,28 @@ export class ListPersonnesComponent {
       this.formulaires.markAllAsTouched();
     }else{
       this.state = true
-      this.service.create("personnes", this.formulaires.value).subscribe({
+      const formData = {
+        id: this.formulaires.value.id,
+        nom: this.formulaires.value.nom,
+        date_naissance: this.formulaires.value.date_naissance,
+        statut: this.formulaires.value.statut,
+        region: this.formulaires.value.region,
+        sexe: this.formulaires.value.sexe,
+        is_cni: this.formulaires.value.is_cni,
+        is_actenaissance: this.formulaires.value.is_actenaissance,
+        is_autochtone: this.formulaires.value.is_autochtone,
+        is_handicape: this.formulaires.value.is_handicape,
+        is_chef_menage: this.formulaires.value.is_chef_menage,
+        idresidence: this.formulaires.value.idresidence,
+        vulnerabilite: this.formulaires.value.vulnerabilite,
+      };
+  
+      // Vérifier si le champ ParentId est vide
+      if (this.formulaires.value.parentId !== '') {
+        // Ajouter le champ ParendId à l'objet formData
+        formData['parentId'] = this.formulaires.value.parentId;
+      }
+      this.service.create("personnes", formData).subscribe({
           next: value =>    console.log(value) ,
           error: err => {
               console.error('Observable emitted an error: ' + err),
