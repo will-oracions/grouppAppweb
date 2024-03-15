@@ -21,6 +21,9 @@ import { AccountService } from "./account.service";
     get userName(): any {
       return localStorage.getItem("user");
     }
+    get userId(): any {
+      return localStorage.getItem("userId");
+    }
     get profile(): any {
       return localStorage.getItem("profile");
     }
@@ -38,11 +41,11 @@ import { AccountService } from "./account.service";
           this._isLoggedIn$.next(true);
           localStorage.setItem(this.TOKEN_NAME, response.token);
           this.user = this.getUser(response.token);
-          console.log(this.user);
+          localStorage.setItem("userId",this.user.UserId)
+
           this.router.navigateByUrl("/administration")
           localStorage.setItem("user", JSON.stringify(this.user));
           localStorage.setItem("role", JSON.stringify(this.user.role));
-          localStorage.setItem("info", JSON.stringify(response.profile));
         })
       );
     }

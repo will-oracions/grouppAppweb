@@ -117,7 +117,7 @@
                         </td>
                         <td>
                             <span class="p-column-title">Commune</span>
-                            {{ item?.commune.libelle }}
+                            {{ item?.commune.commune }}
                         </td>
                         <td>
                             <span class="p-column-title">Libelle</span>
@@ -146,7 +146,7 @@
                 <ng-template pTemplate="emptymessage">
                     <tr>
                         <td colspan="7" style="text-align: center" style="text-align: center">
-                            Aucun etudiant trouvé.
+                            Aucun quartier trouvé.
                         </td>
                     </tr>
                 </ng-template>
@@ -170,7 +170,7 @@
                 </div>
                 <div>
                     <span>Commune</span>
-                    <p-dropdown formControlName="idCommunes" [(ngModel)]="temporaile.idCommunes" [options]="communeData" optionLabel="libelle" optionValue="id"
+                    <p-dropdown formControlName="idCommunes" [(ngModel)]="temporaile.idCommunes" [options]="communeData" optionLabel="commune" optionValue="id"
                         placeholder="Selectionner une commune" appendTo="body" filter="true"></p-dropdown>
                     <span class="erreur" *ngIf="idCommunes.touched && idCommunes.invalid" class="error">Ce champ est requis</span>
                 </div>

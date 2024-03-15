@@ -14,16 +14,14 @@ export class ListCommuneComponent implements OnInit{
   load: boolean = false;
 
     tableColumns = [
-        { header: 'Code', field: 'code' },
-        { header: 'Libelle', field: 'libelle' },
+        { header: 'Commune', field: 'commune' },
       ];
 
       tableData = [
          ];
 
          formsFields = [
-          { name: 'code', label: 'Code', type: 'text', validators: [Validators.required] },
-            { name: 'libelle', label: 'Libelle', validators: [Validators.required] }
+            { name: 'commune', label: 'Commune', validators: [Validators.required] }
           ];
           constructor(private service: FormService, private breadcrumbService: BreadcrumbService){
             

@@ -30,7 +30,7 @@
                         class="p-button-secondary mr-2" pTooltip="PRINT" icon="pi pi-print" label="Imprimer"></button>
 
                     <p-button label="Ajouter une Residence" icon="pi pi-plus" [style]="{ minHeight: '48px' }"
-                        iconPos="right" (click)="formState = true"></p-button>
+                        iconPos="right" (click)="addDialog()"></p-button>
 
 
                 </div>
@@ -125,7 +125,7 @@
                         </td>
                         <td>
                             <span class="p-column-title">quartier</span>
-                            {{ item?.quartier.libelle }}
+                            {{ item?.quartier?.libelle }}
                         </td>
 
                         <td>
@@ -141,9 +141,9 @@
                             <div class="flex">
                                 <i class="pi pi-eye icon mr-3" routerLink="../details/{{item?.id}}"
                                     style="font-size: 1.5rem; cursor: pointer"></i>
-                                <i class="pi pi-pencil icon mr-3" (click)="edit(item,data.branche.id)"
+                                <i class="pi pi-pencil icon mr-3" (click)="edit(item)"
                                     style="font-size: 1.5rem;  cursor: pointer"></i>
-                                <i class="pi pi-trash icon" (click)="delete(item)" style="font-size: 1.5rem; cursor: pointer"></i>
+                                <i class="pi pi-trash icon" (click)="opendeleteDialog(item)" style="font-size: 1.5rem; cursor: pointer"></i>
                             </div>
                         </td>
                     </tr>
@@ -160,9 +160,14 @@
         </div>
 
         <!-- Creation d'un nouveau quartier -->
-        <p-dialog [(visible)]="formState" header="Ajouter un quartier" [modal]="true" [style]="{ width: '450px' }">
+        <p-dialog [(visible)]="formState" header="{{formTitle}}" [modal]="true" [style]="{ width: '450px' }">
             <form class="flex flex-column py-3" action="" [formGroup]="form">
-                
+                <input pInputText id="description" [ngModel]="temporaile?.id" formControlName="id" [style]="{
+                    width: '100%',
+                    borderRadius: '10px',
+                    minHeight: '48px',
+                    display: 'none'
+                }" />
                 
                 <div class="col">
 
@@ -218,12 +223,12 @@
 
             <ng-template pTemplate="footer">
                 <button pButton pRipple icon="pi pi-times" class="p-button-secondary" label="Non" size="small"
-                    (click)="formState = false"></button>
-                <button pButton pRipple size="small" [disabled]="state" icon="pi pi-check" class="p-button-primary" label="Ajouter"
-                    (click)="add()">
-                    <i *ngIf="state" class="pi pi-spin pi-spinner"></i>
+                (click)="formState = false"></button>
+            <button pButton pRipple size="small" *ngIf="formTitle =='Ajouter un Ménage'" icon="pi pi-check" class="p-button-primary" label="Ajouter"
+                (click)="addMenage()"></button>
+                <button pButton pRipple size="small" *ngIf="formTitle =='Modifier un Ménage'" icon="pi pi-check" class="p-button-primary" label="Modifier"
+                (click)="modifier()"></button>
 
-                </button>
             </ng-template>
         </p-dialog>
 
@@ -239,7 +244,7 @@
                 <button pButton pRipple icon="pi pi-times" class="p-button-secondary" label="Non" size="small"
                     (click)="deleteDialog = false"></button>
                 <button pButton pRipple size="small" icon="pi pi-check" class="p-button-danger" label="oui , supprimer"
-                    (click)="confirmDelete()"></button>
+                    (click)="deleteMenage()"></button>
             </ng-template>
         </p-dialog>
     </div>

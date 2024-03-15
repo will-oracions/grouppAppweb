@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { BreadcrumbService } from 'src/app/app.breadcrumb.service';
+import { AuthentificationsService } from 'src/app/demo/service/auth.service';
 import { FormService } from 'src/app/demo/service/base.service';
 
 @Component({
@@ -25,6 +26,7 @@ export class ListPersonnesComponent {
   deleteDialog: boolean = false;
   chefs: boolean = false;
   vulnerabilite:any;
+  utilisateurId:any;
   sexes = [
     { name: 'Masculin', code: 'MASCULIN' },
     { name: 'Feminin', code: 'FEMININ' },
@@ -35,18 +37,7 @@ export class ListPersonnesComponent {
     { code: "mort", libelle: "Décédé" },
 
   ];
-  regions = [
-    { code: "CE", libelle: "Centre" },
-    { code: "OU", libelle: "Ouest" },
-    { code: "ES", libelle: "Est" },
-    { code: "NRD", libelle: "Nord" },
-    { code: "Lit", libelle: "Littoral" },
-    { code: "SW", libelle: "Sud Ouest" },
-    { code: "NW", libelle: "Nord Ouest" },
-    { code: "SD", libelle: "Sud" },
-    { code: "NE", libelle: "Nord Est" },
-    { code: "SE", libelle: "Sud Est" },
-  ]
+  regions: any[] = []
   titlePage = "Liste des Personnes"
   tableColumns = [
     { header: 'Noms', field: 'noms' },
@@ -71,13 +62,14 @@ export class ListPersonnesComponent {
 
   ];
   constructor(private service: FormService,
-    private fb: FormBuilder, private messageService: MessageService, private breadcrumbService: BreadcrumbService
+    private fb: FormBuilder, private messageService: MessageService, private breadcrumbService: BreadcrumbService, private utilisateur: AuthentificationsService
   ) { 
     this.breadcrumbService.setItems([
       { label: 'Liste Des Personnes'},
   ]);
   }
   ngOnInit(): void {
+    this.utilisateurId = this.utilisateur.userId;
     this.cols = [
       { field: 'nom', header: 'Noms' },
       { field: 'date_naissance', header: 'Date de Naissance' },
@@ -90,7 +82,7 @@ export class ListPersonnesComponent {
       nom: ['', Validators.required],
       date_naissance: ['', Validators.required],
       statut: ['', Validators.required],
-      region: ['', Validators.required],
+      regionId: ['', Validators.required],
       sexe: ['', Validators.required],
       is_cni: [false],
       is_actenaissance: [false],
@@ -98,15 +90,22 @@ export class ListPersonnesComponent {
       is_handicape: [false],
       is_chef_menage: [false],
       idresidence: [""],
-      parentId: ["",Validators.required],
+      parentId: [""],
       vulnerabilite: [""],
+      utilisateurId: ["", Validators.required],
 
     });
     this.getAlls();
     this.getAllResidence();
     this.getAllChef();
     this.getAllVulnerabilite();
+    this.getAllRegion();
 
+
+  }
+
+  changeValidator(){
+    console.log("change")
     this.formulaires.get('is_chef_menage').valueChanges.subscribe((value) => {
       const perIdControl = this.formulaires.get('parentId');
       
@@ -120,7 +119,7 @@ export class ListPersonnesComponent {
 
       } else {
         perIdControl.setValue("");
-
+        console.log()
         perIdControl.setValidators([Validators.required]);
 
       }
@@ -135,7 +134,7 @@ export class ListPersonnesComponent {
   get nom() { return this.formulaires.get("nom"); }
   get date_naissance() { return this.formulaires.get("date_naissance"); }
   get statut() { return this.formulaires.get("statut"); }
-  get region() { return this.formulaires.get("region"); }
+  get regionid() { return this.formulaires.get("regionId"); }
   get sexe() { return this.formulaires.get("sexe"); }
   get is_cni() { return this.formulaire.get("is_cni"); }
   get is_actenaissance() { return this.formulaires.get("is_actenaissance"); }
@@ -188,6 +187,18 @@ export class ListPersonnesComponent {
       complete: () => { console.log("ok");},
     });
   }
+
+  getAllRegion() {
+    this.service.getAll("regions").subscribe({
+      next: value => {
+        this.regions = value;
+
+      },
+      error: err => console.error('Observable emitted an error: ' + err),
+      complete: () => { console.log("ok");},
+    });
+  }
+
 
   add() {
     this.temporaile= {};
@@ -254,6 +265,9 @@ export class ListPersonnesComponent {
     }
   }
   save(){
+    this.formulaires.value.utilisateurId = this.utilisateurId;
+    console.log(this.formulaires.value)
+
     if (this.formulaires.invalid) {
       // Marquez tous les champs comme touchés pour afficher les erreurs
       this.formulaires.markAllAsTouched();
@@ -264,7 +278,7 @@ export class ListPersonnesComponent {
         nom: this.formulaires.value.nom,
         date_naissance: this.formulaires.value.date_naissance,
         statut: this.formulaires.value.statut,
-        region: this.formulaires.value.region,
+        regionId: this.formulaires.value.regionId,
         sexe: this.formulaires.value.sexe,
         is_cni: this.formulaires.value.is_cni,
         is_actenaissance: this.formulaires.value.is_actenaissance,
@@ -273,6 +287,8 @@ export class ListPersonnesComponent {
         is_chef_menage: this.formulaires.value.is_chef_menage,
         idresidence: this.formulaires.value.idresidence,
         vulnerabilite: this.formulaires.value.vulnerabilite,
+        utilisateurId: this.formulaires.value.utilisateurId,
+
       };
   
       // Vérifier si le champ ParentId est vide

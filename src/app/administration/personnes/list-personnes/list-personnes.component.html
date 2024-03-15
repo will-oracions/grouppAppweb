@@ -198,6 +198,13 @@
                     display: 'none'
                 }" />
 
+                <input pInputText id="utilisateurId" [(ngModel)]="utilisateurId" formControlName="utilisateurId" [style]="{
+                    width: '100%',
+                    borderRadius: '10px',
+                    minHeight: '48px',
+                    display: 'none'
+                }" />
+
             <span class="p-float-label">
                 <input pInputText id="noms" [ngModel]="temporaile?.nom" formControlName="nom" [style]="{
                         width: '100%',
@@ -284,15 +291,15 @@
         </div>
         <div class="col">
             <span class="p-float-label">
-                <p-dropdown formControlName="region"
+                <p-dropdown formControlName="regionId"
                  [options]="regions"
-                 optionLabel="libelle"
-                 optionValue="libelle"
+              
 
-                [(ngModel)]="temporaile.region"
+                [(ngModel)]="temporaile.regionId"
                  appendTo="body"
                  id="region"
-                 optionValue="libelle"
+                 optionValue="id"
+                 optionLabel="region"
                    [style]="{
                     width: '100%',
                     borderRadius: '10px',
@@ -304,8 +311,8 @@
                         font-weight: bold;
                         color: rgb(73, 73, 73);
                     " for="role">Region *</label>
-                <div *ngIf="region.touched && region.invalid" class="erreur">
-                    <div *ngIf="region.errors.required">
+                <div *ngIf="regionid.touched && regionid.invalid" class="erreur">
+                    <div *ngIf="regionid.errors.required">
                         La region est requise.
                     </div>
 
@@ -404,7 +411,7 @@
         <div class="col">
             <p-checkbox label="Etes vous chef de ménage ?" [binary]="true" name="estNouveau"
             [(ngModel)]="temporaile.is_chef_menage"
-
+            (onChange)="changeValidator()"
             formControlName="is_chef_menage"></p-checkbox>
         </div>
         <div class="col">

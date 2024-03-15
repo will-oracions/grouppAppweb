@@ -51,19 +51,7 @@ dataKey="id"
                 [style]="{ minHeight: '48px' }"
                 iconPos="right"
             ></p-button>
-                <i
-                    class="pi pi-file"
-                    (click)="dt.exportCSV()"
-                    pTooltip="CSV"
-                    tooltipPosition="bottom"
-                    style="
-                        font-size: 1.5rem;
-                        cursor: pointer;
-                        margin-right: 13px;
-                        color: #757575;
-                        margin-left: 13px;
-                    "
-                ></i>
+
         </div>
         </div>
        
@@ -111,7 +99,7 @@ dataKey="id"
           {{ col.header }}
 
       </th>
-      <th>
+      <th *ngIf="option[1] == 'R' ">
         Action
       </th>
   </tr>
@@ -126,7 +114,7 @@ dataKey="id"
           {{ item[col.field] }}
         </ng-container>
       </td>
-      <td>
+      <td *ngIf="option[1] == 'R' ">
         <div class="flex">
             <i
             *ngIf="option[1] == 'R' "

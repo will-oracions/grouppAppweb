@@ -12,6 +12,12 @@ const routes: Routes = [
         { path: 'communes',
             loadChildren:() =>import('./communes/communes.module')
             .then(mod=>mod.CommunesModule)},
+            { path: 'departements',
+            loadChildren:() =>import('./departement/departement.module')
+            .then(mod=>mod.DepartementModule)},
+            { path: 'regions',
+            loadChildren:() =>import('./region/region.module')
+            .then(mod=>mod.RegionModule)},
             { path: 'menage',
             loadChildren:() =>import('./menage/menage.module')
             .then(mod=>mod.MenageModule)},

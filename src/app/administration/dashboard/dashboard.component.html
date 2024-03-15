@@ -85,6 +85,8 @@
                             <th class="country">Noms</th>
                             <th>Sexe</th>
                             <th>Region</th>
+                            <th>Quartier</th>
+                            <th>Enregistrés Par</th>
 
                         </tr>
                     </thead>
@@ -94,8 +96,10 @@
                             <td class="country">
                                 <span>{{data.nom}} </span>
                             </td>
-                            <td>{{data.sexe}}</td>
-                            <td>{{data.region}}</td>
+                            <td>{{data?.sexe}}</td>
+                            <td>{{data?.region?.region}}</td>
+                            <td>{{data?.residence?.quartier?.libelle}}</td>
+                            <td>{{data?.utilisateur?.username}}</td>
 
                         </tr>
 
@@ -114,6 +118,12 @@
 
             </div>
     </div>
+            </p-panel>
+        </div>
+        <div class="col-12 md:col-12 lg:col-12 xl:col-6">
+            <p-panel header="Statistique des Personne Par Regions" styleClass="global-sales">
+                <p-chart type="bar" [data]="basicData" [options]="basicOptions"></p-chart>
+
             </p-panel>
         </div>
 

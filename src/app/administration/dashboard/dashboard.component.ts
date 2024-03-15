@@ -56,7 +56,8 @@ export class DashboardComponent {
   etudiantInscritChart: any;
   etudiantInsolvableChart: any;
   etudiantRattrapageChart: any;
-
+  basicOptions:any;
+  basicData: any;
   options: any;
   fullcalendarOptions: any;
   constructor(private productService: ProductService, private eventService: EventService, private breadcrumbService: BreadcrumbService, private service: FormService) {
@@ -90,6 +91,58 @@ export class DashboardComponent {
               }
           }
       };
+
+
+
+
+      const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
+      const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+
+
+      this.basicOptions = {
+          plugins: {
+              legend: {
+                  labels: {
+                      color: textColor
+                  }
+              }
+          },
+          scales: {
+              y: {
+                  beginAtZero: true,
+                  ticks: {
+                      color: textColorSecondary
+                  },
+                  grid: {
+                      color: surfaceBorder,
+                      drawBorder: false
+                  }
+              },
+              x: {
+                  ticks: {
+                      color: textColorSecondary
+                  },
+                  grid: {
+                      color: surfaceBorder,
+                      drawBorder: false
+                  }
+              }
+          }
+      };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       this.productService.getProducts().then(data => this.products = data);
       this.eventService.getEvents().then(events => {
           this.events = events;
@@ -111,7 +164,20 @@ export class DashboardComponent {
         datasets: [
             {
                 data: state.vulnerabiliteState.map((item: any) => item.nombre),
-                backgroundColor: [documentStyle.getPropertyValue('--blue-500'), documentStyle.getPropertyValue('--yellow-500'), documentStyle.getPropertyValue('--green-500'), documentStyle.getPropertyValue('--orange-500'),, documentStyle.getPropertyValue('--green-500')],
+                backgroundColor: [documentStyle.getPropertyValue('--blue-500'), documentStyle.getPropertyValue('--yellow-500'), documentStyle.getPropertyValue('--green-500'), documentStyle.getPropertyValue('--orange-500'), documentStyle.getPropertyValue('--green-500')],
+            }
+        ]
+    };
+    
+    this.basicData = {
+        labels: state.personnesParRegions.map((item: any) => item.region),
+        datasets: [
+            {
+                label: 'Statistiques',
+                data: state.personnesParRegions.map((item: any) => item.numPeople),
+                backgroundColor: ['rgba(255, 159, 64, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(153, 102, 255, 0.2)',documentStyle.getPropertyValue('--blue-500'), documentStyle.getPropertyValue('--yellow-500'), documentStyle.getPropertyValue('--green-500'), documentStyle.getPropertyValue('--orange-500'), documentStyle.getPropertyValue('--green-500')],
+                borderColor: ['rgb(255, 159, 64)', 'rgb(75, 192, 192)', 'rgb(54, 162, 235)', 'rgb(153, 102, 255)'],
+                borderWidth: 1
             }
         ]
     };

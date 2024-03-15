@@ -14,13 +14,14 @@ import { FormService } from 'src/app/demo/service/base.service';
 export class ListMenagesComponent {
   load: boolean = false;
   form: FormGroup;
-
+  formTitle:any;
   state:boolean =false;
-  titlePage = 'Liste des Residences';
+  titlePage = 'Liste des Résidences';
   deleteDialog: boolean = false;
   formState: boolean = false;
   temporaile:any = {};
   cols=[];
+
   quartiers:any;
     tableColumns = [
         { header: 'Name', field: 'name' },
@@ -35,7 +36,7 @@ export class ListMenagesComponent {
       constructor(private service: FormService, private fb: FormBuilder, private messageService: MessageService, private breadcrumbService: BreadcrumbService){
 
         this.breadcrumbService.setItems([
-          { label: 'Liste Des Menages'},
+          { label: 'Liste Des Ménages'},
       ]);
       }
       ngOnInit(): void {
@@ -97,13 +98,109 @@ export class ListMenagesComponent {
               });
             }
       }
-      confirmDelete(){
 
-      }
       printListe(){
 
       }
       onGlobalFilter(table: Table, event: Event) {
         table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
     }
+
+    edit(val: any) {
+      this.temporaile= {};
+      this.formTitle = "Modifier un Ménage";
+        this.temporaile = { ...val };
+        this.formState = true;
+    }
+
+    addDialog() {
+      this.temporaile= {};
+  
+      this.formTitle = "Ajouter un Ménage";
+      this.formState = true;
+    }
+  
+  
+    //open delete Dialog
+
+async opendeleteDialog(val: any) {
+  this.temporaile = { ...val };
+  this.deleteDialog = true;
+
+}
+
+    //editer quartier
+modifier(){
+  if (this.form.invalid) {
+    // Marquez tous les champs comme touchés pour afficher les erreurs
+    this.form.markAllAsTouched();
+  }else{
+    this.state = true
+    this.service.update("residence", this.form.value, this.form.value.id).subscribe({
+        next: value =>    console.log(value) ,
+        error: err => {
+                   this.state = false ,
+                   this.messageService.add({ severity: 'error', summary: 'Erreur', detail: err.message, life: 3000 });
+                },
+        complete: () =>      {
+          this.state = false; 
+          this.form.reset();
+          this.formState = false
+
+          this.ngOnInit();
+
+            this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Ajouté avec success', life: 3000 });
+        },
+
+    });
+  }
+}
+//supprimer un quartier
+
+deleteMenage(){
+  this.state = true;
+  this.service.delete("residence"+"/"+this.temporaile.id).subscribe((result) => {
+    this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Supprimer avec success', life: 3000 });
+    this.state = false;
+
+    this.deleteDialog = false;
+    this.ngOnInit();
+    this.temporaile = {};
+
+  },
+  (error) =>{
+    this.messageService.add({ severity: 'error', summary: 'Erreur', detail: error.message, life: 5000 });
+    this.state = false;
+  })
+
+}
+addMenage() {
+  if (this.form.invalid) {
+    // Marquez tous les champs comme touchés pour afficher les erreurs
+    this.form.markAllAsTouched();
+  }else{
+    this.state = true
+
+
+
+    this.service.create("residence", this.form.value).subscribe({
+        next: value =>    console.log(value) ,
+        error: err => {
+            console.error('Observable emitted an error: ' + err),
+                   this.state = false ,
+                   this.messageService.add({ severity: 'error', summary: 'Erreur', detail: err.message, life: 3000 });
+                },
+        complete: () =>      {
+          this.state = false; 
+          this.form.reset();
+          this.formState = false
+
+          this.ngOnInit();
+
+            this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Ajouté avec success', life: 3000 });
+        },
+
+    });
+  }
+}
 }
