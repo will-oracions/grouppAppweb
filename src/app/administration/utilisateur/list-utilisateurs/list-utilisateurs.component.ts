@@ -92,7 +92,7 @@ export class ListUtilisateursComponent implements OnInit {
   async opendeleteDialog(val: any) {
     this.temporaile = { ...val };
     this.deleteDialog = true;
-
+    console.log(this.temporaile)
   }
   //delete Users
   deleteUsers() {
