@@ -1,0 +1,150 @@
+<style>
+    .lookup-filter-container {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+    }
+
+    .lookup-dropdown-wrapper {
+        flex: 1;
+        margin-right: 0.4rem;
+    }
+
+    .lookup-input-wrapper {
+        width: 100%;
+    }
+
+    .lookup-input-wrapper input {
+        width: 100%;
+    }
+
+    .lookup-input-container {
+        display: flex;
+    }
+
+    .secondaires-lookup-filters {
+        width: 100%;
+        background: #eee;
+        height: 400px;
+    }
+
+    .lookup-content {
+        max-width: 100vw;
+        display: grid;
+        grid-template-columns: 200px 1fr;
+        padding: 1rem 0;
+    }
+
+    .lookup-content aside {
+        padding-top: 1rem;
+        padding-left: 0.5em;
+    }
+
+    .lookup-content aside h4 {
+        margin-bottom: 2rem;
+    }
+
+    .lookup-content section {
+        margin-left: 1rem;
+    }
+
+    @media screen and (max-width: 500px) {
+        .lookup-filter-container {
+            flex-direction: column;
+        }
+
+        .lookup-dropdown-wrapper {
+            margin-bottom: 0.5rem;
+        }
+
+        .lookup-content {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<h1>Rechercher</h1>
+
+<div class="lookup-filter-container">
+    <div class="lookup-dropdown-wrapper">
+        <app-lookup-dropdown
+            optionLabel="name"
+            placeholder="Région"
+        ></app-lookup-dropdown>
+    </div>
+    <div class="lookup-dropdown-wrapper">
+        <app-lookup-dropdown
+            optionLabel="name"
+            placeholder="Région"
+        ></app-lookup-dropdown>
+    </div>
+    <div class="lookup-dropdown-wrapper">
+        <app-lookup-dropdown
+            optionLabel="name"
+            placeholder="Région"
+        ></app-lookup-dropdown>
+    </div>
+    <div class="lookup-dropdown-wrapper">
+        <app-lookup-dropdown
+            optionLabel="name"
+            placeholder="Région"
+        ></app-lookup-dropdown>
+    </div>
+    <div class="lookup-dropdown-wrapper">
+        <app-lookup-dropdown
+            optionLabel="name"
+            placeholder="Région"
+        ></app-lookup-dropdown>
+    </div>
+</div>
+
+<div class="lookup-input-container">
+    <span class="lookup-input-wrapper p-input-icon-left">
+        <i [style]="{ minHeight: '48px' }" class="pi pi-search"></i>
+        <!-- [(ngModel)]="value" -->
+        <input
+            width="100%"
+            type="text"
+            [style]="{ minHeight: '48px' }"
+            pInputText
+            placeholder="Rechercher ménages, personnes "
+        />
+    </span>
+    <p-button
+        label="Rechercher"
+        icon="pi pi-plus"
+        [style]="{ minHeight: '48px' }"
+        iconPos="right"
+    ></p-button>
+</div>
+
+<main class="lookup-content">
+    <aside class="secondaires-lookup-filters">
+        <h4>Filtre secondaires</h4>
+
+        <div class="lookup-dropdown-wrapper">
+            <app-lookup-dropdown
+                optionLabel="name"
+                placeholder="Région"
+            ></app-lookup-dropdown>
+        </div>
+        <div class="lookup-dropdown-wrapper">
+            <app-lookup-dropdown
+                optionLabel="name"
+                placeholder="Région"
+            ></app-lookup-dropdown>
+        </div>
+        <div class="lookup-dropdown-wrapper">
+            <app-lookup-dropdown
+                optionLabel="name"
+                placeholder="Région"
+            ></app-lookup-dropdown>
+        </div>
+    </aside>
+
+    <section>
+        <div>
+            <app-lookup-results></app-lookup-results>
+        </div>
+    </section>
+</main>

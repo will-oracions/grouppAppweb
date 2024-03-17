@@ -1,12 +1,12 @@
-import { Component } from '@angular/core';
-import { PrimeNGConfig } from 'primeng/api';
-import { AppComponent } from '../app.component';
-import { MenuService } from '../app.menu.service';
+import { Component } from "@angular/core";
+import { PrimeNGConfig } from "primeng/api";
+import { AppComponent } from "../app.component";
+import { MenuService } from "../app.menu.service";
 
 @Component({
-  selector: 'app-application',
-  templateUrl: './application.component.html',
-  styleUrls: ['./application.component.scss']
+    selector: "app-application",
+    templateUrl: "./application.component.html",
+    styleUrls: ["./application.component.scss"],
 })
 export class ApplicationComponent {
     topbarMenuActive: boolean;
@@ -33,7 +33,11 @@ export class ApplicationComponent {
 
     configClick: boolean;
 
-    constructor(private menuService: MenuService, private primengConfig: PrimeNGConfig, public app: AppComponent) {}
+    constructor(
+        private menuService: MenuService,
+        private primengConfig: PrimeNGConfig,
+        public app: AppComponent
+    ) {}
 
     ngOnInit() {
         this.primengConfig.ripple = true;
@@ -135,19 +139,19 @@ export class ApplicationComponent {
     }
 
     isHorizontal() {
-        return this.app.menuMode === 'horizontal';
+        return this.app.menuMode === "horizontal";
     }
 
     isSlim() {
-        return this.app.menuMode === 'slim';
+        return this.app.menuMode === "slim";
     }
 
     isOverlay() {
-        return this.app.menuMode === 'overlay';
+        return this.app.menuMode === "overlay";
     }
 
     isStatic() {
-        return this.app.menuMode === 'static';
+        return this.app.menuMode === "static";
     }
 
     isMobile() {

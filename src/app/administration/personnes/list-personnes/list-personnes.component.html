@@ -2,36 +2,58 @@
 
 <div class="grid">
     <div class="col-12">
-        <app-skelleton *ngIf="load" [table]="['Noms', 'Prenoms', 'Date de Naissance', 'Region', 'Genre']" title="Liste Des Personnes"></app-skelleton>
+        <app-skelleton
+            *ngIf="load"
+            [table]="[
+                'Noms',
+                'Prenoms',
+                'Date de Naissance',
+                'Region',
+                'Genre'
+            ]"
+            title="Liste Des Personnes"
+        ></app-skelleton>
 
         <div *ngIf="!load" class="card border-round-2xl">
+            <div class="col flex justify-content-between align-items-center">
+                <div class="justify-content-center flex align-items-center">
+                    <i
+                        class="pi pi-fw pi-users"
+                        style="font-size: xxx-large; color: #0e3f6a"
+                    ></i>
 
-
-                <div class="col flex justify-content-between align-items-center">
-                    <div class="justify-content-center flex align-items-center">
-                        <i class="pi pi-fw pi-users" style="font-size: xxx-large;color: #0e3f6a;"></i>
-
-                        <h3 style="
-                    font-weight: bold;
-                    color: #0e3f6a;
-                    white-space: nowrap !important;
-                ">
-                                           {{ titlePage }}
-                        </h3>
-                    </div>
-                    <div class="flex align-content-center align-items-center">
-             
-           
-                        <button type="button" [style]="{minHeight: '48px'}" pButton pRipple  (click)="printListe()" class="p-button-secondary mr-2" pTooltip="PRINT" icon="pi pi-print" label="Imprimer"></button>
-                        <p-button label="Ajouter une Personne" icon="pi pi-plus" [style]="{ minHeight: '48px' }"
-                            iconPos="right" (click)="add()"></p-button>
-              
-                           
+                    <h3
+                        style="
+                            font-weight: bold;
+                            color: #0e3f6a;
+                            white-space: nowrap !important;
+                        "
+                    >
+                        {{ titlePage }}
+                    </h3>
+                </div>
+                <div class="flex align-content-center align-items-center">
+                    <button
+                        type="button"
+                        [style]="{ minHeight: '48px' }"
+                        pButton
+                        pRipple
+                        (click)="printListe()"
+                        class="p-button-secondary mr-2"
+                        pTooltip="PRINT"
+                        icon="pi pi-print"
+                        label="Imprimer"
+                    ></button>
+                    <p-button
+                        label="Ajouter une Personne"
+                        icon="pi pi-plus"
+                        [style]="{ minHeight: '48px' }"
+                        iconPos="right"
+                        (click)="add()"
+                    ></p-button>
+                </div>
             </div>
 
-        </div>
-
- 
             <p-table
                 #dt
                 [value]="tableData"
@@ -45,452 +67,602 @@
                     'region',
                     'sexe',
                     'est chef de famille ?'
-                ]" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10, 20, 30]" [showCurrentPageReport]="true"
-                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                        [rowHover]="true" dataKey="id">
-                        <ng-template pTemplate="caption">
-                            <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-                                <div style="width: 100%">
-                                    <div style="width: 100%; display: flex">
-                                        <div style="width: 94% !important">
-                                            <span class="block mt-2 md:mt-0 p-input-icon-left">
-                                                <i class="pi pi-search"></i>
-                                                <input pInputText type="text" class="input" style="
+                ]"
+                [rows]="10"
+                [paginator]="true"
+                [rowsPerPageOptions]="[10, 20, 30]"
+                [showCurrentPageReport]="true"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [rowHover]="true"
+                dataKey="id"
+            >
+                <ng-template pTemplate="caption">
+                    <div
+                        class="flex flex-column md:flex-row md:justify-content-between md:align-items-center"
+                    >
+                        <div style="width: 100%">
+                            <div style="width: 100%; display: flex">
+                                <div style="width: 94% !important">
+                                    <span
+                                        class="block mt-2 md:mt-0 p-input-icon-left"
+                                    >
+                                        <i class="pi pi-search"></i>
+                                        <input
+                                            pInputText
+                                            type="text"
+                                            class="input"
+                                            style="
                                                 width: 100% !important;
                                                 border-radius: 20px !important;
                                                 border-color: cornflowerblue;
 
                                                 min-height: 48px !important;
-                                            " (input)="onGlobalFilter(dt, $event)" placeholder="Rechercher..."
-                                                    class="w-full sm:w-auto" />
-                                            </span>
-                                        </div>
+                                            "
+                                            (input)="onGlobalFilter(dt, $event)"
+                                            placeholder="Rechercher..."
+                                            class="w-full sm:w-auto"
+                                        />
+                                    </span>
+                                </div>
 
-                                        <div
-                                            class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-               
-
-                                            <i class="pi pi-file-excel" (click)="exportExcel()" pTooltip="XLS"
-                                                tooltipPosition="bottom" style="
+                                <div
+                                    class="flex flex-column md:flex-row md:justify-content-between md:align-items-center"
+                                >
+                                    <i
+                                        class="pi pi-file-excel"
+                                        (click)="exportExcel()"
+                                        pTooltip="XLS"
+                                        tooltipPosition="bottom"
+                                        style="
                                             font-size: 1.5rem;
                                             cursor: pointer;
 
                                             margin-right: 13px;
                                             color: #757575;
-                                        "></i>
-
-                                        </div>
-                                    </div>
+                                        "
+                                    ></i>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </ng-template>
 
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>#</th>
+                        <th pSortableColumn="nom">
+                            Noms
+                            <p-sortIcon field="nom"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="date_naissance">
+                            Date de Naissance<p-sortIcon
+                                field="date_naissance"
+                            ></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="statut">
+                            Statut
+                            <p-sortIcon field="statut"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="sexe">
+                            Sexe <p-sortIcon field="sexe"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="is_chef_menage">
+                            Est chef de famille ?<p-sortIcon
+                                field="is_chef_menage"
+                            ></p-sortIcon>
+                        </th>
 
-                        </ng-template>
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item let-i="rowIndex">
+                    <tr>
+                        <td style="width: 5%; min-width: 3rem">
+                            {{ i + 1 }}
+                        </td>
+                        <td>
+                            <span class="p-column-title">Noms</span>
+                            {{ item?.nom }}
+                        </td>
+                        <td>
+                            <span class="p-column-title"
+                                >Date de naissance</span
+                            >
+                            {{ item?.date_naissance | date : "MMM, dd yyyy" }}
+                        </td>
+                        <td>
+                            <span class="p-column-title">statut</span>
+                            <p-tag
+                                [severity]="
+                                    item.statut == 'En vie'
+                                        ? 'success'
+                                        : 'danger'
+                                "
+                                [value]="item?.statut"
+                            ></p-tag>
+                        </td>
+                        <td>
+                            <span class="p-column-title">sexe</span>
+                            {{ item?.sexe }}
+                        </td>
+                        <td>
+                            <span class="p-column-title">is_chef_menage</span>
+                            <p-tag
+                                [severity]="
+                                    item.is_chef_menage == true
+                                        ? 'primary'
+                                        : 'info'
+                                "
+                                [value]="
+                                    item.is_chef_menage == true ? 'Oui' : 'Non'
+                                "
+                            ></p-tag>
+                        </td>
 
-                        <ng-template pTemplate="header">
-
-                            <tr>
-                                <th>#</th>
-                                <th pSortableColumn="nom">
-                                    Noms
-                                    <p-sortIcon field="nom"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="date_naissance">
-                                    Date de Naissance<p-sortIcon field="date_naissance"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="statut">
-                                    Statut
-                                    <p-sortIcon field="statut"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="sexe">
-                                    Sexe <p-sortIcon field="sexe"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="is_chef_menage">
-                                    Est chef de famille ?<p-sortIcon field="is_chef_menage"></p-sortIcon>
-                                </th>
-                           
-                                <th></th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-item let-i="rowIndex">
-                            <tr>
-                                <td style="width: 5%; min-width: 3rem">
-                                    {{ i + 1 }}
-                                </td>
-                                <td>
-                                    <span class="p-column-title">Noms</span>
-                                    {{ item?.nom }}
-                                </td>
-                                <td>
-                                    <span class="p-column-title">Date de naissance</span>
-                                    {{ item?.date_naissance | date:"MMM, dd yyyy" }}
-                                </td>
-                                <td>
-                                    <span class="p-column-title">statut</span>
-                                    <p-tag [severity]="item.statut == 'En vie' ? 'success' : 'danger'"  [value]= item?.statut></p-tag>
-
-                                </td>
-                                <td>
-                                    <span class="p-column-title">sexe</span>
-                                    {{ item?.sexe }}
-                                </td>
-                                <td>
-                                    <span class="p-column-title">is_chef_menage</span>
-                                    <p-tag [severity]="item.is_chef_menage == true ? 'primary' : 'info'"  [value]= "item.is_chef_menage == true ? 'Oui' : 'Non'"></p-tag>
-
-                                </td>
-                 
-                                <td>
-                                    <div class="flex">
-                                        <i class="pi pi-eye icon mr-3"  routerLink="../details/{{item.id}}"
-                                            style="font-size: 1.5rem; cursor: pointer;"></i>
-                                        <i class="pi pi-pencil icon mr-3" (click)="edit(item)"
-                                            style="font-size: 1.5rem; cursor: pointer"></i>
-                                        <i class="pi pi-trash icon" (click)="opendeleteDialog(item)"
-                                            style="font-size: 1.5rem; cursor: pointer"></i>
-                                    </div>
-                                </td>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="emptymessage">
-                            <tr>
-                                <td colspan="7" style="text-align: center" style="text-align: center">
-                                    Aucune personne trouvée.
-                                </td>
-                            </tr>
-                        </ng-template>
-                    </p-table>
-          
+                        <td>
+                            <div class="flex">
+                                <i
+                                    class="pi pi-eye icon mr-3"
+                                    routerLink="../details/{{ item.id }}"
+                                    style="font-size: 1.5rem; cursor: pointer"
+                                ></i>
+                                <i
+                                    class="pi pi-pencil icon mr-3"
+                                    (click)="edit(item)"
+                                    style="font-size: 1.5rem; cursor: pointer"
+                                ></i>
+                                <i
+                                    class="pi pi-trash icon"
+                                    (click)="opendeleteDialog(item)"
+                                    style="font-size: 1.5rem; cursor: pointer"
+                                ></i>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td
+                            colspan="7"
+                            style="text-align: center"
+                            style="text-align: center"
+                        >
+                            Aucune personne trouvée.
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
         </div>
-     
 
-      
-
-        <p-dialog [(visible)]="deleteDialog" header="Suppression" [modal]="true" [style]="{ width: '450px' }">
+        <p-dialog
+            [(visible)]="deleteDialog"
+            header="Suppression"
+            [modal]="true"
+            [style]="{ width: '450px' }"
+        >
             <div class="flex align-items-center">
-                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem; color: red"></i>
-                <span>Voulez-vous supprimer la personne
-                    <b>{{ temporaile?.nom }}</b>?</span>
+                <i
+                    class="pi pi-exclamation-triangle mr-3"
+                    style="font-size: 2rem; color: red"
+                ></i>
+                <span
+                    >Voulez-vous supprimer la personne
+                    <b>{{ temporaile?.nom }}</b
+                    >?</span
+                >
             </div>
             <ng-template pTemplate="footer">
-                <button pButton pRipple icon="pi pi-times" class="p-button-secondary" label="Non" size="small"
-                    (click)="deleteDialog = false"></button>
-                <button pButton pRipple size="small" icon="pi pi-check" class="p-button-danger" label="oui , supprimer"
-                    (click)="deletePersonne()">
+                <button
+                    pButton
+                    pRipple
+                    icon="pi pi-times"
+                    class="p-button-secondary"
+                    label="Non"
+                    size="small"
+                    (click)="deleteDialog = false"
+                ></button>
+                <button
+                    pButton
+                    pRipple
+                    size="small"
+                    icon="pi pi-check"
+                    class="p-button-danger"
+                    label="oui , supprimer"
+                    (click)="deletePersonne()"
+                >
                     <i *ngIf="state" class="pi pi-spin pi-spinner"></i>
-
                 </button>
             </ng-template>
         </p-dialog>
     </div>
 </div>
 
-
-<p-dialog [(visible)]="addEdit" header="{{ formTitle }}" [modal]="true"
-[style]="{ minWidth: '60%', borderRadius: '40px' }" [draggable]="false" [resizable]="false">
-<form [formGroup]="formulaires" class="pt-2">
-    <div class="col-12 flex">
-        <div class="col-6">
-            <input pInputText id="is" [(ngModel)]="temporaile.id" formControlName="id" [style]="{
-                    width: '100%',
-                    borderRadius: '10px',
-                    minHeight: '48px',
-                    display: 'none'
-                }" />
-
-                <input pInputText id="utilisateurId" [(ngModel)]="utilisateurId" formControlName="utilisateurId" [style]="{
-                    width: '100%',
-                    borderRadius: '10px',
-                    minHeight: '48px',
-                    display: 'none'
-                }" />
-
-            <span class="p-float-label">
-                <input pInputText id="noms" [ngModel]="temporaile?.nom" formControlName="nom" [style]="{
+<p-dialog
+    [(visible)]="addEdit"
+    header="{{ formTitle }}"
+    [modal]="true"
+    [style]="{ minWidth: '60%', borderRadius: '40px' }"
+    [draggable]="false"
+    [resizable]="false"
+>
+    <form [formGroup]="formulaires" class="pt-2">
+        <div class="col-12 flex">
+            <div class="col-6">
+                <input
+                    pInputText
+                    id="is"
+                    [(ngModel)]="temporaile.id"
+                    formControlName="id"
+                    [style]="{
                         width: '100%',
                         borderRadius: '10px',
-                        minHeight: '48px'
-                    }" />
-                <label style="
-                        font-weight: bold;
-                        color: rgb(73, 73, 73);
-                    " for="noms">Noms *</label>
-                <div *ngIf="nom.touched && nom.invalid" class="erreur">
-                    <div *ngIf="nom.errors.required">
-                        Le nom est requis.
-                    </div>
-                </div>
-            </span>
-        </div>
-        <div class="col-6">
-            <span class="p-float-label">
-                <p-calendar
-                [style]="{
-                    width: '100%',
-                    borderRadius: '10px',
-                    minHeight: '48px'
-                }"
-                id="date"
-                appendTo="body"
+                        minHeight: '48px',
+                        display: 'none'
+                    }"
+                />
 
-                [(ngModel)]="temporaile.date_naissance" formControlName="date_naissance"></p-calendar>
+                <input
+                    pInputText
+                    id="utilisateurId"
+                    [(ngModel)]="utilisateurId"
+                    formControlName="utilisateurId"
+                    [style]="{
+                        width: '100%',
+                        borderRadius: '10px',
+                        minHeight: '48px',
+                        display: 'none'
+                    }"
+                />
 
-                <label style="
-                        font-weight: bold;
-                        color: rgb(73, 73, 73);
-                    " for="date">Date de naissance</label>
-                        <div *ngIf="date_naissance.touched && date_naissance.invalid" class="erreur">
-                            <div *ngIf="date_naissance.errors.required">
-                                La date de naissance est requis.
-                            </div>
-                        </div>
-            </span>
-        </div>
-    </div>
-    <div class="col-12 flex">
-
-
-        <div class="col flex">
-            <div class="col-12">
                 <span class="p-float-label">
-                    <p-dropdown
-                        [options]="statuts"
-                        optionLabel="libelle"
-                        optionValue="libelle"
-                        appendTo="body"
-                        id="statut"
-                        [ngModel]="temporaile?.statut"
+                    <input
+                        pInputText
+                        id="noms"
+                        [ngModel]="temporaile?.nom"
+                        formControlName="nom"
                         [style]="{
                             width: '100%',
                             borderRadius: '10px',
                             minHeight: '48px'
-                        }" formControlName="statut" [showClear]="true"
-                        placeholder="Selectionner le statut">
-                    </p-dropdown>
-
-                    <label style="
-                            font-weight: bold;
-                            color: rgb(73, 73, 73);
-                        " for="statut">Statut *</label>
-                    <div *ngIf="
-                            statut.touched &&
-                            statut.invalid
-                        " class="erreur">
-                        <div *ngIf="statut.errors.required">
-                            Le statut est requis.
+                        }"
+                    />
+                    <label
+                        style="font-weight: bold; color: rgb(73, 73, 73)"
+                        for="noms"
+                        >Noms *</label
+                    >
+                    <div *ngIf="nom.touched && nom.invalid" class="erreur">
+                        <div *ngIf="nom.errors.required">
+                            Le nom est requis.
                         </div>
                     </div>
                 </span>
             </div>
-            <div style="
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                ">
+            <div class="col-6">
+                <span class="p-float-label">
+                    <p-calendar
+                        [style]="{
+                            width: '100%',
+                            borderRadius: '10px',
+                            minHeight: '48px'
+                        }"
+                        id="date"
+                        appendTo="body"
+                        [(ngModel)]="temporaile.date_naissance"
+                        formControlName="date_naissance"
+                    ></p-calendar>
+
+                    <label
+                        style="font-weight: bold; color: rgb(73, 73, 73)"
+                        for="date"
+                        >Date de naissance</label
+                    >
+                    <div
+                        *ngIf="date_naissance.touched && date_naissance.invalid"
+                        class="erreur"
+                    >
+                        <div *ngIf="date_naissance.errors.required">
+                            La date de naissance est requis.
+                        </div>
+                    </div>
+                </span>
             </div>
         </div>
-        <div class="col">
-            <span class="p-float-label">
-                <p-dropdown formControlName="regionId"
-                 [options]="regions"
-              
+        <div class="col-12 flex">
+            <div class="col flex">
+                <div class="col-12">
+                    <span class="p-float-label">
+                        <p-dropdown
+                            [options]="statuts"
+                            optionLabel="libelle"
+                            optionValue="libelle"
+                            appendTo="body"
+                            id="statut"
+                            [ngModel]="temporaile?.statut"
+                            [style]="{
+                                width: '100%',
+                                borderRadius: '10px',
+                                minHeight: '48px'
+                            }"
+                            formControlName="statut"
+                            [showClear]="true"
+                            placeholder="Selectionner le statut"
+                        >
+                        </p-dropdown>
 
-                [(ngModel)]="temporaile.regionId"
-                 appendTo="body"
-                 id="region"
-                 optionValue="id"
-                 optionLabel="region"
-                   [style]="{
-                    width: '100%',
-                    borderRadius: '10px',
-                    minHeight: '48px'
-                }" placeholder="Selectionner la  Region"></p-dropdown>
-
-
-                <label style="
-                        font-weight: bold;
-                        color: rgb(73, 73, 73);
-                    " for="role">Region *</label>
-                <div *ngIf="regionid.touched && regionid.invalid" class="erreur">
-                    <div *ngIf="regionid.errors.required">
-                        La region est requise.
-                    </div>
-
+                        <label
+                            style="font-weight: bold; color: rgb(73, 73, 73)"
+                            for="statut"
+                            >Statut *</label
+                        >
+                        <div
+                            *ngIf="statut.touched && statut.invalid"
+                            class="erreur"
+                        >
+                            <div *ngIf="statut.errors.required">
+                                Le statut est requis.
+                            </div>
+                        </div>
+                    </span>
                 </div>
-            </span>
-        </div>
-    </div>
-    <div class="col-12 flex">
-        <div class="col">
-            <span class="p-float-label">
-                <p-dropdown formControlName="sexe"
-                [options]="sexes"
-                optionLabel="code"
-               [(ngModel)]="temporaile.sexe"
-                appendTo="body"
-                id="sexe"
-                optionValue="code"
-                  [style]="{
-                   width: '100%',
-                   borderRadius: '10px',
-                   minHeight: '48px'
-               }" placeholder="Selectionner le  sexe"></p-dropdown>
+                <div
+                    style="
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                    "
+                ></div>
+            </div>
+            <div class="col">
+                <span class="p-float-label">
+                    <p-dropdown
+                        formControlName="regionId"
+                        [options]="regions"
+                        [(ngModel)]="temporaile.regionId"
+                        appendTo="body"
+                        id="region"
+                        optionValue="id"
+                        optionLabel="region"
+                        [style]="{
+                            width: '100%',
+                            borderRadius: '10px',
+                            minHeight: '48px'
+                        }"
+                        placeholder="Selectionner la  Region"
+                    ></p-dropdown>
 
-
-
-                <label style="
-                        font-weight: bold;
-                        color: rgb(73, 73, 73);
-                    " for="sexe">Sexe *</label>
-                <div *ngIf="sexe.touched && sexe.invalid" class="erreur">
-                    <div *ngIf="sexe.errors.required">
-                        Le sexe est requis.
+                    <label
+                        style="font-weight: bold; color: rgb(73, 73, 73)"
+                        for="role"
+                        >Region *</label
+                    >
+                    <div
+                        *ngIf="regionid.touched && regionid.invalid"
+                        class="erreur"
+                    >
+                        <div *ngIf="regionid.errors.required">
+                            La region est requise.
+                        </div>
                     </div>
-                </div>
-            </span>
+                </span>
+            </div>
         </div>
-        <div class="col">
-            <span class="p-float-label">
-                <p-dropdown formControlName="idresidence"
-                [options]="residences"
-                optionLabel="description"
-               [(ngModel)]="temporaile.idresidence"
-                appendTo="body"
-                id="residence"
-                optionValue="id"
-                  [style]="{
-                   width: '100%',
-                   borderRadius: '10px',
-                   minHeight: '48px'
-               }" placeholder="Selectionner la residence"></p-dropdown>
+        <div class="col-12 flex">
+            <div class="col">
+                <span class="p-float-label">
+                    <p-dropdown
+                        formControlName="sexe"
+                        [options]="sexes"
+                        optionLabel="code"
+                        [(ngModel)]="temporaile.sexe"
+                        appendTo="body"
+                        id="sexe"
+                        optionValue="code"
+                        [style]="{
+                            width: '100%',
+                            borderRadius: '10px',
+                            minHeight: '48px'
+                        }"
+                        placeholder="Selectionner le  sexe"
+                    ></p-dropdown>
 
-
-
-                <label style="
-                        font-weight: bold;
-                        color: rgb(73, 73, 73);
-                    " for="idresidence">Residence *</label>
-                <div *ngIf="idresidence.touched && idresidence.invalid" class="erreur">
-                    <div *ngIf="idresidence.errors.required">
-                        La residence est requise.
+                    <label
+                        style="font-weight: bold; color: rgb(73, 73, 73)"
+                        for="sexe"
+                        >Sexe *</label
+                    >
+                    <div *ngIf="sexe.touched && sexe.invalid" class="erreur">
+                        <div *ngIf="sexe.errors.required">
+                            Le sexe est requis.
+                        </div>
                     </div>
-                </div>
-            </span>
-        </div>
+                </span>
+            </div>
+            <div class="col">
+                <span class="p-float-label">
+                    <p-dropdown
+                        formControlName="idresidence"
+                        [options]="residences"
+                        optionLabel="description"
+                        [(ngModel)]="temporaile.idresidence"
+                        appendTo="body"
+                        id="residence"
+                        optionValue="id"
+                        [style]="{
+                            width: '100%',
+                            borderRadius: '10px',
+                            minHeight: '48px'
+                        }"
+                        placeholder="Selectionner la residence"
+                    ></p-dropdown>
 
-    </div>
-    <div class="flex align-items-center">
-      <div class="col">  <p-checkbox label="Avez vous une cni ?" [binary]="true" class="mr-4" name="estRedoublant"
-        [(ngModel)]="temporaile.is_cni"
-
-        formArrayName="is_cni"></p-checkbox></div>
-      <div class="col">
-        <p-checkbox label="Avez vous un acte de naissance ?" [binary]="true" name="estNouveau"
-        [(ngModel)]="temporaile.is_actenaissance"
-
-        formControlName="is_actenaissance"></p-checkbox>
-      </div>
-      <div class="col">
-        <p-checkbox label="Etes vous autochtone ?" [binary]="true" name="estNouveau"
-        [(ngModel)]="temporaile.is_autochtone"
-
-        formControlName="is_autochtone"></p-checkbox>
-      </div>
-
-     
-
-          
-    </div>
-    <div class="flex align-items-center">
-        <div class="col">
-            <p-checkbox label="Etes vous handicapé ?" [binary]="true" class="mr-4" name="estRedoublant"
-            [(ngModel)]="temporaile.is_handicape"
-
-            formControlName="is_handicape"></p-checkbox>
-        </div>
-        <div class="col">
-            <p-checkbox label="Etes vous chef de ménage ?" [binary]="true" name="estNouveau"
-            [(ngModel)]="temporaile.is_chef_menage"
-            (onChange)="changeValidator()"
-            formControlName="is_chef_menage"></p-checkbox>
-        </div>
-        <div class="col">
-
-        </div>
-
-
-       
-
-    </div>
-    <div class="col-12 flex">
-        <div class="col mt-2" *ngIf="!is_chef_menage.value">
-            <span class="p-float-label">
-                <p-dropdown formControlName="parentId"
-                [options]="chefs"
-                optionLabel="nom"
-               [(ngModel)]="temporaile.parentId"
-                appendTo="body"
-                id="residence"
-                optionValue="id"
-                  [style]="{
-                   width: '100%',
-                   borderRadius: '10px',
-                   minHeight: '48px'
-               }" placeholder="Selectionner le chef de menage"></p-dropdown>
-    
-    
-    
-                <label style="
-                        font-weight: bold;
-                        color: rgb(73, 73, 73);
-                    " for="Per_id">Chef de famille *</label>
-                <div *ngIf="Per_id.touched && Per_id.invalid" class="erreur">
-                    <div *ngIf="Per_id.errors.required">
-                        Le chef de menage est requis.
+                    <label
+                        style="font-weight: bold; color: rgb(73, 73, 73)"
+                        for="idresidence"
+                        >Residence *</label
+                    >
+                    <div
+                        *ngIf="idresidence.touched && idresidence.invalid"
+                        class="erreur"
+                    >
+                        <div *ngIf="idresidence.errors.required">
+                            La residence est requise.
+                        </div>
                     </div>
-                </div>
-            </span>
+                </span>
+            </div>
         </div>
-        <div class="col mt-2" >
-            <span class="p-float-label">
-                <p-multiSelect [options]="vulnerabilite" 
-                appendTo="body"
-                id="vulnerabilite"
-                optionValue="id"
-                [style]="{
-                 width: '100%',
-                 borderRadius: '10px',
-                 minHeight: '48px'
-             }"
-                placeholder="Selectionner les vulnerabilités" formControlName="vulnerabilite" optionValue="id" optionLabel="nom"></p-multiSelect>
-
-    
-    
-    
-                <label style="
-                        font-weight: bold;
-                        color: rgb(73, 73, 73);
-                    " for="vulnerabilite">Vulnérabilités</label>
-
-            </span>
+        <div class="flex align-items-center">
+            <div class="col">
+                <p-checkbox
+                    label="Avez vous une cni ?"
+                    [binary]="true"
+                    class="mr-4"
+                    name="estRedoublant"
+                    [(ngModel)]="temporaile.is_cni"
+                    formArrayName="is_cni"
+                ></p-checkbox>
+            </div>
+            <div class="col">
+                <p-checkbox
+                    label="Avez vous un acte de naissance ?"
+                    [binary]="true"
+                    name="estNouveau"
+                    [(ngModel)]="temporaile.is_actenaissance"
+                    formControlName="is_actenaissance"
+                ></p-checkbox>
+            </div>
+            <div class="col">
+                <p-checkbox
+                    label="Etes vous autochtone ?"
+                    [binary]="true"
+                    name="estNouveau"
+                    [(ngModel)]="temporaile.is_autochtone"
+                    formControlName="is_autochtone"
+                ></p-checkbox>
+            </div>
         </div>
-    </div>
+        <div class="flex align-items-center">
+            <div class="col">
+                <p-checkbox
+                    label="Etes vous handicapé ?"
+                    [binary]="true"
+                    class="mr-4"
+                    name="estRedoublant"
+                    [(ngModel)]="temporaile.is_handicape"
+                    formControlName="is_handicape"
+                ></p-checkbox>
+            </div>
+            <div class="col">
+                <p-checkbox
+                    label="Etes vous chef de ménage ?"
+                    [binary]="true"
+                    name="estNouveau"
+                    [(ngModel)]="temporaile.is_chef_menage"
+                    (onChange)="changeValidator()"
+                    formControlName="is_chef_menage"
+                ></p-checkbox>
+            </div>
+            <div class="col"></div>
+        </div>
+        <div class="col-12 flex">
+            <div class="col mt-2" *ngIf="!is_chef_menage.value">
+                <span class="p-float-label">
+                    <p-dropdown
+                        formControlName="parentId"
+                        [options]="chefs"
+                        optionLabel="nom"
+                        [(ngModel)]="temporaile.parentId"
+                        appendTo="body"
+                        id="residence"
+                        optionValue="id"
+                        [style]="{
+                            width: '100%',
+                            borderRadius: '10px',
+                            minHeight: '48px'
+                        }"
+                        placeholder="Selectionner le chef de menage"
+                    ></p-dropdown>
 
- 
-</form>
-<ng-template pTemplate="footer">
+                    <label
+                        style="font-weight: bold; color: rgb(73, 73, 73)"
+                        for="Per_id"
+                        >Chef de famille *</label
+                    >
+                    <div
+                        *ngIf="Per_id.touched && Per_id.invalid"
+                        class="erreur"
+                    >
+                        <div *ngIf="Per_id.errors.required">
+                            Le chef de menage est requis.
+                        </div>
+                    </div>
+                </span>
+            </div>
+            <div class="col mt-2">
+                <span class="p-float-label">
+                    <p-multiSelect
+                        [options]="vulnerabilite"
+                        appendTo="body"
+                        id="vulnerabilite"
+                        optionValue="id"
+                        [style]="{
+                            width: '100%',
+                            borderRadius: '10px',
+                            minHeight: '48px'
+                        }"
+                        placeholder="Selectionner les vulnerabilités"
+                        formControlName="vulnerabilite"
+                        optionValue="id"
+                        optionLabel="nom"
+                    ></p-multiSelect>
 
-    <button pButton pRipple   class="p-button-text" label="Annuler"
-        (click)="addEdit = false"></button>
-        <button pButton pRipple class="p-button" *ngIf="formTitle == 'Ajouter une Personne'" size="small" label="Valider" (click)="save()"
-        [disabled]="state">
-        <i *ngIf="state" class="pi pi-spin pi-spinner"></i>
-    </button>
-    <button pButton pRipple *ngIf="formTitle == 'Modifier une Personne'" class="p-button" size="small" label="Modifier" (click)="modifier()"
-    [disabled]="state">
-    <i *ngIf="state" class="pi pi-spin pi-spinner"></i>
-</button>
-</ng-template>
+                    <label
+                        style="font-weight: bold; color: rgb(73, 73, 73)"
+                        for="vulnerabilite"
+                        >Vulnérabilités</label
+                    >
+                </span>
+            </div>
+        </div>
+    </form>
+    <ng-template pTemplate="footer">
+        <button
+            pButton
+            pRipple
+            class="p-button-text"
+            label="Annuler"
+            (click)="addEdit = false"
+        ></button>
+        <button
+            pButton
+            pRipple
+            class="p-button"
+            *ngIf="formTitle == 'Ajouter une Personne'"
+            size="small"
+            label="Valider"
+            (click)="save()"
+            [disabled]="state"
+        >
+            <i *ngIf="state" class="pi pi-spin pi-spinner"></i>
+        </button>
+        <button
+            pButton
+            pRipple
+            *ngIf="formTitle == 'Modifier une Personne'"
+            class="p-button"
+            size="small"
+            label="Modifier"
+            (click)="modifier()"
+            [disabled]="state"
+        >
+            <i *ngIf="state" class="pi pi-spin pi-spinner"></i>
+        </button>
+    </ng-template>
 </p-dialog>
 
-<app-portrait titlePage="Liste Personne" [tableHeaders]="cols" [tableRows]="tableData"></app-portrait>
+<app-portrait
+    titlePage="Liste Personne"
+    [tableHeaders]="cols"
+    [tableRows]="tableData"
+></app-portrait>

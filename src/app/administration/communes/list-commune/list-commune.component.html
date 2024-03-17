@@ -1,2 +1,16 @@
-<app-skelleton *ngIf="load" [table]="['commune']" title="Liste Des Communes"></app-skelleton>
-<app-generic-table [columns]="tableColumns"  (customsEvent)="event($event)" option="XXXX" icon="th-large"  [fields]="formsFields" *ngIf="!load" endPoints="communes" [data]="tableData" titlePage="Liste des Communes"></app-generic-table>
+<app-skelleton
+    *ngIf="load"
+    [table]="['commune']"
+    title="Liste Des Communes"
+></app-skelleton>
+<app-generic-table
+    [columns]="tableColumns"
+    (customsEvent)="event($event)"
+    option="XXXX"
+    icon="th-large"
+    [fields]="formsFields"
+    *ngIf="!load"
+    endPoints="communes"
+    [data]="tableData"
+    titlePage="Liste des Communes"
+></app-generic-table>
