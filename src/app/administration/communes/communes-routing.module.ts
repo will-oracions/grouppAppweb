@@ -6,7 +6,7 @@ import { DetailsCommuneComponent } from './details-commune/details-commune.compo
 const routes: Routes = [
     { path: '', redirectTo: "list", pathMatch: "full"},
     { path: 'list', component: ListCommuneComponent},
-    { path: 'details', component: DetailsCommuneComponent}
+    { path: 'details/:id', component: DetailsCommuneComponent}
 
 ];
 

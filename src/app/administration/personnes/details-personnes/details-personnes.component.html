@@ -1,1 +1,234 @@
-<p>details-personnes works!</p>
+
+<app-default-skeleton *ngIf="loads"></app-default-skeleton>
+
+
+<p-toolbar *ngIf="!loads">
+
+        <div class="w-full flex text-center align-items-center justify-content-center">
+            <h3 class="text-2xl text-center font-bold mb-0">INFORMATIONS SUR {{personne?.nom}} </h3>
+
+        </div>
+    <p-toast ></p-toast>
+
+</p-toolbar>
+    <div class="container-fluid h-full " *ngIf="!loads">
+        <div class="col-12 flex h-full">
+            <div class="col-3 h-full border-round-lg">
+                <div class="card border-round-lg   center justify-content-center flex-column p-0" style="width: 100%;">
+                    <div class="align-content-center justify-content-center flex">
+                        <img src="../../../../../../../assets/ban.jpg" width="100%" height="150px" alt="">
+                    </div>
+                    <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" style="position: relative;top: -20px;left: 40%;" styleClass="mr-2" size="xlarge" shape="circle"></p-avatar>
+
+                    <div class="w-[10%]">
+
+                    <div class="w-full">
+
+                        <ul class="list-none p-0 m-0 w-full">
+                            <li class="flex w-full align-items-center py-3 px-2 border-top-1 surface-border flex justify-content-between">
+                                <div class="text-500 w-[40%]  font-medium">Noms : </div>
+                                <div class="text-center flex justify-content-center align-content-center w-[60%]"> <span class="text-500 w-full  font-bold text-black-alpha-80">{{personne?.nom}} </span></div>
+
+                            </li>
+                            <li class="flex w-full align-items-center py-3 px-2 border-top-1 surface-border flex justify-content-between">
+                                <div class="text-500 w-[40%]   font-medium">Date de Naissance : </div>
+                                <div class="text-center flex justify-content-center align-content-center w-[60%]"> <span class="text-500 w-full  font-bold text-black-alpha-80">{{personne?.date_naissance | date:"MMM, dd yyyy"}}</span></div>
+
+                            </li>
+                            <li class="flex w-full align-items-center py-3 px-2 border-top-1 surface-border flex justify-content-between">
+                                <div class="text-500 w-[40%]   font-medium">Region : </div>
+                                <div class="text-center flex justify-content-center align-content-center w-[60%]"> <span class="text-500 w-full  font-bold text-black-alpha-80">{{personne?.region?.region}}</span></div>
+
+                            </li>
+                            <li class="flex w-full align-items-center py-3 px-2 border-top-1 surface-border flex justify-content-between">
+                                <div class="text-500 w-[40%]   font-medium">Sexe : </div>
+                                <div class="text-center flex justify-content-center align-content-center w-[60%]">
+                                     <span class="text-500 w-full  font-bold text-black-alpha-80">{{personne?.sexe }}</span>
+                                    </div>
+
+                            </li>
+                            <li class="flex w-full align-items-center py-3 px-2 border-top-1 surface-border flex justify-content-between">
+                                <div class="text-500 w-[40%]   font-medium">Statut : </div>
+                                <div class="text-center flex justify-content-center align-content-center w-[60%]">
+                                    <p-tag [severity]="personne.statut == 'En vie' ? 'success' : 'danger'"  [value]= personne?.statut></p-tag>
+
+                                </div>
+
+                            </li>
+                            <li class="flex w-full align-items-center py-3 px-2 border-top-1 surface-border flex justify-content-between">
+                                <div class="text-500 w-[40%]   font-medium">Pourcentage de Vulnérabilités : </div>
+                                <div class="text-center flex justify-content-center align-content-center w-[60%]">
+                                    <span class="text-500 w-full  font-bold text-black-alpha-80">{{personne?.sexe }}</span>
+
+                                </div>
+
+                            </li>
+              
+
+                        </ul>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <p-tabView>
+                    <p-tabPanel header="Informations Sur la residence">
+                        <div class="card">
+                            <li class="flex w-full align-items-center py-3 px-2 border-top-1 surface-border flex justify-content-between">
+                                <div class="text-500 w-[40%]   font-medium">Noms de la residence </div>
+                                <div class="text-center flex justify-content-center align-content-center w-[60%]"> 
+                                    <span class="text-500 w-full  font-bold text-black-alpha-80">{{personne?.residence?.description }}</span>
+
+                                </div>
+
+                            </li>
+                            <li class="flex w-full align-items-center py-3 px-2 border-top-1 surface-border flex justify-content-between">
+                                <div class="text-500 w-[40%]   font-medium">Quartier de la residence</div>
+                                <div class="text-center flex justify-content-center align-content-center w-[60%]">
+                                    <span class="text-500 w-full  font-bold text-black-alpha-80">{{personne?.residence?.quartier?.libelle }}</span>
+
+                                </div>
+
+                            </li>
+                            <li class="flex w-full align-items-center py-3 px-2 border-top-1 surface-border flex justify-content-between">
+                                <div class="text-500 w-[40%]   font-medium">Commune </div>
+                                <div class="text-center flex justify-content-center align-content-center w-[60%]">
+                                    <span class="text-500 w-full  font-bold text-black-alpha-80">{{personne?.residence?.quartier?.commune?.libelle }}</span>
+
+                                </div>
+
+                            </li>
+                            <p-table [value]="personne.Children"
+                            [paginator]="true"
+                            [rows]="5"
+                            [showCurrentPageReport]="true"
+                            [tableStyle]="{ 'min-width': '50rem' }"
+                            currentPageReportTemplate="Affiche de {first} à {last} sur {totalRecords} entrée"
+                            [rowsPerPageOptions]="[5, 10, 20]"
+                            
+                            >
+                              <ng-template pTemplate="caption">
+                                <div class="flex align-items-center justify-content-between">
+                                 <p>
+                                  Liste des Enfants
+                                 </p>
+                        
+                                </div>
+                              </ng-template>
+                              <ng-template pTemplate="header">
+                                <tr>
+                                  <th>Noms</th>
+                                  <th>Date de Naissance</th>
+                                  <th>Region</th>
+                                  <th>Nombre de vulnérabilités</th>
+                        
+                                </tr>
+                              </ng-template>
+                              <ng-template pTemplate="body" let-data>
+                                <tr>
+                                  <td>{{data?.nom}}</td>
+                                  <td>
+                        
+                                      {{data?.date_naissance |date:"MMM, dd yyyy"}}
+                                  </td>
+                                  <td>{{data?.region}}</td>
+                                  <td></td>
+   
+                                </tr>
+                              </ng-template>
+                        
+                            </p-table>
+                        </div>
+                    </p-tabPanel>
+                    <p-tabPanel header="Informations Sur les vulnérabilités">
+                      <div class="card">
+                        <p-table [value]="personne.avoirvulnerabilites"
+                        [paginator]="true"
+                        [rows]="5"
+                        [showCurrentPageReport]="true"
+                        [tableStyle]="{ 'min-width': '50rem' }"
+                        currentPageReportTemplate="Affiche de {first} à {last} sur {totalRecords} entrée"
+                        [rowsPerPageOptions]="[5, 10, 20]"
+                        
+                        >
+                          <ng-template pTemplate="caption">
+                            <div class="flex align-items-center justify-content-between">
+                             <p>
+                              Liste de mes vulnerabilités
+                             </p>
+                    
+                            </div>
+                          </ng-template>
+                          <ng-template pTemplate="header">
+                            <tr>
+                              <th>Noms</th>
+                              <th>Description</th>
+                    
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-data>
+                            <tr>
+                              <td>{{data?.vulnerabilite?.nom}}</td>
+
+                              <td>{{data?.vulnerabilite?.description}}</td>
+
+                            </tr>
+                          </ng-template>
+                    
+                        </p-table>
+                      </div>
+                    </p-tabPanel>
+
+                    <p-tabPanel header="Informations Supplémentaires">
+                        <div class="card">
+                            <li class="flex w-full align-items-center py-3 px-2 border-top-1 surface-border flex justify-content-between">
+                                <div class="text-500 w-[40%]   font-medium">Avez vous une cni ?  </div>
+                                <div class="text-center flex justify-content-center align-content-center w-[60%]"> 
+                                    <p-tag [severity]="personne?.is_cni == true ? 'success' : 'primary'"  [value]= "personne?.is_cni == true ? 'Oui' : 'Non'"></p-tag>
+
+                                </div>
+
+                            </li>
+                            <li class="flex w-full align-items-center py-3 px-2 border-top-1 surface-border flex justify-content-between">
+                                <div class="text-500 w-[40%]   font-medium">Avez vous un acte de naissance ? </div>
+                                <div class="text-center flex justify-content-center align-content-center w-[60%]">
+                                    <p-tag [severity]="personne?.is_actenaissance == true ? 'success' : 'primary'"  [value]= "personne?.is_actenaissance == true ? 'Oui' : 'Non'"></p-tag>
+
+                                </div>
+
+                            </li>
+                            <li class="flex w-full align-items-center py-3 px-2 border-top-1 surface-border flex justify-content-between">
+                                <div class="text-500 w-[40%]   font-medium">Etes vous chef de famille ? </div>
+                                <div class="text-center flex justify-content-center align-content-center w-[60%]">
+                                    <p-tag [severity]="personne?.is_chef_menage == true ? 'success' : 'primary'"  [value]= "personne?.is_chef_menage == true ? 'Oui' : 'Non'"></p-tag>
+
+                                </div>
+
+                            </li>
+                            <li class="flex w-full align-items-center py-3 px-2 border-top-1 surface-border flex justify-content-between">
+                                <div class="text-500 w-[40%]   font-medium">Etes vous autochtone ? </div>
+                                <div class="text-center flex justify-content-center align-content-center w-[60%]">
+                                    <p-tag [severity]="personne?.is_autochtone == true ? 'success' : 'primary'"  [value]= "personne?.is_autochtone == true ? 'Oui' : 'Non'"></p-tag>
+
+                                </div>
+
+                            </li>
+                            <li class="flex w-full align-items-center py-3 px-2 border-top-1 surface-border flex justify-content-between">
+                                <div class="text-500 w-[40%]   font-medium">Etes vous handicapé ? </div>
+                                <div class="text-center flex justify-content-center align-content-center w-[60%]"> 
+                                    <p-tag [severity]="personne?.is_handicape == true ? 'success' : 'primary'"  [value]= "personne?.is_handicape == true ? 'Oui' : 'Non'"></p-tag>
+
+                                </div>
+
+                            </li>
+                        </div>
+
+
+                    </p-tabPanel>
+                </p-tabView>
+            </div>
+
+        </div>
+    </div>
+    <p-toast></p-toast>
+

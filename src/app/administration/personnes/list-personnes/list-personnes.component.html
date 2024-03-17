@@ -4,17 +4,19 @@
     <div class="col-12">
         <app-skelleton *ngIf="load" [table]="['Noms', 'Prenoms', 'Date de Naissance', 'Region', 'Genre']" title="Liste Des Personnes"></app-skelleton>
 
-        <div *ngIf="!load">
+        <div *ngIf="!load" class="card border-round-2xl">
 
 
                 <div class="col flex justify-content-between align-items-center">
-                    <div>
+                    <div class="justify-content-center flex align-items-center">
+                        <i class="pi pi-fw pi-users" style="font-size: xxx-large;color: #0e3f6a;"></i>
+
                         <h3 style="
                     font-weight: bold;
-                    color: #222b45;
+                    color: #0e3f6a;
                     white-space: nowrap !important;
                 ">
-                            {{ titlePage }}
+                                           {{ titlePage }}
                         </h3>
                     </div>
                     <div class="flex align-content-center align-items-center">
@@ -56,6 +58,8 @@
                                                 <input pInputText type="text" class="input" style="
                                                 width: 100% !important;
                                                 border-radius: 20px !important;
+                                                border-color: cornflowerblue;
+
                                                 min-height: 48px !important;
                                             " (input)="onGlobalFilter(dt, $event)" placeholder="Rechercher..."
                                                     class="w-full sm:w-auto" />
@@ -64,19 +68,13 @@
 
                                         <div
                                             class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-                                            <i class="pi pi-file" (click)="dt.exportCSV()" pTooltip="CSV"
-                                                tooltipPosition="bottom" style="
-                                            font-size: 1.5rem;
-                                            cursor: pointer;
-                                            margin-right: 13px;
-                                            color: #757575;
-                                            margin-left: 13px;
-                                        "></i>
+               
 
                                             <i class="pi pi-file-excel" (click)="exportExcel()" pTooltip="XLS"
                                                 tooltipPosition="bottom" style="
                                             font-size: 1.5rem;
                                             cursor: pointer;
+
                                             margin-right: 13px;
                                             color: #757575;
                                         "></i>
@@ -125,11 +123,12 @@
                                 </td>
                                 <td>
                                     <span class="p-column-title">Date de naissance</span>
-                                    {{ item?.date_naissance }}
+                                    {{ item?.date_naissance | date:"MMM, dd yyyy" }}
                                 </td>
                                 <td>
                                     <span class="p-column-title">statut</span>
-                                    {{ item?.statut }}
+                                    <p-tag [severity]="item.statut == 'En vie' ? 'success' : 'danger'"  [value]= item?.statut></p-tag>
+
                                 </td>
                                 <td>
                                     <span class="p-column-title">sexe</span>
@@ -137,17 +136,18 @@
                                 </td>
                                 <td>
                                     <span class="p-column-title">is_chef_menage</span>
-                                    {{ item?.is_chef_menage }}
+                                    <p-tag [severity]="item.is_chef_menage == true ? 'primary' : 'info'"  [value]= "item.is_chef_menage == true ? 'Oui' : 'Non'"></p-tag>
+
                                 </td>
                  
                                 <td>
                                     <div class="flex">
-                                        <i class="pi pi-eye icon mr-3" routerLink=""
-                                            style="font-size: 1.5rem"></i>
+                                        <i class="pi pi-eye icon mr-3"  routerLink="../details/{{item.id}}"
+                                            style="font-size: 1.5rem; cursor: pointer;"></i>
                                         <i class="pi pi-pencil icon mr-3" (click)="edit(item)"
-                                            style="font-size: 1.5rem"></i>
+                                            style="font-size: 1.5rem; cursor: pointer"></i>
                                         <i class="pi pi-trash icon" (click)="opendeleteDialog(item)"
-                                            style="font-size: 1.5rem"></i>
+                                            style="font-size: 1.5rem; cursor: pointer"></i>
                                     </div>
                                 </td>
                             </tr>
@@ -192,6 +192,13 @@
     <div class="col-12 flex">
         <div class="col-6">
             <input pInputText id="is" [(ngModel)]="temporaile.id" formControlName="id" [style]="{
+                    width: '100%',
+                    borderRadius: '10px',
+                    minHeight: '48px',
+                    display: 'none'
+                }" />
+
+                <input pInputText id="utilisateurId" [(ngModel)]="utilisateurId" formControlName="utilisateurId" [style]="{
                     width: '100%',
                     borderRadius: '10px',
                     minHeight: '48px',
@@ -284,15 +291,15 @@
         </div>
         <div class="col">
             <span class="p-float-label">
-                <p-dropdown formControlName="region"
+                <p-dropdown formControlName="regionId"
                  [options]="regions"
-                 optionLabel="libelle"
-                 optionValue="libelle"
+              
 
-                [(ngModel)]="temporaile.region"
+                [(ngModel)]="temporaile.regionId"
                  appendTo="body"
                  id="region"
-                 optionValue="libelle"
+                 optionValue="id"
+                 optionLabel="region"
                    [style]="{
                     width: '100%',
                     borderRadius: '10px',
@@ -304,8 +311,8 @@
                         font-weight: bold;
                         color: rgb(73, 73, 73);
                     " for="role">Region *</label>
-                <div *ngIf="region.touched && region.invalid" class="erreur">
-                    <div *ngIf="region.errors.required">
+                <div *ngIf="regionid.touched && regionid.invalid" class="erreur">
+                    <div *ngIf="regionid.errors.required">
                         La region est requise.
                     </div>
 
@@ -404,7 +411,7 @@
         <div class="col">
             <p-checkbox label="Etes vous chef de ménage ?" [binary]="true" name="estNouveau"
             [(ngModel)]="temporaile.is_chef_menage"
-
+            (onChange)="changeValidator()"
             formControlName="is_chef_menage"></p-checkbox>
         </div>
         <div class="col">
@@ -415,20 +422,75 @@
        
 
     </div>
+    <div class="col-12 flex">
+        <div class="col mt-2" *ngIf="!is_chef_menage.value">
+            <span class="p-float-label">
+                <p-dropdown formControlName="parentId"
+                [options]="chefs"
+                optionLabel="nom"
+               [(ngModel)]="temporaile.parentId"
+                appendTo="body"
+                id="residence"
+                optionValue="id"
+                  [style]="{
+                   width: '100%',
+                   borderRadius: '10px',
+                   minHeight: '48px'
+               }" placeholder="Selectionner le chef de menage"></p-dropdown>
+    
+    
+    
+                <label style="
+                        font-weight: bold;
+                        color: rgb(73, 73, 73);
+                    " for="Per_id">Chef de famille *</label>
+                <div *ngIf="Per_id.touched && Per_id.invalid" class="erreur">
+                    <div *ngIf="Per_id.errors.required">
+                        Le chef de menage est requis.
+                    </div>
+                </div>
+            </span>
+        </div>
+        <div class="col mt-2" >
+            <span class="p-float-label">
+                <p-multiSelect [options]="vulnerabilite" 
+                appendTo="body"
+                id="vulnerabilite"
+                optionValue="id"
+                [style]="{
+                 width: '100%',
+                 borderRadius: '10px',
+                 minHeight: '48px'
+             }"
+                placeholder="Selectionner les vulnerabilités" formControlName="vulnerabilite" optionValue="id" optionLabel="nom"></p-multiSelect>
+
+    
+    
+    
+                <label style="
+                        font-weight: bold;
+                        color: rgb(73, 73, 73);
+                    " for="vulnerabilite">Vulnérabilités</label>
+
+            </span>
+        </div>
+    </div>
+
  
 </form>
 <ng-template pTemplate="footer">
 
     <button pButton pRipple   class="p-button-text" label="Annuler"
         (click)="addEdit = false"></button>
-        <button pButton pRipple class="p-button" *ngIf="formTitle == 'Ajouter une personne'" size="small" label="Valider" (click)="save()"
+        <button pButton pRipple class="p-button" *ngIf="formTitle == 'Ajouter une Personne'" size="small" label="Valider" (click)="save()"
         [disabled]="state">
         <i *ngIf="state" class="pi pi-spin pi-spinner"></i>
     </button>
-    <button pButton pRipple *ngIf="formTitle == 'Modifier une personne'" class="p-button" size="small" label="Modifier" (click)="modifier()"
+    <button pButton pRipple *ngIf="formTitle == 'Modifier une Personne'" class="p-button" size="small" label="Modifier" (click)="modifier()"
     [disabled]="state">
     <i *ngIf="state" class="pi pi-spin pi-spinner"></i>
 </button>
 </ng-template>
 </p-dialog>
 
+<app-portrait titlePage="Liste Personne" [tableHeaders]="cols" [tableRows]="tableData"></app-portrait>

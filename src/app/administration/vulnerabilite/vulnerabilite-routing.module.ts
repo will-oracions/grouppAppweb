@@ -6,7 +6,7 @@ import { DetailsVulnerabiliteComponent } from './details-vulnerabilite/details-v
 const routes: Routes = [
     { path: '', redirectTo: "list", pathMatch: "full"},
     { path: 'list', component: ListVulnerabiliteComponent},
-    { path: 'details', component: DetailsVulnerabiliteComponent}
+    { path: 'details/:id', component: DetailsVulnerabiliteComponent}
 ];
 
 @NgModule({

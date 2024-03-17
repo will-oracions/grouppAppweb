@@ -1,11 +1,15 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { Table } from 'primeng/table';
+import { BreadcrumbService } from 'src/app/app.breadcrumb.service';
+import { AuthentificationsService } from 'src/app/demo/service/auth.service';
 import { FormService } from 'src/app/demo/service/base.service';
 
 @Component({
   selector: 'app-list-personnes',
   templateUrl: './list-personnes.component.html',
+  providers: [MessageService, ConfirmationService],
   styleUrls: ['./list-personnes.component.scss']
 })
 export class ListPersonnesComponent {
@@ -20,6 +24,9 @@ export class ListPersonnesComponent {
   residences!:any;
   state: boolean = false;
   deleteDialog: boolean = false;
+  chefs: boolean = false;
+  vulnerabilite:any;
+  utilisateurId:any;
   sexes = [
     { name: 'Masculin', code: 'MASCULIN' },
     { name: 'Feminin', code: 'FEMININ' },
@@ -30,18 +37,7 @@ export class ListPersonnesComponent {
     { code: "mort", libelle: "Décédé" },
 
   ];
-  regions = [
-    { code: "CE", libelle: "Centre" },
-    { code: "OU", libelle: "Ouest" },
-    { code: "ES", libelle: "Est" },
-    { code: "NRD", libelle: "Nord" },
-    { code: "Lit", libelle: "Littoral" },
-    { code: "SW", libelle: "Sud Ouest" },
-    { code: "NW", libelle: "Nord Ouest" },
-    { code: "SD", libelle: "Sud" },
-    { code: "NE", libelle: "Nord Est" },
-    { code: "SE", libelle: "Sud Est" },
-  ]
+  regions: any[] = []
   titlePage = "Liste des Personnes"
   tableColumns = [
     { header: 'Noms', field: 'noms' },
@@ -56,6 +52,7 @@ export class ListPersonnesComponent {
 
   ];
 
+
   formsFields = [
     { name: 'noms', label: 'Noms', validators: [Validators.required] },
     { name: 'prenoms', label: 'Prenoms', type: 'text', validators: [Validators.required] },
@@ -65,15 +62,27 @@ export class ListPersonnesComponent {
 
   ];
   constructor(private service: FormService,
-    private fb: FormBuilder, private messageService: MessageService
-  ) { }
+    private fb: FormBuilder, private messageService: MessageService, private breadcrumbService: BreadcrumbService, private utilisateur: AuthentificationsService
+  ) { 
+    this.breadcrumbService.setItems([
+      { label: 'Liste Des Personnes'},
+  ]);
+  }
   ngOnInit(): void {
+    this.utilisateurId = this.utilisateur.userId;
+    this.cols = [
+      { field: 'nom', header: 'Noms' },
+      { field: 'date_naissance', header: 'Date de Naissance' },
+      { field: 'statut', header: 'Statut' },
+      { field: 'sexe', header: 'Sexe' },
+      { field: 'is_chef_menage', header: 'Est chef de menage ?' },
+  ];
     this.formulaires = this.fb.group({
       id: [''],
       nom: ['', Validators.required],
       date_naissance: ['', Validators.required],
       statut: ['', Validators.required],
-      region: ['', Validators.required],
+      regionId: ['', Validators.required],
       sexe: ['', Validators.required],
       is_cni: [false],
       is_actenaissance: [false],
@@ -81,14 +90,24 @@ export class ListPersonnesComponent {
       is_handicape: [false],
       is_chef_menage: [false],
       idresidence: [""],
-      Per_id: ["",Validators.required],
+      parentId: [""],
+      vulnerabilite: [""],
+      utilisateurId: ["", Validators.required],
+
     });
     this.getAlls();
     this.getAllResidence();
+    this.getAllChef();
+    this.getAllVulnerabilite();
+    this.getAllRegion();
 
 
+  }
+
+  changeValidator(){
+    console.log("change")
     this.formulaires.get('is_chef_menage').valueChanges.subscribe((value) => {
-      const perIdControl = this.formulaires.get('Per_id');
+      const perIdControl = this.formulaires.get('parentId');
       
       // Effacer les erreurs existantes
       perIdControl.setErrors(null);
@@ -96,8 +115,11 @@ export class ListPersonnesComponent {
       // Ajouter le validateur required si is_chef_menage est true
       if (value) {
         perIdControl.setValidators([]);
+        perIdControl.setValue("");
 
       } else {
+        perIdControl.setValue("");
+        console.log()
         perIdControl.setValidators([Validators.required]);
 
       }
@@ -112,7 +134,7 @@ export class ListPersonnesComponent {
   get nom() { return this.formulaires.get("nom"); }
   get date_naissance() { return this.formulaires.get("date_naissance"); }
   get statut() { return this.formulaires.get("statut"); }
-  get region() { return this.formulaires.get("region"); }
+  get regionid() { return this.formulaires.get("regionId"); }
   get sexe() { return this.formulaires.get("sexe"); }
   get is_cni() { return this.formulaire.get("is_cni"); }
   get is_actenaissance() { return this.formulaires.get("is_actenaissance"); }
@@ -120,7 +142,7 @@ export class ListPersonnesComponent {
   get is_handicape() { return this.formulaires.get("is_handicape"); }
   get is_chef_menage() { return this.formulaires.get("is_chef_menage"); }
   get idresidence() { return this.formulaires.get("idresidence"); }
-  get Per_id() { return this.formulaires.get("Per_id"); }
+  get Per_id() { return this.formulaires.get("parentId"); }
 
   getAlls() {
     this.load = true;
@@ -133,7 +155,27 @@ export class ListPersonnesComponent {
       complete: () => { this.load = false },
     });
   }
+  getAllVulnerabilite(){
+    this.service.getAll("vulnerabilite").subscribe({
+      next: value => {
+        this.vulnerabilite = value;
 
+      },
+      error: err => console.error('Observable emitted an error: ' + err),
+      complete: () => {  },
+    });
+    
+  }
+  getAllChef() {
+    this.service.getAll("chef/all/personnes").subscribe({
+      next: value => {
+        this.chefs = value;
+
+      },
+      error: err => console.error('Observable emitted an error: ' + err),
+      complete: () => { },
+    });
+  }
   
   getAllResidence() {
     this.service.getAll("residence").subscribe({
@@ -146,10 +188,22 @@ export class ListPersonnesComponent {
     });
   }
 
+  getAllRegion() {
+    this.service.getAll("regions").subscribe({
+      next: value => {
+        this.regions = value;
+
+      },
+      error: err => console.error('Observable emitted an error: ' + err),
+      complete: () => { console.log("ok");},
+    });
+  }
+
+
   add() {
     this.temporaile= {};
 
-    this.formTitle = "Ajouter une  Personne";
+    this.formTitle = "Ajouter une Personne";
     this.addEdit = true;
   }
   async opendeleteDialog(val: any) {
@@ -176,12 +230,12 @@ export class ListPersonnesComponent {
   }
   edit(val: any) {
     this.temporaile= {};
-    this.formTitle = "Modifier une personne";
+    this.formTitle = "Modifier une Personne";
       this.temporaile = { ...val };
       this.addEdit = true;
   }
   printListe() {
-
+    this.service.printListe(this.titlePage, document.getElementById('toPrint').innerHTML);
   }
 
   modifier(){
@@ -211,12 +265,38 @@ export class ListPersonnesComponent {
     }
   }
   save(){
+    this.formulaires.value.utilisateurId = this.utilisateurId;
+    console.log(this.formulaires.value)
+
     if (this.formulaires.invalid) {
       // Marquez tous les champs comme touchés pour afficher les erreurs
       this.formulaires.markAllAsTouched();
     }else{
       this.state = true
-      this.service.create("personnes", this.formulaires.value).subscribe({
+      const formData = {
+        id: this.formulaires.value.id,
+        nom: this.formulaires.value.nom,
+        date_naissance: this.formulaires.value.date_naissance,
+        statut: this.formulaires.value.statut,
+        regionId: this.formulaires.value.regionId,
+        sexe: this.formulaires.value.sexe,
+        is_cni: this.formulaires.value.is_cni,
+        is_actenaissance: this.formulaires.value.is_actenaissance,
+        is_autochtone: this.formulaires.value.is_autochtone,
+        is_handicape: this.formulaires.value.is_handicape,
+        is_chef_menage: this.formulaires.value.is_chef_menage,
+        idresidence: this.formulaires.value.idresidence,
+        vulnerabilite: this.formulaires.value.vulnerabilite,
+        utilisateurId: this.formulaires.value.utilisateurId,
+
+      };
+  
+      // Vérifier si le champ ParentId est vide
+      if (this.formulaires.value.parentId !== '') {
+        // Ajouter le champ ParendId à l'objet formData
+        formData['parentId'] = this.formulaires.value.parentId;
+      }
+      this.service.create("personnes", formData).subscribe({
           next: value =>    console.log(value) ,
           error: err => {
               console.error('Observable emitted an error: ' + err),
@@ -236,4 +316,7 @@ export class ListPersonnesComponent {
       });
     }
   }
+  onGlobalFilter(table: Table, event: Event) {
+    table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+}
 }

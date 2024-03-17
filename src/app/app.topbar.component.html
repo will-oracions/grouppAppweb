@@ -20,7 +20,7 @@
                 <span class="topbar-item-name">Profile</span>
             </a>
         </li>
-        <li >
+        <li (click)="logout()">
             <a href="#" (click)="app.onTopbarSubItemClick($event)">
                 <i class="pi pi-fw pi-sign-out"></i>
                 <span class="topbar-item-name"> Disconnect</span>
@@ -28,8 +28,8 @@
         </li>
     </ul>
 
-    <a href="#" id="right-panel-button" [ngClass]="{'menu-button-rotate': app.rightPanelActive}" (click)="app.onRightPanelButtonClick($event)">
+    <!-- <a href="#" id="right-panel-button" [ngClass]="{'menu-button-rotate': app.rightPanelActive}" (click)="app.onRightPanelButtonClick($event)">
         <i class="pi pi-angle-double-left"></i>
-    </a>
+    </a> -->
 
 </div>

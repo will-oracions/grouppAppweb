@@ -5,6 +5,7 @@ import { CommunesRoutingModule } from './communes-routing.module';
 import { ListCommuneComponent } from './list-commune/list-commune.component';
 import { DetailsCommuneComponent } from './details-commune/details-commune.component';
 import { PartegerModule } from 'src/app/parteger/parteger.module';
+import { ToastModule } from 'primeng/toast';
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import { PartegerModule } from 'src/app/parteger/parteger.module';
     CommonModule,
     CommunesRoutingModule,
     PartegerModule,
+    ToastModule
 
   ]
 })

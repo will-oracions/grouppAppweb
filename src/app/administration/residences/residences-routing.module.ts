@@ -6,7 +6,7 @@ import { DetailsResidenceComponent } from './details-residence/details-residence
 const routes: Routes = [
     { path: '', redirectTo: "list"},
     { path: 'list', component: ListResidenceComponent},
-    { path: 'details', component: DetailsResidenceComponent}
+    { path: 'details/:id', component: DetailsResidenceComponent}
 ];
 
 @NgModule({

@@ -2,15 +2,21 @@
     <div class="col-12">
         <app-skelleton *ngIf="load" [table]="['Description', 'Quartier', 'Créé le', 'Mise à jour le']"
         title="Liste des Residences"></app-skelleton>
-        <div *ngIf="!load">
+        <div *ngIf="!load" class="card border-round-2xl">
          
 
 
             <div class="col flex justify-content-between align-items-center">
-                <div>
+                <div class="flex justify-content-center align-items-center">
+                    <i class="pi pi-fw pi-building" 
+                     style="
+                        font-size: xx-large;
+
+                        color: #0e3f6a;
+                    "></i>
                     <h3 style="
                     font-weight: bold;
-                    color: #222b45;
+                    color: #0e3f6a;
                     white-space: nowrap !important;
                 ">
                         {{ titlePage }}
@@ -24,7 +30,7 @@
                         class="p-button-secondary mr-2" pTooltip="PRINT" icon="pi pi-print" label="Imprimer"></button>
 
                     <p-button label="Ajouter une Residence" icon="pi pi-plus" [style]="{ minHeight: '48px' }"
-                        iconPos="right" (click)="formState = true"></p-button>
+                        iconPos="right" (click)="addDialog()"></p-button>
 
 
                 </div>
@@ -34,8 +40,8 @@
 
             <p-table #dt [value]="tableData" [columns]="cols" responsiveLayout="scroll" [rows]="10"
                 [globalFilterFields]="[
-                    'nom',
-                    'date_naissance',
+                    'description',
+                    'quartier',
                     'statut',
                     'region',
                     'sexe',
@@ -53,6 +59,7 @@
                                         <input pInputText type="text" class="input" style="
                                                 width: 100% !important;
                                                 border-radius: 20px !important;
+                                                border-color: cornflowerblue;
                                                 min-height: 48px !important;
                                             " (input)="onGlobalFilter(dt, $event)" placeholder="Rechercher..."
                                             class="w-full sm:w-auto" />
@@ -90,9 +97,9 @@
                     <tr>
                         <th>#</th>
 
-                        <th pSortableColumn="libelle">
+                        <th pSortableColumn="description">
                             Description
-                            <p-sortIcon field="libelle"></p-sortIcon>
+                            <p-sortIcon field="description"></p-sortIcon>
                         </th>
                         <th pSortableColumn="quartier">
                             Quartier <p-sortIcon field="quartier"></p-sortIcon>
@@ -113,12 +120,12 @@
                             {{ i + 1 }}
                         </td>
                         <td>
-                            <span class="p-column-title">Description</span>
+                            <span class="p-column-title">description</span>
                             {{ item?.description }}
                         </td>
                         <td>
-                            <span class="p-column-title">Quartier</span>
-                            {{ item?.quartier.libelle }}
+                            <span class="p-column-title">quartier</span>
+                            {{ item?.quartier?.libelle }}
                         </td>
 
                         <td>
@@ -132,11 +139,11 @@
 
                         <td>
                             <div class="flex">
-                                <i class="pi pi-eye icon mr-3" routerLink="../details-etudiants/{{item?.id}}"
-                                    style="font-size: 1.5rem"></i>
-                                <i class="pi pi-pencil icon mr-3" (click)="edit(item,data.branche.id)"
-                                    style="font-size: 1.5rem"></i>
-                                <i class="pi pi-trash icon" (click)="delete(item)" style="font-size: 1.5rem"></i>
+                                <i class="pi pi-eye icon mr-3" routerLink="../details/{{item?.id}}"
+                                    style="font-size: 1.5rem; cursor: pointer"></i>
+                                <i class="pi pi-pencil icon mr-3" (click)="edit(item)"
+                                    style="font-size: 1.5rem;  cursor: pointer"></i>
+                                <i class="pi pi-trash icon" (click)="opendeleteDialog(item)" style="font-size: 1.5rem; cursor: pointer"></i>
                             </div>
                         </td>
                     </tr>
@@ -153,9 +160,14 @@
         </div>
 
         <!-- Creation d'un nouveau quartier -->
-        <p-dialog [(visible)]="formState" header="Ajouter un quartier" [modal]="true" [style]="{ width: '450px' }">
+        <p-dialog [(visible)]="formState" header="{{formTitle}}" [modal]="true" [style]="{ width: '450px' }">
             <form class="flex flex-column py-3" action="" [formGroup]="form">
-                
+                <input pInputText id="description" [ngModel]="temporaile?.id" formControlName="id" [style]="{
+                    width: '100%',
+                    borderRadius: '10px',
+                    minHeight: '48px',
+                    display: 'none'
+                }" />
                 
                 <div class="col">
 
@@ -211,12 +223,12 @@
 
             <ng-template pTemplate="footer">
                 <button pButton pRipple icon="pi pi-times" class="p-button-secondary" label="Non" size="small"
-                    (click)="formState = false"></button>
-                <button pButton pRipple size="small" [disabled]="state" icon="pi pi-check" class="p-button-primary" label="Ajouter"
-                    (click)="add()">
-                    <i *ngIf="state" class="pi pi-spin pi-spinner"></i>
+                (click)="formState = false"></button>
+            <button pButton pRipple size="small" *ngIf="formTitle =='Ajouter un Ménage'" icon="pi pi-check" class="p-button-primary" label="Ajouter"
+                (click)="addMenage()"></button>
+                <button pButton pRipple size="small" *ngIf="formTitle =='Modifier un Ménage'" icon="pi pi-check" class="p-button-primary" label="Modifier"
+                (click)="modifier()"></button>
 
-                </button>
             </ng-template>
         </p-dialog>
 
@@ -232,7 +244,7 @@
                 <button pButton pRipple icon="pi pi-times" class="p-button-secondary" label="Non" size="small"
                     (click)="deleteDialog = false"></button>
                 <button pButton pRipple size="small" icon="pi pi-check" class="p-button-danger" label="oui , supprimer"
-                    (click)="confirmDelete()"></button>
+                    (click)="deleteMenage()"></button>
             </ng-template>
         </p-dialog>
     </div>

@@ -1,0 +1,23 @@
+@media screen and (max-width: 960px) {
+    :host ::ng-deep .fc-header-toolbar {
+        display: flex;
+        flex-wrap: wrap;
+
+        .fc-dayGridMonth-button {
+            margin-top: 1rem;
+        }
+        .fc-timeGridWeek-button{
+            margin-top: 1rem;
+        }
+        .fc-timeGridDay-button{
+            margin-top: 1rem;
+        }
+    }
+}
+
+
+:host ::ng-deep .p-panel .p-panel-header{
+
+    background: linear-gradient(to right, #31506d, #143b5e70) !important;
+    color: #ffffff !important;
+}

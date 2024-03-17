@@ -13,6 +13,8 @@ import { PartegerModule } from 'src/app/parteger/parteger.module';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
+import { CardModule } from 'primeng/card';
+import { ToastModule } from 'primeng/toast';
 
 
 
@@ -27,12 +29,12 @@ import { DropdownModule } from 'primeng/dropdown';
     CommonModule,
     QuartiersRoutingModule,
     PartegerModule,
-
+    ToastModule,
     // Prime NG
     ButtonModule,
     DialogModule,
     DropdownModule,
-    
+    CardModule,
     // Core modules
     FormsModule,    
     ReactiveFormsModule

@@ -14,7 +14,11 @@ import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CheckboxModule } from 'primeng/checkbox';
-
+import { TagModule } from 'primeng/tag';
+import {TabViewModule} from 'primeng/tabview';
+import {AvatarModule} from 'primeng/avatar';
+import {AvatarGroupModule} from 'primeng/avatargroup';
+import { MultiSelectModule } from 'primeng/multiselect';
 @NgModule({
   declarations: [
     ListPersonnesComponent,
@@ -36,7 +40,12 @@ import { CheckboxModule } from 'primeng/checkbox';
     ReactiveFormsModule,
     CheckboxModule,
     ButtonModule,
-
+    TagModule,
+    TabViewModule,
+    AvatarModule,
+    AvatarGroupModule,
+    MultiSelectModule,
+    ToastModule,
   ]
 })
 export class PersonnesModule { }

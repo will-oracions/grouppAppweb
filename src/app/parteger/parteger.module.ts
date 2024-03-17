@@ -17,6 +17,7 @@ import { GenericFormsComponent } from './generic-forms/generic-forms.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastModule } from 'primeng/toast';
 import { DropdownModule } from 'primeng/dropdown';
+import { PortraitComponent } from './portrait/portrait.component';
 
 
 
@@ -28,6 +29,7 @@ import { DropdownModule } from 'primeng/dropdown';
     SkelletonComponent,
     GenericTableComponent,
     GenericFormsComponent,
+    PortraitComponent
 
   ],
   exports: [
@@ -39,6 +41,7 @@ import { DropdownModule } from 'primeng/dropdown';
     GenericFormsComponent,
     TableModule,
     ToastModule,
+    PortraitComponent
     
 ],
   imports: [
