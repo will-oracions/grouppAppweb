@@ -318,7 +318,7 @@
                     <input
                         pInputText
                         id="noms"
-                        [ngModel]="temporaile?.nom"
+                        [(ngModel)]="newPersonDto.nom"
                         formControlName="nom"
                         [style]="{
                             width: '100%',
@@ -348,7 +348,7 @@
                         }"
                         id="date"
                         appendTo="body"
-                        [(ngModel)]="temporaile.date_naissance"
+                        [(ngModel)]="newPersonDto.date_naissance"
                         formControlName="date_naissance"
                     ></p-calendar>
 
@@ -378,7 +378,7 @@
                             optionValue="libelle"
                             appendTo="body"
                             id="statut"
-                            [ngModel]="temporaile?.statut"
+                            [(ngModel)]="newPersonDto?.statut"
                             [style]="{
                                 width: '100%',
                                 borderRadius: '10px',
@@ -454,7 +454,7 @@
                         formControlName="sexe"
                         [options]="sexes"
                         optionLabel="code"
-                        [(ngModel)]="temporaile.sexe"
+                        [(ngModel)]="newPersonDto.sexe"
                         appendTo="body"
                         id="sexe"
                         optionValue="code"
@@ -519,7 +519,7 @@
                     [binary]="true"
                     class="mr-4"
                     name="estRedoublant"
-                    [(ngModel)]="temporaile.is_cni"
+                    [(ngModel)]="newPersonDto.is_cni"
                     formArrayName="is_cni"
                 ></p-checkbox>
             </div>
@@ -528,7 +528,7 @@
                     label="Avez vous un acte de naissance ?"
                     [binary]="true"
                     name="estNouveau"
-                    [(ngModel)]="temporaile.is_actenaissance"
+                    [(ngModel)]="newPersonDto.is_actenaissance"
                     formControlName="is_actenaissance"
                 ></p-checkbox>
             </div>
@@ -537,7 +537,7 @@
                     label="Etes vous autochtone ?"
                     [binary]="true"
                     name="estNouveau"
-                    [(ngModel)]="temporaile.is_autochtone"
+                    [(ngModel)]="newPersonDto.is_autochtone"
                     formControlName="is_autochtone"
                 ></p-checkbox>
             </div>
@@ -549,7 +549,7 @@
                     [binary]="true"
                     class="mr-4"
                     name="estRedoublant"
-                    [(ngModel)]="temporaile.is_handicape"
+                    [(ngModel)]="newPersonDto.is_handicape"
                     formControlName="is_handicape"
                 ></p-checkbox>
             </div>
@@ -558,7 +558,7 @@
                     label="Etes vous chef de ménage ?"
                     [binary]="true"
                     name="estNouveau"
-                    [(ngModel)]="temporaile.is_chef_menage"
+                    [(ngModel)]="newPersonDto.is_chef_menage"
                     (onChange)="changeValidator()"
                     formControlName="is_chef_menage"
                 ></p-checkbox>

@@ -1,13 +1,16 @@
-import { sexType } from "../personne.model";
+import { PersonSexEnum, PersonStatusEnum } from "../personne.model";
 
-export interface PersonneCreateDto {
-    noms: string;
-    date_naissance: string;
-    region: any;
-    sexe: sexType;
-    is_cni: boolean;
-    is_actenaissance: boolean;
-    is_handicape: boolean;
-    is_chef_menage: boolean;
-    vulnerabilite: any[];
+export class PersonneCreateDto {
+    constructor(
+        public noms: string = "",
+        public date_naissance: string = "",
+        public region: any = "",
+        public sexe: PersonSexEnum = PersonSexEnum.FEMININ,
+        public is_cni: boolean = false,
+        public is_actenaissance: boolean = false,
+        public is_handicape: boolean = false,
+        public is_chef_menage: boolean = false,
+        public vulnerabilite: any[] = [],
+        public statut: PersonStatusEnum = PersonStatusEnum.ALIVE
+    ) {}
 }

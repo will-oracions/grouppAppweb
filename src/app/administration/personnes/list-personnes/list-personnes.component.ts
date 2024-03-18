@@ -5,6 +5,13 @@ import { Table } from "primeng/table";
 import { BreadcrumbService } from "src/app/app.breadcrumb.service";
 import { AuthentificationsService } from "src/app/demo/service/auth.service";
 import { FormService } from "src/app/demo/service/base.service";
+import { PersonnesService } from "../personnes.service";
+import {
+    PersonSexEnum,
+    PersonStatusEnum,
+    PersonneModel,
+} from "../personne.model";
+import { PersonneCreateDto } from "../dto/personne-create.dto";
 
 @Component({
     selector: "app-list-personnes",
@@ -28,15 +35,17 @@ export class ListPersonnesComponent {
     vulnerabilite: any;
     utilisateurId: any;
     sexes = [
-        { name: "Masculin", code: "MASCULIN" },
-        { name: "Feminin", code: "FEMININ" },
+        { name: "Masculin", code: PersonSexEnum.MASCULIN },
+        { name: "Feminin", code: PersonSexEnum.FEMININ },
     ];
     statuts = [
-        { code: "vie", libelle: "En vie" },
-        { code: "mort", libelle: "Décédé" },
+        { code: PersonStatusEnum.ALIVE, libelle: "En vie" },
+        { code: PersonStatusEnum.DEAD, libelle: "Décédé" },
     ];
     regions: any[] = [];
+
     titlePage = "Liste des Personnes";
+
     tableColumns = [
         { header: "Noms", field: "noms" },
         { header: "Prenoms", field: "prenoms" },
@@ -45,7 +54,7 @@ export class ListPersonnesComponent {
         { header: "Genre", field: "sexe" },
     ];
 
-    tableData = [];
+    tableData: PersonneModel[] = [];
 
     formsFields = [
         { name: "noms", label: "Noms", validators: [Validators.required] },
@@ -74,17 +83,23 @@ export class ListPersonnesComponent {
             validators: [Validators.required],
         },
     ];
+
+    newPersonDto: PersonneCreateDto = new PersonneCreateDto();
+
     constructor(
         private service: FormService,
         private fb: FormBuilder,
         private messageService: MessageService,
         private breadcrumbService: BreadcrumbService,
-        private utilisateur: AuthentificationsService
+        private utilisateur: AuthentificationsService,
+        private personnesService: PersonnesService
     ) {
         this.breadcrumbService.setItems([{ label: "Liste Des Personnes" }]);
     }
+
     ngOnInit(): void {
         this.utilisateurId = this.utilisateur.userId;
+
         this.cols = [
             { field: "nom", header: "Noms" },
             { field: "date_naissance", header: "Date de Naissance" },
@@ -92,6 +107,7 @@ export class ListPersonnesComponent {
             { field: "sexe", header: "Sexe" },
             { field: "is_chef_menage", header: "Est chef de menage ?" },
         ];
+
         this.formulaires = this.fb.group({
             id: [""],
             nom: ["", Validators.required],
@@ -109,6 +125,7 @@ export class ListPersonnesComponent {
             vulnerabilite: [""],
             utilisateurId: ["", Validators.required],
         });
+
         this.getAlls();
         this.getAllResidence();
         this.getAllChef();
@@ -141,36 +158,36 @@ export class ListPersonnesComponent {
             });
     }
 
-    get nom() {
-        return this.formulaires.get("nom");
-    }
-    get date_naissance() {
-        return this.formulaires.get("date_naissance");
-    }
-    get statut() {
-        return this.formulaires.get("statut");
-    }
-    get regionid() {
-        return this.formulaires.get("regionId");
-    }
-    get sexe() {
-        return this.formulaires.get("sexe");
-    }
-    get is_cni() {
-        return this.formulaire.get("is_cni");
-    }
-    get is_actenaissance() {
-        return this.formulaires.get("is_actenaissance");
-    }
-    get is_autochtone() {
-        return this.formulaires.get("is_autochtone");
-    }
-    get is_handicape() {
-        return this.formulaires.get("is_handicape");
-    }
-    get is_chef_menage() {
-        return this.formulaires.get("is_chef_menage");
-    }
+    // get nom() {
+    //     return this.formulaires.get("nom");
+    // }
+    // get date_naissance() {
+    //     return this.formulaires.get("date_naissance");
+    // }
+    // get statut() {
+    //     return this.formulaires.get("statut");
+    // }
+    // get regionid() {
+    //     return this.formulaires.get("regionId");
+    // }
+    // get sexe() {
+    //     return this.formulaires.get("sexe");
+    // }
+    // get is_cni() {
+    //     return this.formulaire.get("is_cni");
+    // }
+    // get is_actenaissance() {
+    //     return this.formulaires.get("is_actenaissance");
+    // }
+    // get is_autochtone() {
+    //     return this.formulaires.get("is_autochtone");
+    // }
+    // get is_handicape() {
+    //     return this.formulaires.get("is_handicape");
+    // }
+    // get is_chef_menage() {
+    //     return this.formulaires.get("is_chef_menage");
+    // }
     get idresidence() {
         return this.formulaires.get("idresidence");
     }
@@ -180,9 +197,10 @@ export class ListPersonnesComponent {
 
     getAlls() {
         this.load = true;
-        this.service.getAll("personnes").subscribe({
-            next: (value) => {
-                this.tableData = value;
+        // this.service.getAll("personnes").subscribe({
+        this.personnesService.getAll().subscribe({
+            next: (personnes: PersonneModel[]) => {
+                this.tableData = personnes;
             },
             error: (err) =>
                 console.error("Observable emitted an error: " + err),
@@ -191,6 +209,7 @@ export class ListPersonnesComponent {
             },
         });
     }
+
     getAllVulnerabilite() {
         this.service.getAll("vulnerabilite").subscribe({
             next: (value) => {
@@ -201,6 +220,7 @@ export class ListPersonnesComponent {
             complete: () => {},
         });
     }
+
     getAllChef() {
         this.service.getAll("chef/all/personnes").subscribe({
             next: (value) => {
@@ -244,10 +264,12 @@ export class ListPersonnesComponent {
         this.formTitle = "Ajouter une Personne";
         this.addEdit = true;
     }
+
     async opendeleteDialog(val: any) {
         this.temporaile = { ...val };
         this.deleteDialog = true;
     }
+
     deletePersonne() {
         this.state = true;
         this.service.delete("personnes" + "/" + this.temporaile.id).subscribe(
@@ -275,12 +297,14 @@ export class ListPersonnesComponent {
             }
         );
     }
+
     edit(val: any) {
         this.temporaile = {};
         this.formTitle = "Modifier une Personne";
         this.temporaile = { ...val };
         this.addEdit = true;
     }
+
     printListe() {
         this.service.printListe(
             this.titlePage,

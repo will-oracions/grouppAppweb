@@ -2,7 +2,7 @@ export class PersonneModel {
     noms: string;
     date_naissance: string;
     region: any;
-    sexe: sexType;
+    sexe: PersonSexEnum;
     is_cni: boolean;
     is_actenaissance: boolean;
     is_handicape: boolean;
@@ -10,4 +10,12 @@ export class PersonneModel {
     vulnerabilite: any[];
 }
 
-export type sexType = "H" | "F";
+export enum PersonSexEnum {
+    MASCULIN = "MASCULIN",
+    FEMININ = "FEMININ",
+}
+
+export enum PersonStatusEnum {
+    ALIVE = "En vie",
+    DEAD = "Décédé",
+}
