@@ -1,7 +1,9 @@
 import { BaseAdapter } from "src/app/parteger/base.adapter";
 import { PersonneModel } from "./personne.model";
 import { OperationStatusDto } from "src/app/parteger/operation-status.dto";
+import { Injectable } from "@angular/core";
 
+@Injectable()
 export class PersonneAdapter implements BaseAdapter<PersonneModel> {
     adapt(item: any): PersonneModel {
         return {

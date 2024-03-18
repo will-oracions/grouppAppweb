@@ -68,32 +68,38 @@
 <div class="lookup-filter-container">
     <div class="lookup-dropdown-wrapper">
         <app-lookup-dropdown
+            [listItem]="targetList"
+            optionLabel="name"
+            placeholder="Menages"
+        ></app-lookup-dropdown>
+    </div>
+
+    <div class="lookup-dropdown-wrapper">
+        <app-lookup-dropdown
+            [listItem]="regionsList"
             optionLabel="name"
             placeholder="Région"
         ></app-lookup-dropdown>
     </div>
     <div class="lookup-dropdown-wrapper">
         <app-lookup-dropdown
+            [listItem]="departmentsList"
             optionLabel="name"
-            placeholder="Région"
+            placeholder="Départements"
         ></app-lookup-dropdown>
     </div>
     <div class="lookup-dropdown-wrapper">
         <app-lookup-dropdown
+            [listItem]="communesList"
             optionLabel="name"
-            placeholder="Région"
+            placeholder="Communes"
         ></app-lookup-dropdown>
     </div>
     <div class="lookup-dropdown-wrapper">
         <app-lookup-dropdown
+            [listItem]="streetsList"
             optionLabel="name"
-            placeholder="Région"
-        ></app-lookup-dropdown>
-    </div>
-    <div class="lookup-dropdown-wrapper">
-        <app-lookup-dropdown
-            optionLabel="name"
-            placeholder="Région"
+            placeholder="Quartiers"
         ></app-lookup-dropdown>
     </div>
 </div>
@@ -125,19 +131,15 @@
         <div class="lookup-dropdown-wrapper">
             <app-lookup-dropdown
                 optionLabel="name"
-                placeholder="Région"
+                placeholder="Agents"
+                [listItem]="agentsList"
             ></app-lookup-dropdown>
         </div>
-        <div class="lookup-dropdown-wrapper">
+        <div style="margin-top: 1rem" class="lookup-dropdown-wrapper">
             <app-lookup-dropdown
                 optionLabel="name"
-                placeholder="Région"
-            ></app-lookup-dropdown>
-        </div>
-        <div class="lookup-dropdown-wrapper">
-            <app-lookup-dropdown
-                optionLabel="name"
-                placeholder="Région"
+                placeholder="vulnerabilités"
+                [listItem]="vulnerabilitiesList"
             ></app-lookup-dropdown>
         </div>
     </aside>

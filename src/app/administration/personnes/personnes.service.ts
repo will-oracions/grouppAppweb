@@ -13,9 +13,10 @@ export class PersonnesService extends BaseHttpService<
     PersonneCreateDto,
     PersonneUpdateDto
 > {
-    protected rootUrl = `${environment.apiUrl}/personnes`;
+    private rootUrl: string;
 
     constructor(http: HttpClient, adapter: PersonneAdapter) {
-        super(http, adapter);
+        super(`${environment.apiUrl}/personnes`, http, adapter);
+        this.rootUrl = `${environment.apiUrl}/personnes`;
     }
 }

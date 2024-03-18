@@ -8,17 +8,10 @@ export class LookupDropdownCompoent {
     @Input() optionLabel: string;
     @Input() placeholder: string;
 
-    listItem: any[] | undefined;
+    @Input()
+    listItem: any[] | undefined = [];
 
     selectedItem: any | undefined;
 
-    ngOnInit() {
-        this.listItem = [
-            { name: "Centre", code: "CE" },
-            { name: "Sud", code: "SU" },
-            { name: "Nord", code: "No" },
-            { name: "Est", code: "ES" },
-            { name: "Littoral", code: "LI" },
-        ];
-    }
+    ngOnInit() {}
 }

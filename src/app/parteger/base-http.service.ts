@@ -19,9 +19,8 @@ export class BaseHttpService<TModel, TCreateDto, TUpdateDto> {
         }),
     };
 
-    protected rootURL: string = `${environment.apiUrl}`;
-
     constructor(
+        private rootURL: string,
         private http: HttpClient,
         private adapter: BaseAdapter<TModel>
     ) {}
