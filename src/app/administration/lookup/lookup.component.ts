@@ -7,6 +7,8 @@ import { QuartierModel } from "../quartiers/quartier.model";
 import { CommuneModel } from "../communes/commune.model";
 import { DepartmentModel } from "../departement/department.model";
 import { RegionModel } from "../region/region.model";
+import { VulnerabilitiessService } from "../vulnerabilite/vulnerabilities.service";
+import { ResidencesService } from "../residences/residences.service";
 
 export type LookupTarget = "persons" | "menages";
 
@@ -52,7 +54,9 @@ export class LookupComponent implements OnInit {
         private regionsService: RegionsService,
         private departmentsService: DepartmentsService,
         private communesService: CommunesService,
-        private quartiersService: QuartiersService
+        private quartiersService: QuartiersService,
+        private vulnerabilitiesService: VulnerabilitiessService,
+        private residencesServices: ResidencesService
     ) {}
 
     ngOnInit(): void {
@@ -81,5 +85,12 @@ export class LookupComponent implements OnInit {
             console.log("Quartiers list: ", res);
             this.streetsList = res;
         });
+
+        this.vulnerabilitiesService
+            .getAll()
+            .subscribe((res: QuartierModel[]) => {
+                console.log("Quartiers list: ", res);
+                this.vulnerabilitiesList = res;
+            });
     }
 }

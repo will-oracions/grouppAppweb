@@ -20,9 +20,9 @@ export class BaseHttpService<TModel, TCreateDto, TUpdateDto> {
     };
 
     constructor(
-        private rootURL: string,
-        private http: HttpClient,
-        private adapter: BaseAdapter<TModel>
+        protected rootURL: string,
+        protected http: HttpClient,
+        protected adapter: BaseAdapter<TModel>
     ) {}
 
     create(payload: TCreateDto): Observable<TModel> {
@@ -76,7 +76,7 @@ export class BaseHttpService<TModel, TCreateDto, TUpdateDto> {
             );
     }
 
-    private handleError(error: HttpErrorResponse) {
+    protected handleError(error: HttpErrorResponse) {
         let errorMessage;
 
         if (error.error instanceof ErrorEvent) {

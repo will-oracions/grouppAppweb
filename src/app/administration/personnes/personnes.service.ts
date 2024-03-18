@@ -6,6 +6,8 @@ import { PersonneCreateDto } from "./dto/personne-create.dto";
 import { PersonneUpdateDto } from "./dto/personne-update.dto";
 import { PersonneAdapter } from "./personne.adapter";
 import { HttpClient } from "@angular/common/http";
+import { SearchFilter } from "../lookup/lookup.interfaces";
+import { Observable, catchError, map, retry } from "rxjs";
 
 @Injectable()
 export class PersonnesService extends BaseHttpService<
@@ -13,10 +15,20 @@ export class PersonnesService extends BaseHttpService<
     PersonneCreateDto,
     PersonneUpdateDto
 > {
-    private rootUrl: string;
-
     constructor(http: HttpClient, adapter: PersonneAdapter) {
         super(`${environment.apiUrl}/personnes`, http, adapter);
-        this.rootUrl = `${environment.apiUrl}/personnes`;
+    }
+
+    lookup(filter: SearchFilter): Observable<PersonneModel[]> {
+        return this.http
+            .post<PersonneModel[]>(
+                `${environment.apiUrl}/filters/personnes`,
+                filter
+            )
+            .pipe(
+                retry(2),
+                catchError(this.handleError),
+                map((response) => this.adapter.adaptList(response))
+            );
     }
 }

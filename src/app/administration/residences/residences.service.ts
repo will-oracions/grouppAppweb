@@ -13,6 +13,6 @@ export class ResidencesService extends BaseHttpService<
     ResidenceModel
 > {
     constructor(http: HttpClient, adapter: ResidenceAdapter) {
-        super(`${environment.apiUrl}/communes`, http, adapter);
+        super(`${environment.apiUrl}/residences`, http, adapter);
     }
 }

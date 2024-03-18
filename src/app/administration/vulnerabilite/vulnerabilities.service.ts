@@ -13,6 +13,6 @@ export class VulnerabilitiessService extends BaseHttpService<
     VulnerabilityModel
 > {
     constructor(http: HttpClient, adapter: VulnerabilitiesAdapter) {
-        super(`${environment.apiUrl}/communes`, http, adapter);
+        super(`${environment.apiUrl}/vulnerabilite`, http, adapter);
     }
 }
