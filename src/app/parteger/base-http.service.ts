@@ -11,7 +11,7 @@ import { OperationStatusDto } from "./operation-status.dto";
 
 @Injectable({ providedIn: "root" })
 export class BaseHttpService<TModel, TCreateDto, TUpdateDto> {
-    private httpOptions = {
+    protected httpOptions = {
         headers: new HttpHeaders({
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "*",

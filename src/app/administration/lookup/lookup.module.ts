@@ -19,6 +19,8 @@ import { ResidencesService } from "../residences/residences.service";
 import { ResidenceAdapter } from "../residences/residences.adapter";
 import { VulnerabilitiessService } from "../vulnerabilite/vulnerabilities.service";
 import { VulnerabilitiesAdapter } from "../vulnerabilite/vulnerabilities.adapter";
+import { UsersService } from "../utilisateur/users.service";
+import { UsersAdapter } from "../utilisateur/users.adapter";
 
 @NgModule({
     imports: [LookupRoutingModule, PartegerModule, DropdownModule],
@@ -44,6 +46,8 @@ import { VulnerabilitiesAdapter } from "../vulnerabilite/vulnerabilities.adapter
         VulnerabilitiesAdapter,
         ResidencesService,
         ResidenceAdapter,
+        UsersService,
+        UsersAdapter,
     ],
     exports: [],
 })

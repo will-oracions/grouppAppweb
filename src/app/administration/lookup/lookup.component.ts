@@ -9,6 +9,9 @@ import { DepartmentModel } from "../departement/department.model";
 import { RegionModel } from "../region/region.model";
 import { VulnerabilitiessService } from "../vulnerabilite/vulnerabilities.service";
 import { ResidencesService } from "../residences/residences.service";
+import { UsersService } from "../utilisateur/users.service";
+import { UserModel } from "../utilisateur/user.model";
+import { UsersListResponse } from "../utilisateur/users.adapter";
 
 export type LookupTarget = "persons" | "menages";
 
@@ -56,7 +59,8 @@ export class LookupComponent implements OnInit {
         private communesService: CommunesService,
         private quartiersService: QuartiersService,
         private vulnerabilitiesService: VulnerabilitiessService,
-        private residencesServices: ResidencesService
+        private residencesServices: ResidencesService,
+        private usersServices: UsersService
     ) {}
 
     ngOnInit(): void {
@@ -67,30 +71,32 @@ export class LookupComponent implements OnInit {
         // });
 
         this.regionsService.getAll().subscribe((res: RegionModel[]) => {
-            console.log("regions list: ", res);
             this.regionsList = res;
         });
 
         this.departmentsService.getAll().subscribe((res: DepartmentModel[]) => {
-            console.log("Departments list: ", res);
             this.departmentsList = res;
         });
 
         this.communesService.getAll().subscribe((res: CommuneModel[]) => {
-            console.log("Communes list: ", res);
             this.communesList = res;
         });
 
         this.quartiersService.getAll().subscribe((res: QuartierModel[]) => {
-            console.log("Quartiers list: ", res);
             this.streetsList = res;
         });
 
         this.vulnerabilitiesService
             .getAll()
             .subscribe((res: QuartierModel[]) => {
-                console.log("Quartiers list: ", res);
                 this.vulnerabilitiesList = res;
+            });
+
+        this.usersServices
+            .getAllDifferentsUsers()
+            .subscribe((res: UsersListResponse) => {
+                console.log("list of diffrentes users: ", res);
+                this.agentsList = res.agents;
             });
     }
 }

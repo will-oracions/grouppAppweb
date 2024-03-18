@@ -1,5 +1,9 @@
 export class UserModel {
     noms: string;
+    name?: string;
+    username: string;
+    raisonSociale: string;
+    prenoms: null;
     // date_naissance: string;
     // region: any;
     // sexe: PersonSexEnum;
