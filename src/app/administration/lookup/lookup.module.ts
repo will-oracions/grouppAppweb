@@ -15,6 +15,10 @@ import { CommunesService } from "../communes/communes.service";
 import { CommuneAdapter } from "../communes/communes.adapter";
 import { DepartmentsService } from "../departement/departments.service";
 import { DepartmentAdapter } from "../departement/department.adapter";
+import { ResidencesService } from "../residences/residences.service";
+import { ResidenceAdapter } from "../residences/residences.adapter";
+import { VulnerabilitiessService } from "../vulnerabilite/vulnerabilities.service";
+import { VulnerabilitiesAdapter } from "../vulnerabilite/vulnerabilities.adapter";
 
 @NgModule({
     imports: [LookupRoutingModule, PartegerModule, DropdownModule],
@@ -34,6 +38,12 @@ import { DepartmentAdapter } from "../departement/department.adapter";
         CommuneAdapter,
         DepartmentsService,
         DepartmentAdapter,
+        ResidencesService,
+        ResidenceAdapter,
+        VulnerabilitiessService,
+        VulnerabilitiesAdapter,
+        ResidencesService,
+        ResidenceAdapter,
     ],
     exports: [],
 })
