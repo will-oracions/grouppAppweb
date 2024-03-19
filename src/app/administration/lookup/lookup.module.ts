@@ -21,9 +21,15 @@ import { VulnerabilitiessService } from "../vulnerabilite/vulnerabilities.servic
 import { VulnerabilitiesAdapter } from "../vulnerabilite/vulnerabilities.adapter";
 import { UsersService } from "../utilisateur/users.service";
 import { UsersAdapter } from "../utilisateur/users.adapter";
+import { CommonModule } from "@angular/common";
 
 @NgModule({
-    imports: [LookupRoutingModule, PartegerModule, DropdownModule],
+    imports: [
+        LookupRoutingModule,
+        PartegerModule,
+        DropdownModule,
+        CommonModule,
+    ],
     declarations: [
         LookupComponent,
         LookupDropdownCompoent,

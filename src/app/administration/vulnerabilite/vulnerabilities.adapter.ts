@@ -1,14 +1,18 @@
-import { BaseAdapter } from "src/app/parteger/base.adapter";
+import { BaseAdapter, IBaseAdapter } from "src/app/parteger/base.adapter";
 import { OperationStatusDto } from "src/app/parteger/operation-status.dto";
 import { Injectable } from "@angular/core";
 import { VulnerabilityModel } from "./vulnerability.model";
 
 @Injectable()
-export class VulnerabilitiesAdapter implements BaseAdapter<VulnerabilityModel> {
+export class VulnerabilitiesAdapter
+    extends BaseAdapter
+    implements IBaseAdapter<VulnerabilityModel>
+{
     adapt(item: any): VulnerabilityModel {
         return {
-            name: item?.commune,
-            code: item?.code,
+            ...this.adaptBase(item),
+            name: item?.nom,
+            description: item?.description,
         };
     }
 

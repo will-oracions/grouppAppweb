@@ -1,4 +1,4 @@
-import { BaseAdapter } from "src/app/parteger/base.adapter";
+import { BaseAdapter, IBaseAdapter } from "src/app/parteger/base.adapter";
 import { OperationStatusDto } from "src/app/parteger/operation-status.dto";
 import { Injectable } from "@angular/core";
 import { UserModel } from "./user.model";
@@ -11,9 +11,13 @@ export interface UsersListResponse {
 }
 
 @Injectable()
-export class UsersAdapter implements BaseAdapter<UserModel> {
+export class UsersAdapter
+    extends BaseAdapter
+    implements IBaseAdapter<UserModel>
+{
     adapt(item: any): UserModel {
         return {
+            ...this.adaptBase(item),
             noms: item?.nom,
             prenoms: item?.prenoms,
             username: item?.username,

@@ -1,4 +1,6 @@
-export class UserModel {
+import { BaseModel } from "src/app/parteger/base.model";
+
+export class UserModel extends BaseModel {
     noms: string;
     name?: string;
     username: string;

@@ -16,4 +16,4 @@ export interface SearchFilter {
     birthDateTo?: Date;
 }
 
-type SearchFilterTarget = "pernages" | "personnes";
+export type SearchFilterTarget = "menages" | "personnes";

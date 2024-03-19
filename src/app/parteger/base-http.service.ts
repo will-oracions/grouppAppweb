@@ -6,7 +6,7 @@ import {
 import { Injectable } from "@angular/core";
 import { Observable, catchError, retry, throwError, map } from "rxjs";
 import { environment } from "src/environments/environment";
-import { BaseAdapter } from "./base.adapter";
+import { IBaseAdapter } from "./base.adapter";
 import { OperationStatusDto } from "./operation-status.dto";
 
 @Injectable({ providedIn: "root" })
@@ -22,7 +22,7 @@ export class BaseHttpService<TModel, TCreateDto, TUpdateDto> {
     constructor(
         protected rootURL: string,
         protected http: HttpClient,
-        protected adapter: BaseAdapter<TModel>
+        protected adapter: IBaseAdapter<TModel>
     ) {}
 
     create(payload: TCreateDto): Observable<TModel> {

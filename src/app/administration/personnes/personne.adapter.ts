@@ -1,12 +1,16 @@
-import { BaseAdapter } from "src/app/parteger/base.adapter";
+import { BaseAdapter, IBaseAdapter } from "src/app/parteger/base.adapter";
 import { PersonneModel } from "./personne.model";
 import { OperationStatusDto } from "src/app/parteger/operation-status.dto";
 import { Injectable } from "@angular/core";
 
 @Injectable()
-export class PersonneAdapter implements BaseAdapter<PersonneModel> {
+export class PersonneAdapter
+    extends BaseAdapter
+    implements IBaseAdapter<PersonneModel>
+{
     adapt(item: any): PersonneModel {
         return {
+            ...this.adaptBase(item),
             noms: item?.nom,
             date_naissance: item?.date_naissance,
             region: item?.region,

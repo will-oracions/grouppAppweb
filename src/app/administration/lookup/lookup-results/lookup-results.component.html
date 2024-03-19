@@ -1,5 +1,5 @@
 <div class="grid">
-    <div class="col-12">
+    <div *ngIf="loading" class="col-12">
         <app-skelleton
             [table]="[
                 'Noms',
@@ -8,7 +8,224 @@
                 'Region',
                 'Genre'
             ]"
-            title="Liste des Menages Vulnérables"
+            title="Liste des personnes Vulnérables"
         ></app-skelleton>
     </div>
+
+    <div *ngIf="!loading" class="card border-round-2xl">
+        <div class="col flex justify-content-between align-items-center">
+            <div class="justify-content-center flex align-items-center">
+                <i
+                    class="pi pi-fw pi-users"
+                    style="font-size: xxx-large; color: #0e3f6a"
+                ></i>
+
+                <h3
+                    style="
+                        font-weight: bold;
+                        color: #0e3f6a;
+                        white-space: nowrap !important;
+                    "
+                >
+                    Liste des personnes Vulnérables
+                    <!-- {{ titlePage }} -->
+                </h3>
+            </div>
+            <!-- <div class="flex align-content-center align-items-center">
+                <button
+                    type="button"
+                    [style]="{ minHeight: '48px' }"
+                    pButton
+                    pRipple
+                    (click)="printListe()"
+                    class="p-button-secondary mr-2"
+                    pTooltip="PRINT"
+                    icon="pi pi-print"
+                    label="Imprimer"
+                ></button>
+                <p-button
+                    label="Ajouter une Personne"
+                    icon="pi pi-plus"
+                    [style]="{ minHeight: '48px' }"
+                    iconPos="right"
+                    (click)="add()"
+                ></p-button>
+            </div> -->
+        </div>
+
+        <p-table
+            #dt
+            [value]="listResults"
+            [columns]="cols"
+            responsiveLayout="scroll"
+            [rows]="10"
+            [globalFilterFields]="[
+                'nom',
+                'date_naissance',
+                'statut',
+                'region',
+                'sexe',
+                'est chef de famille ?'
+            ]"
+            [rows]="10"
+            [paginator]="true"
+            [rowsPerPageOptions]="[10, 20, 30]"
+            [showCurrentPageReport]="true"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [rowHover]="true"
+            dataKey="id"
+        >
+            <ng-template pTemplate="caption">
+                <div
+                    class="flex flex-column md:flex-row md:justify-content-between md:align-items-center"
+                >
+                    <div style="width: 100%">
+                        <div style="width: 100%; display: flex">
+                            <div style="width: 94% !important">
+                                <span
+                                    class="block mt-2 md:mt-0 p-input-icon-left"
+                                >
+                                    <i class="pi pi-search"></i>
+                                    <input
+                                        pInputText
+                                        type="text"
+                                        class="input"
+                                        style="
+                                            width: 100% !important;
+                                            border-radius: 20px !important;
+                                            border-color: cornflowerblue;
+
+                                            min-height: 48px !important;
+                                        "
+                                        (input)="onGlobalFilter(dt, $event)"
+                                        placeholder="Rechercher..."
+                                        class="w-full sm:w-auto"
+                                    />
+                                </span>
+                            </div>
+
+                            <div
+                                class="flex flex-column md:flex-row md:justify-content-between md:align-items-center"
+                            >
+                                <i
+                                    class="pi pi-file-excel"
+                                    (click)="exportExcel()"
+                                    pTooltip="XLS"
+                                    tooltipPosition="bottom"
+                                    style="
+                                        font-size: 1.5rem;
+                                        cursor: pointer;
+
+                                        margin-right: 13px;
+                                        color: #757575;
+                                    "
+                                ></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>#</th>
+                    <th pSortableColumn="nom">
+                        Noms
+                        <p-sortIcon field="nom"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="date_naissance">
+                        Date de Naissance<p-sortIcon
+                            field="date_naissance"
+                        ></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="statut">
+                        Statut
+                        <p-sortIcon field="statut"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="sexe">
+                        Sexe <p-sortIcon field="sexe"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="is_chef_menage">
+                        Est chef de famille ?<p-sortIcon
+                            field="is_chef_menage"
+                        ></p-sortIcon>
+                    </th>
+
+                    <th></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item let-i="rowIndex">
+                <tr>
+                    <td style="width: 5%; min-width: 3rem">
+                        {{ i + 1 }}
+                    </td>
+                    <td>
+                        <span class="p-column-title">Noms</span>
+                        {{ item?.nom }}
+                    </td>
+                    <td>
+                        <span class="p-column-title">Date de naissance</span>
+                        {{ item?.date_naissance | date : "MMM, dd yyyy" }}
+                    </td>
+                    <td>
+                        <span class="p-column-title">statut</span>
+                        <p-tag
+                            [severity]="
+                                item.statut == 'En vie' ? 'success' : 'danger'
+                            "
+                            [value]="item?.statut"
+                        ></p-tag>
+                    </td>
+                    <td>
+                        <span class="p-column-title">sexe</span>
+                        {{ item?.sexe }}
+                    </td>
+                    <td>
+                        <span class="p-column-title">is_chef_menage</span>
+                        <p-tag
+                            [severity]="
+                                item.is_chef_menage == true ? 'primary' : 'info'
+                            "
+                            [value]="
+                                item.is_chef_menage == true ? 'Oui' : 'Non'
+                            "
+                        ></p-tag>
+                    </td>
+
+                    <!-- <td>
+                        <div class="flex">
+                            <i
+                                class="pi pi-eye icon mr-3"
+                                routerLink="../details/{{ item.id }}"
+                                style="font-size: 1.5rem; cursor: pointer"
+                            ></i>
+                            <i
+                                class="pi pi-pencil icon mr-3"
+                                (click)="edit(item)"
+                                style="font-size: 1.5rem; cursor: pointer"
+                            ></i>
+                            <i
+                                class="pi pi-trash icon"
+                                (click)="opendeleteDialog(item)"
+                                style="font-size: 1.5rem; cursor: pointer"
+                            ></i>
+                        </div>
+                    </td> -->
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td
+                        colspan="7"
+                        style="text-align: center"
+                        style="text-align: center"
+                    >
+                        Aucune personne trouvée.
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
 </div>
+
+<div *ngIf="!listResults || listResults.length == 0">Pas de résultats</div>

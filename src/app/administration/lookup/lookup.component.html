@@ -68,38 +68,49 @@
 <div class="lookup-filter-container">
     <div class="lookup-dropdown-wrapper">
         <app-lookup-dropdown
+            [loading]="true"
             [listItem]="targetList"
             optionLabel="name"
             placeholder="Menages"
+            (onSelectItem)="onMenageChange($event)"
+            [selectedItem]="selectedTarget"
         ></app-lookup-dropdown>
     </div>
 
     <div class="lookup-dropdown-wrapper">
         <app-lookup-dropdown
+            [loading]="loadingGetRegions"
             [listItem]="regionsList"
             optionLabel="name"
             placeholder="Région"
+            (onSelectItem)="onRegionChange($event)"
         ></app-lookup-dropdown>
     </div>
     <div class="lookup-dropdown-wrapper">
         <app-lookup-dropdown
+            [loading]="loadingGetDepartments"
             [listItem]="departmentsList"
             optionLabel="name"
             placeholder="Départements"
+            (onSelectItem)="onDepartmentChange($event)"
         ></app-lookup-dropdown>
     </div>
     <div class="lookup-dropdown-wrapper">
         <app-lookup-dropdown
+            [loading]="loadingGetCommunes"
             [listItem]="communesList"
             optionLabel="name"
             placeholder="Communes"
+            (onSelectItem)="onCommuneChange($event)"
         ></app-lookup-dropdown>
     </div>
     <div class="lookup-dropdown-wrapper">
         <app-lookup-dropdown
-            [listItem]="streetsList"
+            [loading]="loadingGetQuartiers"
+            [listItem]="quartiersList"
             optionLabel="name"
             placeholder="Quartiers"
+            (onSelectItem)="onQuartierChange($event)"
         ></app-lookup-dropdown>
     </div>
 </div>
@@ -109,11 +120,12 @@
         <i [style]="{ minHeight: '48px' }" class="pi pi-search"></i>
         <!-- [(ngModel)]="value" -->
         <input
+            [(ngModel)]="filter.searchText"
             width="100%"
             type="text"
             [style]="{ minHeight: '48px' }"
             pInputText
-            placeholder="Rechercher ménages, personnes "
+            placeholder="Rechercher ménages, personnes"
         />
     </span>
     <p-button
@@ -121,6 +133,7 @@
         icon="pi pi-plus"
         [style]="{ minHeight: '48px' }"
         iconPos="right"
+        (click)="onSearch()"
     ></p-button>
 </div>
 
@@ -133,6 +146,7 @@
                 optionLabel="name"
                 placeholder="Agents"
                 [listItem]="agentsList"
+                (onSelectItem)="onAgentChange($event)"
             ></app-lookup-dropdown>
         </div>
         <div style="margin-top: 1rem" class="lookup-dropdown-wrapper">
@@ -140,13 +154,17 @@
                 optionLabel="name"
                 placeholder="vulnerabilités"
                 [listItem]="vulnerabilitiesList"
+                (onSelectItem)="onVunerabilitiesChange($event)"
             ></app-lookup-dropdown>
         </div>
     </aside>
 
     <section>
         <div>
-            <app-lookup-results></app-lookup-results>
+            <app-lookup-results
+                [loading]="searching"
+                [listResults]="listResults"
+            ></app-lookup-results>
         </div>
     </section>
 </main>

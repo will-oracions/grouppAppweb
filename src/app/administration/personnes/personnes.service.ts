@@ -20,10 +20,17 @@ export class PersonnesService extends BaseHttpService<
     }
 
     lookup(filter: SearchFilter): Observable<PersonneModel[]> {
+        let queryFilter = "";
+
+        for (const key in filter) {
+            const value = filter[key];
+            if (!value || value?.length == 0) continue;
+            queryFilter += `&${key}=${value}`;
+        }
+
         return this.http
-            .post<PersonneModel[]>(
-                `${environment.apiUrl}/filters/personnes`,
-                filter
+            .get<PersonneModel[]>(
+                `${environment.apiUrl}/filters/personnes?${queryFilter}`
             )
             .pipe(
                 retry(2),

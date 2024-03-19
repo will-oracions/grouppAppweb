@@ -1,12 +1,16 @@
-import { BaseAdapter } from "src/app/parteger/base.adapter";
+import { BaseAdapter, IBaseAdapter } from "src/app/parteger/base.adapter";
 import { OperationStatusDto } from "src/app/parteger/operation-status.dto";
 import { Injectable } from "@angular/core";
 import { ResidenceModel } from "./residence.model";
 
 @Injectable()
-export class ResidenceAdapter implements BaseAdapter<ResidenceModel> {
+export class ResidenceAdapter
+    extends BaseAdapter
+    implements IBaseAdapter<ResidenceModel>
+{
     adapt(item: any): ResidenceModel {
         return {
+            ...this.adaptBase(item),
             name: item?.commune,
             code: item?.code,
         };
